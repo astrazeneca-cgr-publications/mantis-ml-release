@@ -1,0 +1,10 @@
+Mann-Whitney U [v-AURORA-CUMC-all_dom_ultrarare_OO] vs [i-all_AURORA_dom_rare_syn]: 2.969855913254589e-28
+Mann-Whitney U [v-AURORA-CUMC-all_dom_ultrarare_OO] vs [i-all_AURORA_dom_rare_missense]: 4.1321257056604605e-175
+Mann-Whitney U [v-AURORA-CUMC-all_dom_ultrarare_OO] vs [v-AURORA-CUMC-all_dom_rare_syn]: 7.487288523631473e-29
+Mann-Whitney U [v-AURORA-CUMC-all_dom_ultrarare_OO] vs [shuffle]: 2.4231835767095323e-279
+Mann-Whitney U [i-all_AURORA_dom_rare_syn] vs [i-all_AURORA_dom_rare_missense]: 2.1067627421803678e-116
+Mann-Whitney U [i-all_AURORA_dom_rare_syn] vs [v-AURORA-CUMC-all_dom_rare_syn]: 0.17780117454895672
+Mann-Whitney U [i-all_AURORA_dom_rare_syn] vs [shuffle]: 6.846047206810872e-273
+Mann-Whitney U [i-all_AURORA_dom_rare_missense] vs [v-AURORA-CUMC-all_dom_rare_syn]: 2.5051646575355064e-149
+Mann-Whitney U [i-all_AURORA_dom_rare_missense] vs [shuffle]: 1.5284832402068044e-139
+Mann-Whitney U [v-AURORA-CUMC-all_dom_rare_syn] vs [shuffle]: 1.1608528801827916e-301

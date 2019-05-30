@@ -1,0 +1,6 @@
+Mann-Whitney U [primary] vs [synonymous]: 2.2516550843287626e-40
+Mann-Whitney U [primary] vs [common]: 4.523900332760595e-74
+Mann-Whitney U [primary] vs [shuffle]: 3.423941895094252e-243
+Mann-Whitney U [synonymous] vs [common]: 2.729029931079674e-153
+Mann-Whitney U [synonymous] vs [shuffle]: 7.315202406815748e-269
+Mann-Whitney U [common] vs [shuffle]: 2.4089134287267218e-157

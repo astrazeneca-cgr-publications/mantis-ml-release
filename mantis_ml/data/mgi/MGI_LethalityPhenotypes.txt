@@ -1,0 +1,53 @@
+MP:0002058	neonatal lethality
+MP:0002080	prenatal lethality
+MP:0002081	perinatal lethality
+MP:0002082	postnatal lethality
+MP:0002083	premature death (abnormal survival lethality)
+MP:0006204	embryonic lethality before implantation
+MP:0006205	embryonic lethality between implantation and somite formation
+MP:0006206	embryonic lethality between somite formation and embryo turning
+MP:0006207	embryonic lethality during organogenesis
+MP:0006208	lethality throughout fetal growth and development
+MP:0008527	embryonic lethality at implantation
+MP:0008569	lethality at weaning
+MP:0008762	embryonic lethality
+MP:0009850	embryonic lethality between implantation and placentation
+MP:0010768	mortality/aging (lethality-embryonic/perinatal)
+MP:0010769	abnormal survival (lethality)
+MP:0010770	preweaning lethality
+MP:0010831	lethality, incomplete penetrance
+MP:0010832	lethality during fetal growth through weaning
+MP:0011083	lethality at weaning, complete penetrance
+MP:0011084	lethality at weaning, incomplete penetrance
+MP:0011085	postnatal lethality, complete penetrance
+MP:0011086	postnatal lethality, incomplete penetrance
+MP:0011087	neonatal lethality, complete penetrance
+MP:0011088	neonatal lethality, incomplete penetrance
+MP:0011089	perinatal lethality, complete penetrance
+MP:0011090	perinatal lethality, incomplete penetrance
+MP:0011091	prenatal lethality, complete penetrance
+MP:0011092	embryonic lethality, complete penetrance
+MP:0011093	embryonic lethality at implantation, complete penetrance
+MP:0011094	embryonic lethality before implantation, complete penetrance
+MP:0011095	embryonic lethality between implantation and placentation, complete penetrance
+MP:0011096	embryonic lethality between implantation and somite formation, complete penetrance
+MP:0011097	embryonic lethality between somite formation and embryo turning, complete penetrance
+MP:0011098	embryonic lethality during organogenesis, complete penetrance
+MP:0011099	lethality throughout fetal growth and development, complete penetrance
+MP:0011100	preweaning lethality, complete penetrance
+MP:0011101	prenatal lethality, incomplete penetrance
+MP:0011102	embryonic lethality, incomplete penetrance
+MP:0011103	embryonic lethality at implantation, incomplete penetrance
+MP:0011104	embryonic lethality before implantation, incomplete penetrance
+MP:0011105	embryonic lethality between implantation and placentation, incomplete penetrance
+MP:0011106	embryonic lethality between implantation and somite formation, incomplete penetrance
+MP:0011107	embryonic lethality between somite formation and embryo turning, incomplete penetrance
+MP:0011108	embryonic lethality during organogenesis, incomplete penetrance
+MP:0011109	lethality throughout fetal growth and development, incomplete penetrance
+MP:0011110	preweaning lethality, incomplete penetrance
+MP:0011111	lethality during fetal growth through weaning, complete penetrance
+MP:0011112	lethality during fetal growth through weaning, incomplete penetrance
+MP:0011400	lethality, complete penetrance
+MP:0013292	embryonic lethality prior to organogenesis
+MP:0013293	embryonic lethality prior to tooth bud stage
+MP:0013294	prenatal lethality prior to heart atrial septation

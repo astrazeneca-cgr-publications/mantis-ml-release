@@ -1,0 +1,13 @@
+
+>Degree:4 -- disease_generic_intersection: ['Experimental_seed_genes_overlap', 'Inferred_seed_genes_overlap', 'GTEx_tissue_specific_TPM_expression', 'MGI_essential_gene', 'GeneSize', 'ProteinAtlas_gene_expr_levels_Not_detected']
+
+>Degree: 3 -- generic_ckd_epilepsy_features: ['essential_mouse_knockout', 'GO_tissue_specific', 'GnomAD_pRec', 'ProteinAtlas_RNA_expression_TPM', 'GnomAD_obs_lof', 'GnomAD_pLI', 'ExAC_cds_len']
+>Degree: 3 -- intersection_disease_only_features: ['GTEx_tissue_specific_Expression_Rank', 'MGI_mouse_knockout_feature']
+
+>Degree: 2 -- generic_epilepsy_features: ['LoF_FDR_ExAC', 'ExAC_gene_length', 'RVIS_ExAC', 'GnomAD_oe_lof', 'RVIS_ExACv2', 'GnomAD_oe_mis']
+>Degree 2: -- generic_ckd_features: ['GWAS_hits']
+>Degree: 2 -- ckd_epilepsy_features: ['Tissue_specific_GWAS_min_P_VALUE', 'Tissue_specific_GWAS_max_P_VALUE', 'Tissue_specific_GWAS_max_OR']
+
+>Degree: 1 -- generic_only_features: ['ExAC_del.sing.score', 'GWAS_min_P_VALUE', 'ExAC_dup.sing.score', 'GWAS_max_P_VALUE', 'ExAC_complexity', 'non_essential_mouse_knockout', 'GWAS_max_OR']
+>Degree: 1 -- epilepsy_only_features: ['MTR_ExACv2', 'ProteinAtlas_gene_expr_levels_High', 'RVIS']
+>Degree: 1 -- ckd_only_features: ['GOA_Kidney_Research_Priority', 'Tissue_specific_GWAS_min_OR']

@@ -1,0 +1,10 @@
+Mann-Whitney U [Dom_LoF] vs [Dom_coding]: 6.806793497907562e-67
+Mann-Whitney U [Dom_LoF] vs [Dom_not_benign]: 0.002640483109121878
+Mann-Whitney U [Dom_LoF] vs [Rec_coding]: 3.4861086221856955e-72
+Mann-Whitney U [Dom_LoF] vs [shuffle]: 8.778537647819246e-134
+Mann-Whitney U [Dom_coding] vs [Dom_not_benign]: 4.596653585304773e-80
+Mann-Whitney U [Dom_coding] vs [Rec_coding]: 1.6247306130471255e-201
+Mann-Whitney U [Dom_coding] vs [shuffle]: 7.160102769120562e-284
+Mann-Whitney U [Dom_not_benign] vs [Rec_coding]: 3.1079614664995197e-97
+Mann-Whitney U [Dom_not_benign] vs [shuffle]: 1.489152113028211e-215
+Mann-Whitney U [Rec_coding] vs [shuffle]: 4.004682942708488e-50

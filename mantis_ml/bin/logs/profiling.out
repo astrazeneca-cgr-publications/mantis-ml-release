@@ -1,0 +1,107 @@
+>>> Running mantis-ml config profiling ...
+verbose: False
+Config file: ../conf/config.yaml
+
+
+
+
+
+
+-----------------   Assessing HPO filtering [config parameters: 'seed_include_terms']    -----------------
+
+- Provided 'seed_include_terms':
+['renal', 'kidney', 'nephro', 'glomerul', 'distal tubule']
+
+>> Compiling HPO features...
+Total HPO Genes associated with selected pattern: 627
+
+┌─────────────────────────────────────────────────┐
+│••••• Selected HPO disease-associated terms •••••│
+└─────────────────────────────────────────────────┘
+['Abnormal localization of kidney', 'Abnormal renal corticomedullary differentiation', 'Abnormal renal morphology', 'Abnormal renal physiology', 'Abnormality of renal excretion', 'Abnormality of the kidney', 'Abnormality of the renal collecting system', 'Abnormality of the renal tubule', 'Absence of renal corticomedullary differentiation', 'Acute kidney injury', 'Bicarbonate-wasting renal tubular acidosis', 'Bilateral renal hypoplasia', 'Calcium nephrolithiasis', 'Calcium oxalate nephrolithiasis', 'Chronic kidney disease', 'Congenital nephrotic syndrome', 'Crossed fused renal ectopia', 'Cystic renal dysplasia', 'Decreased glomerular filtration rate', 'Decreased numbers of nephrons', 'Decreased renal tubular phosphate excretion', 'Diffuse glomerular basement membrane lamellation', 'Distal renal tubular acidosis', 'Duplication of renal pelvis', 'Ectopic kidney', 'Enlarged kidney', 'Focal segmental glomerulosclerosis', 'Global glomerulosclerosis', 'Glomerular subendothelial electron-dense deposits', 'Glomerulonephritis', 'Glomerulopathy', 'Glomerulosclerosis', 'Horseshoe kidney', 'Hydronephrosis', 'Hyperechogenic kidneys', 'Impaired renal concentrating ability', 'Impaired renal uric acid clearance', 'Increased renal tubular phosphate reabsorption', 'Medullary nephrocalcinosis', 'Membranoproliferative glomerulonephritis', 'Membranous nephropathy', 'Minimal change glomerulonephritis', 'Multicystic kidney dysplasia', 'Multiple glomerular cysts', 'Multiple renal cysts', 'Multiple small medullary renal cysts', 'Nephroblastoma', 'Nephroblastomatosis', 'Nephrocalcinosis', 'Nephrogenic diabetes insipidus', 'Nephrogenic rest', 'Nephrolithiasis', 'Nephronophthisis', 'Nephropathy', 'Nephrosclerosis', 'Nephrotic syndrome', 'Papillary renal cell carcinoma', 'Parathormone-independent increased renal tubular calcium reabsorption', 'Pelvic kidney', 'Polycystic kidney dysplasia', 'Proximal renal tubular acidosis', 'Reduced renal corticomedullary differentiation', 'Renal Fanconi syndrome', 'Renal agenesis', 'Renal aminoaciduria', 'Renal amyloidosis', 'Renal angiomyolipoma', 'Renal artery stenosis', 'Renal calcium wasting', 'Renal cell carcinoma', 'Renal cortical adenoma', 'Renal cortical atrophy', 'Renal cortical cysts', 'Renal cortical microcysts', 'Renal corticomedullary cysts', 'Renal cyst', 'Renal diverticulum', 'Renal duplication', 'Renal dysplasia', 'Renal hamartoma', 'Renal hypophosphatemia', 'Renal hypoplasia', 'Renal hypoplasia/aplasia', 'Renal insufficiency', 'Renal juxtaglomerular cell hypertrophy/hyperplasia', 'Renal magnesium wasting', 'Renal malrotation', 'Renal neoplasm', 'Renal phosphate wasting', 'Renal potassium wasting', 'Renal salt wasting', 'Renal sarcoma', 'Renal sodium wasting', 'Renal steatosis', 'Renal tubular acidosis', 'Renal tubular dysfunction', 'Stage 5 chronic kidney disease', 'Steroid-resistant nephrotic syndrome', 'Thickening of the glomerular basement membrane', 'Thin glomerular basement membrane', 'Unilateral renal agenesis', 'Uric acid nephrolithiasis', 'Xanthine nephrolithiasis']
+
+
+
+
+
+
+-----------------    Assessing GTEx filtering [config parameters: 'tissue' and 'additional_tissues']    -----------------
+
+- Provided 'tissue':
+Kidney
+
+- Provided 'additional_tissues':
+[]
+
+┌─────────────────────────────────┐
+│••••• Selected GTEx tissues •••••│
+└─────────────────────────────────┘
+['Kidney - Cortex']
+
+
+
+
+
+
+-----------------    Assessing Protein Atlas filtering [config parameters: 'tissue', 'seed_include_terms', 'additional_include_terms']    -----------------
+
+- Provided 'tissue':
+Kidney
+
+- Provided 'seed_include_terms':
+['renal', 'kidney', 'nephro', 'glomerul', 'distal tubule']
+
+- Provided 'additional_include_terms':
+[]
+
+┌───────────────────────────────────────────────────────────────────┐
+│••••• Selected tissues from Protein Atlas (normal_tissue.tsv) •••••│
+└───────────────────────────────────────────────────────────────────┘
+['kidney']
+
+┌────────────────────────────────────────────────────────────────┐
+│••••• Selected samples from Protein Atlas (rna_tissue.tsv) •••••│
+└────────────────────────────────────────────────────────────────┘
+['kidney']
+
+
+
+
+
+
+-----------------    Assessing MSigDB filtering [config parameters: 'tissue', 'seed_include_terms', 'additional_include_terms']    -----------------
+
+- Provided 'tissue':
+Kidney
+
+- Provided 'seed_include_terms':
+['renal', 'kidney', 'nephro', 'glomerul', 'distal tubule']
+
+- Provided 'additional_include_terms':
+[]
+
+┌──────────────────────────────────────────────────────┐
+│••••• Selected Gene Ontology terms (from MSigDB) •••••│
+└──────────────────────────────────────────────────────┘
+['GO_CELL_DIFFERENTIATION_INVOLVED_IN_KIDNEY_DEVELOPMENT', 'GO_CELL_DIFFERENTIATION_INVOLVED_IN_KIDNEY_DEVELOPMENT', 'GO_CELL_DIFFERENTIATION_INVOLVED_IN_METANEPHROS_DEVELOPMENT', 'GO_EPITHELIAL_CELL_DIFFERENTIATION_INVOLVED_IN_KIDNEY_DEVELOPMENT', 'GO_EPITHELIAL_CELL_DIFFERENTIATION_INVOLVED_IN_KIDNEY_DEVELOPMENT', 'GO_GLOMERULAR_EPITHELIUM_DEVELOPMENT', 'GO_GLOMERULUS_DEVELOPMENT', 'GO_KIDNEY_EPITHELIUM_DEVELOPMENT', 'GO_KIDNEY_EPITHELIUM_DEVELOPMENT', 'GO_KIDNEY_MESENCHYME_DEVELOPMENT', 'GO_KIDNEY_MESENCHYME_DEVELOPMENT', 'GO_KIDNEY_MORPHOGENESIS', 'GO_KIDNEY_MORPHOGENESIS', 'GO_MESONEPHROS_DEVELOPMENT', 'GO_METANEPHRIC_NEPHRON_DEVELOPMENT', 'GO_METANEPHRIC_NEPHRON_MORPHOGENESIS', 'GO_METANEPHRIC_RENAL_VESICLE_MORPHOGENESIS', 'GO_METANEPHROS_DEVELOPMENT', 'GO_METANEPHROS_MORPHOGENESIS', 'GO_NEGATIVE_REGULATION_OF_KIDNEY_DEVELOPMENT', 'GO_NEGATIVE_REGULATION_OF_KIDNEY_DEVELOPMENT', 'GO_NEPHRON_DEVELOPMENT', 'GO_NEPHRON_EPITHELIUM_DEVELOPMENT', 'GO_NEPHRON_TUBULE_FORMATION', 'GO_POSITIVE_REGULATION_OF_KIDNEY_DEVELOPMENT', 'GO_POSITIVE_REGULATION_OF_KIDNEY_DEVELOPMENT', 'GO_POSITIVE_REGULATION_OF_MESONEPHROS_DEVELOPMENT', 'GO_POSITIVE_REGULATION_OF_METANEPHROS_DEVELOPMENT', 'GO_POSITIVE_REGULATION_OF_RENAL_SODIUM_EXCRETION', 'GO_REGULATION_OF_CELL_PROLIFERATION_INVOLVED_IN_KIDNEY_DEVELOPMENT', 'GO_REGULATION_OF_CELL_PROLIFERATION_INVOLVED_IN_KIDNEY_DEVELOPMENT', 'GO_REGULATION_OF_EPITHELIAL_CELL_DIFFERENTIATION_INVOLVED_IN_KIDNEY_DEVELOPMENT', 'GO_REGULATION_OF_EPITHELIAL_CELL_DIFFERENTIATION_INVOLVED_IN_KIDNEY_DEVELOPMENT', 'GO_REGULATION_OF_GLOMERULAR_FILTRATION', 'GO_REGULATION_OF_GLOMERULUS_DEVELOPMENT', 'GO_REGULATION_OF_KIDNEY_DEVELOPMENT', 'GO_REGULATION_OF_KIDNEY_DEVELOPMENT', 'GO_REGULATION_OF_MESONEPHROS_DEVELOPMENT', 'GO_REGULATION_OF_METANEPHROS_DEVELOPMENT', 'GO_REGULATION_OF_RENAL_SODIUM_EXCRETION', 'GO_REGULATION_OF_RENAL_SYSTEM_PROCESS', 'GO_RENAL_ABSORPTION', 'GO_RENAL_FILTRATION', 'GO_RENAL_SYSTEM_PROCESS', 'GO_RENAL_SYSTEM_PROCESS_INVOLVED_IN_REGULATION_OF_BLOOD_VOLUME', 'GO_RENAL_SYSTEM_PROCESS_INVOLVED_IN_REGULATION_OF_SYSTEMIC_ARTERIAL_BLOOD_PRESSURE', 'GO_RENAL_SYSTEM_VASCULATURE_DEVELOPMENT', 'GO_RENAL_TUBULE_DEVELOPMENT', 'GO_RENAL_VESICLE_DEVELOPMENT', 'GO_RENAL_WATER_HOMEOSTASIS']
+
+
+
+
+
+
+-----------------    Assessing MGI filtering [config parameters: 'seed_include_terms', 'additional_include_terms']    -----------------
+
+- Provided 'seed_include_terms':
+['renal', 'kidney', 'nephro', 'glomerul', 'distal tubule']
+
+- Provided 'additional_include_terms':
+[]
+
+┌───────────────────────────────────┐
+│••••• Selected MGI phenotypes •••••│
+└───────────────────────────────────┘
+['renal/urinary system phenotype']
+
+
+<<< mantis-ml config profiling complete.
