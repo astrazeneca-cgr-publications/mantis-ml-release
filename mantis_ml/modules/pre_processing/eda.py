@@ -1,8 +1,3 @@
-"""
-Author: Dimitrios Vitsios, 2018
-
-- Modules for Exploratory Data Analysis & Data Pre-Processing
-"""
 import matplotlib
 matplotlib.use('agg')
 import matplotlib.pyplot as plt
