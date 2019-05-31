@@ -1,8 +1,3 @@
-"""
-Author: Dimitrios Vitsios, 2018
-
-- Class for compiling full feature table
-"""
 import sys
 import pandas as pd
 from mantis_ml.modules.pre_processing.data_compilation import (process_generic_features,
