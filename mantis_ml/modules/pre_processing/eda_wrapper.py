@@ -1,8 +1,3 @@
-"""
-Author: Dimitrios Vitsios, 2018
-
-- Wrapper for Exploratory Data Analysis & Data Pre-Processing
-"""
 import matplotlib
 matplotlib.use('agg')
 import sys
