@@ -8,7 +8,7 @@ mem=4G #default: 4G; Generic: 12G
 nthreads=30 #default: 30; Generic: 10
 time=24:00:00
 
-usage="\nUsage: submit_mantis_ml.sh [-h] [-c|--config CONFIG_FILE] [-m|--mem MEMORY]\n\t\t\t\t[-t|--time TIME] [-n|nthredas NUM_THREADS]"
+usage="\nUsage: submit_mantis_ml.sh [-h] [-c|--config CONFIG_FILE] [-m|--mem MEMORY]\n\t\t\t\t[-t|--time TIME] [-n|--nthreads NUM_THREADS]"
 
 POSITIONAL=()
 while [[ $# -gt 0 ]]

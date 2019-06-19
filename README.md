@@ -158,7 +158,7 @@ Run on a `SLURM` cluster
 ```
 cd mantis_ml/bin
 sbatch [SBATCH_OPTIONS, e.g. -o, -t] ./submit_mantis_ml.sh [-h] [-c|--config CONFIG_FILE] [-m|--mem MEMORY]
-      			 [-t|--time TIME] [-n|nthredas NUM_THREADS]
+      			 [-t|--time TIME] [-n|--nthreads NUM_THREADS]
 ```
 
 #### Examples
