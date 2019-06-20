@@ -95,6 +95,8 @@ class CollapsingMantisMlOverlap:
             collapsing_df = self.shuffle_ranking(collapsing_df)
             collapsing_df.to_csv(shuffle_file_path)
    
+        print(collapsing_df.head())
+
 
         return collapsing_df
 
@@ -379,7 +381,8 @@ if __name__ == '__main__':
         print(e)
         sys.exit("all_clf.pkl not found. Please run 'process_classifier_results.py' first.")
 
-    classifiers = ['ExtraTreesClassifier', 'RandomForestClassifier', 'GradientBoostingClassifier', 'SVC', 'XGBoost', 'DNN', 'Stacking']
+    #classifiers = ['ExtraTreesClassifier', 'RandomForestClassifier', 'GradientBoostingClassifier', 'SVC', 'XGBoost', 'DNN', 'Stacking']
+    classifiers = ['XGBoost']
 
     # classifiers = ['ExtraTreesClassifier', 'SVC', 'Stacking_DNN'] # For CKD
     # classifiers = ['ExtraTreesClassifier', 'RandomForestClassifier', 'GradientBoostingClassifier'] # For Epilepsy
@@ -447,7 +450,7 @@ if __name__ == '__main__':
     collapsing_top_ratio = -1  # Set to -1 to use pval_cutoff instead
 
 
-    base_input_dir = 'overlap-collapsing-analyses'
+    base_input_dir = 'misc/overlap-collapsing-analyses'
     input_dir = base_input_dir + '/' + input_dir
 
     epilepsy_43_known_genes = pd.read_csv(str(cfg.out_root / ('../../' + base_input_dir + '/Epilepsy-LancetNeurology_2017/lancet_neurol_43_known_epilepsy_genes.txt')), header=None)
