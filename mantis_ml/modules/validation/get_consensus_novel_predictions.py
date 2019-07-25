@@ -105,7 +105,7 @@ def get_cons_list_and_plot(df, clf_subset, relaxation=0, width=0.1):
 
 
 if __name__ == '__main__':
-    overlap_collapsing_base_dir = 'overlap-collapsing-analyses'
+    overlap_collapsing_base_dir = 'misc/overlap-collapsing-analyses'
 
     config_file = sys.argv[1]
     cfg = Config(config_file)

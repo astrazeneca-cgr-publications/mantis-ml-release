@@ -153,11 +153,23 @@ class CollapsingMantisMlOverlap:
 
             proba_df = clf.gene_proba_df
             proba_df = proba_df.iloc[:, ~proba_df.columns.isin(genes_to_remove)]
+            print(proba_df.head())
+            print(proba_df.shape)
+
 
             # Subset top 'top_ratio' % of mantis-ml predictions to overlap with collapsing results
             proba_df = proba_df.iloc[:, 0:int(top_ratio * proba_df.shape[1])]
             mantis_ml_top_genes = list(proba_df.columns.values)
+            print(mantis_ml_top_genes)
             print('mantis-ml top genes:', len(mantis_ml_top_genes))
+
+            # TMP: Endeavour benchmarking
+            #mantis_ml_top_genes = []
+            #with open('../../../misc/overlap-collapsing-analyses/ALS-Endeavour-Ranking/endeavour_ranking.uniq.txt') as fh:
+            #    for line in fh:
+            #        line = line.rstrip()
+            #        mantis_ml_top_genes.append(line)            
+            #print(mantis_ml_top_genes)
 
             collapsing_df = collapsing_df.loc[collapsing_df['Gene_Name'].isin(mantis_ml_top_genes)]
             collapsing_df.reset_index(drop=True, inplace=True)
@@ -239,10 +251,10 @@ class CollapsingMantisMlOverlap:
                 merged_results_df.to_csv(Path(str(self.cfg.out_root / ('../../' + input_dir + '/Hypergeometric_results/mantis_ml_vs_collapsing.Top_' + str(top_ratio) + '.' + clf_alias[clf_str] + '.' + disease + '.csv'))), index=False)
 
                 novel_overlaping_genes = merged_results_df.loc[ merged_results_df.Known_gene == 0, 'Gene_Name']
-                novel_overlaping_genes.to_csv(Path(str(self.cfg.out_root / ('../../' + input_dir + '/Hypergeometric_results/Novel_overlaping_genes.Top_' + str(top_ratio) + '.' + clf_alias[clf_str] + '.' + disease + '.csv'))), index=False)
+                novel_overlaping_genes.to_csv(Path(str(self.cfg.out_root / ('../../' + input_dir + '/Hypergeometric_results/Novel_overlaping_genes.Top_' + str(top_ratio) + '.' + clf_alias[clf_str] + '.' + disease + '.csv'))), index=False, header=False)
 
                 known_overlaping_genes = merged_results_df.loc[ merged_results_df.Known_gene == 1, 'Gene_Name']
-                known_overlaping_genes.to_csv(Path(str(self.cfg.out_root / ('../../' + input_dir + '/Hypergeometric_results/Known_overlaping_genes.Top_' + str(top_ratio) + '.' + clf_alias[clf_str] + '.' + disease + '.csv'))), index=False)
+                known_overlaping_genes.to_csv(Path(str(self.cfg.out_root / ('../../' + input_dir + '/Hypergeometric_results/Known_overlaping_genes.Top_' + str(top_ratio) + '.' + clf_alias[clf_str] + '.' + disease + '.csv'))), index=False, header=False)
 
         mann_whitney_res_str = ''
         for i in range(len(analysis_types) - 1):
@@ -481,3 +493,4 @@ if __name__ == '__main__':
         overlap_obj.calc_stepwise_hypergeometric(clf_str, all_clf, top_ratio, disease=disease, pval_cutoff=pval_cutoff,
                                                  collapsing_top_ratio=collapsing_top_ratio, show_plots=show_plots,
                                                  genes_to_remove=genes_to_remove)
+
