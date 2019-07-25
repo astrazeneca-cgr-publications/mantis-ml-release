@@ -8,6 +8,8 @@ mem=4G #default: 4G; Generic: 12G
 nthreads=30 #default: 30; Generic: 10
 time=24:00:00
 
+fixed_nthreads=4
+
 usage="\nUsage: submit_mantis_ml.sh [-h] [-c|--config CONFIG_FILE] [-m|--mem MEMORY]\n\t\t\t\t[-t|--time TIME] [-n|--nthreads NUM_THREADS]"
 
 POSITIONAL=()
@@ -123,7 +125,7 @@ function run_preprocess_step() {
     # > mantis-ml pre-processing ('pre')
     run_tag=pre
     pre_job_name=${pheno}_$run_tag
-    sbatch -J $pre_job_name -o $logs/${pre_job_name}.out.txt -e $logs/${pre_job_name}.err.txt --time=${time} --mem-per-cpu=${mem} --cpus-per-task=${nthreads} ./mantis_ml_wrapper.sh -c $config_file -r $run_tag
+    sbatch -J $pre_job_name -o $logs/${pre_job_name}.out.txt -e $logs/${pre_job_name}.err.txt --time=${time} --mem-per-cpu=${mem} --cpus-per-task=${fixed_nthreads} ./mantis_ml_wrapper.sh -c $config_file -r $run_tag
     wait_for_job $pre_job_name
     echo ">> mantis-ml pre-processing ('pre') step complete."
 }
@@ -169,7 +171,7 @@ function run_postprocess_step() {
     # > mantis-ml post-processing ('post')
     run_tag=post
     post_job_name=${pheno}_$run_tag
-    sbatch -J $post_job_name -o $logs/${post_job_name}.out.txt -e $logs/${post_job_name}.err.txt --time=${time} --mem-per-cpu=${mem} --cpus-per-task=${nthreads} ./mantis_ml_wrapper.sh -c $config_file -r $run_tag
+    sbatch -J $post_job_name -o $logs/${post_job_name}.out.txt -e $logs/${post_job_name}.err.txt --time=${time} --mem-per-cpu=${mem} --cpus-per-task=${fixed_nthreads} ./mantis_ml_wrapper.sh -c $config_file -r $run_tag
     wait_for_job $post_job_name
     echo ">> mantis-ml post-processing ('post') step complete."
 }
@@ -181,7 +183,7 @@ function run_post_unsup_step() {
     clf_id=$1
     run_tag=post_unsup
     post_unsup_job_name=${pheno}_$run_tag
-    sbatch -J $post_unsup_job_name -o $logs/${post_unsup_job_name}.out.txt -e $logs/${post_unsup_job_name}.err.txt --time=${time} --mem-per-cpu=${mem} --cpus-per-task=${nthreads} ./mantis_ml_wrapper.sh -c $config_file -r $run_tag -m $clf_id
+    sbatch -J $post_unsup_job_name -o $logs/${post_unsup_job_name}.out.txt -e $logs/${post_unsup_job_name}.err.txt --time=${time} --mem-per-cpu=${mem} --cpus-per-task=${fixed_nthreads} ./mantis_ml_wrapper.sh -c $config_file -r $run_tag -m $clf_id
     echo ">> mantis-ml post-processing -- unsupervised ('post_unsup') step submitted."
 }
 

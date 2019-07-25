@@ -1,10 +1,10 @@
 # ============ BASIC ============
 run:
-    phenotype: CKD # user-defined descriptive term for disease/phenotype 
-    tissue: Kidney
+    phenotype: Cardiovascular # user-defined descriptive term for disease/phenotype 
+    tissue: Heart
     additional_tissues: []
-    seed_include_terms: [renal, kidney, nephro, glomerul, distal tubule]
-    exclude_terms: [adrenal]
+    seed_include_terms: [cardio, heart, aortic, aorta, coronary, vascular]
+    exclude_terms: []
     additional_include_terms: []
     run_id: production # output folder name suffix
 pu_params:
@@ -18,8 +18,8 @@ run_steps:
 
 # ============ ADVANCED ============
 run_advanced:
-    gene_annot_list: [COL4A3, COL4A5, PKD1, COL4A1, COL4A4, PKD2, UMOD] # optional for highlighting in plots
-    anchor_genes: [PKD1, PKD2] # optional/beta for highlighiting in plots
+    gene_annot_list: [SCN5A, CAV3, KCNQ1, KCNH2, ANK2, TRDN, CACNA1C, SCN4B, CALM1, KCNJ5, SNTA1, AKAP9, KCNE1, TET2, TTN] # optional for highlighting in plots
+    anchor_genes: [SCN5A, CAV3, KCNQ1, KCNH2, ANK2, TRDN, CACNA1C, SCN4B, CALM1, KCNJ5, SNTA1, AKAP9, KCNE1, TET2, TTN] # optional/beta for highlighiting in plots
     include_disease_features: True
     generic_classifier: None # None (default), All (default for Generic), AD, AR, AD_only, AR_only
     hide_seed_genes_ratio: 0 # default: 0 (keep all seed genes)

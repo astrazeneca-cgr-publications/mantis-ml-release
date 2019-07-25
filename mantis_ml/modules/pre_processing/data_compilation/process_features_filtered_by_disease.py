@@ -98,6 +98,8 @@ class ProcessFeaturesFilteredByDisease(ProcessGenericFeatures):
         full_df = pd.read_csv(self.cfg.data_dir / 'gtex/RNASeq/GTEx_Analysis_2016-01-15_v7_RNASeQCv1.1.8_gene_median_tpm.gct', sep='\t')
         print(full_df.head())
         all_tissue_cols = full_df.columns.values
+        print(all_tissue_cols)
+        selected_tissue_cols = all_tissue_cols[:]
 
         return_gtex_df = pd.DataFrame()
         if not self.cfg.generic_classifier:

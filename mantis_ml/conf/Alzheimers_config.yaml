@@ -1,11 +1,11 @@
 # ============ BASIC ============
 run:
-    phenotype: CKD # user-defined descriptive term for disease/phenotype 
-    tissue: Kidney
+    phenotype: Alzheimers # user-defined descriptive term for disease/phenotype 
+    tissue: Brain
     additional_tissues: []
-    seed_include_terms: [renal, kidney, nephro, glomerul, distal tubule]
-    exclude_terms: [adrenal]
-    additional_include_terms: []
+    seed_include_terms: [dementia, alzheimer, personality change, mental deterioration, abnormal social behavior, confusion]
+    exclude_terms: []
+    additional_include_terms: [nerve, nervous, neuronal, cerebellum, cerebral, hippocampus, hypothalamus]
     run_id: production # output folder name suffix
 pu_params:
     classifiers: [ExtraTreesClassifier, RandomForestClassifier, DNN, SVC, XGBoost, GradientBoostingClassifier, Stacking]
@@ -18,8 +18,8 @@ run_steps:
 
 # ============ ADVANCED ============
 run_advanced:
-    gene_annot_list: [COL4A3, COL4A5, PKD1, COL4A1, COL4A4, PKD2, UMOD] # optional for highlighting in plots
-    anchor_genes: [PKD1, PKD2] # optional/beta for highlighiting in plots
+    gene_annot_list: [SORL1, GRID2IP, WDR76, GRN, PSEN1, PSEN2, ZCWPW1, CD2AP, ABCA7, NME8] # optional for highlighting in plots
+    anchor_genes: [SORL1, GRID2IP, WDR76, GRN, PSEN1, PSEN2, ZCWPW1, CD2AP, ABCA7, NME8] # optional/beta for highlighiting in plots
     include_disease_features: True
     generic_classifier: None # None (default), All (default for Generic), AD, AR, AD_only, AR_only
     hide_seed_genes_ratio: 0 # default: 0 (keep all seed genes)
