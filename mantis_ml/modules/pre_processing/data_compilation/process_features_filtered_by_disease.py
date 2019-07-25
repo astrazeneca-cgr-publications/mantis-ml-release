@@ -180,7 +180,7 @@ class ProcessFeaturesFilteredByDisease(ProcessGenericFeatures):
         # pattern = re.compile('|'.join(include_terms), re.IGNORECASE)
         # pattern = re.compile(pattern, re.IGNORECASE)
 
-        include_pattern = re.compile('|'.join(include_terms), re.IGNORECASE)
+        include_pattern = re.compile('|'.join(include_terms + self.cfg.additional_tissues + [self.cfg.tissue]), re.IGNORECASE)
         exclude_pattern = re.compile('|'.join(exclude_terms), re.IGNORECASE)
 
 
