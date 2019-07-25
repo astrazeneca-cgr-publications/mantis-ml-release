@@ -165,7 +165,7 @@ class CollapsingMantisMlOverlap:
 
             # TMP: Endeavour benchmarking
             #mantis_ml_top_genes = []
-            #with open('../../../misc/overlap-collapsing-analyses/ALS-Endeavour-Ranking/endeavour_ranking.uniq.txt') as fh:
+            #with open('../../../misc/overlap-collapsing-analyses/ALS-Endeavour-Ranking/endeavour_ranking.txt') as fh:
             #    for line in fh:
             #        line = line.rstrip()
             #        mantis_ml_top_genes.append(line)            
@@ -494,3 +494,5 @@ if __name__ == '__main__':
                                                  collapsing_top_ratio=collapsing_top_ratio, show_plots=show_plots,
                                                  genes_to_remove=genes_to_remove)
 
+    # TMP: Endeavour benchmarking
+    #sys.exit()

@@ -5,7 +5,7 @@
 # ==================================================================================================================================
 # ___ Default values ___
 mem=4G #default: 4G; Generic: 12G 
-nthreads=30 #default: 30; Generic: 10
+nthreads=10 #default: 30; Generic: 10
 time=24:00:00
 
 fixed_nthreads=4
