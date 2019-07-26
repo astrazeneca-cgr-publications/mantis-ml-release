@@ -9,10 +9,10 @@ run:
     run_id: production # output folder name suffix
 pu_params:
     classifiers: [ExtraTreesClassifier, RandomForestClassifier, DNN, SVC, XGBoost, GradientBoostingClassifier, Stacking]
-    iterations: 100 # default: 10
+    iterations: 10 # default: 10
     nthreads: 30 # default: 4 (or as many CPUs available)
 run_steps:
-    run_boruta: True # default: False
+    run_boruta: False # default: False
     run_unsupervised: True # default: True
 
 
