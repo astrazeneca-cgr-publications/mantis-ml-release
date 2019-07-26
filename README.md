@@ -12,7 +12,7 @@
 
 Introduction
 ============
-`mantis-ml` is a disease-agnostic gene prioritisation framework, built on top of `scikit-learn` and `keras` (`tensorflow`-based).  
+`mantis-ml` is a disease-agnostic gene prioritisation framework, built on top of `scikit-learn` and `keras`/`tensorflow`.  
 `mantis-ml` takes its name from the Greek word 'μάντης' which means 'fortune teller', 'predicter'.
 
 <br>
@@ -78,27 +78,34 @@ export PYTHONPATH=[FULL_PATH_TO_DIR]/mantis-ml-release:$PYTHONPATH
 Run
 ===
 
-Prepare config file
+### 1. Prepare config file
 -------------------
 
-#### Basic parameters
-`run` parameters:
-- `Tissue`: primary tissue affected by disease
-- `additional_tissues`: other tissues affected by disease
-- `seed_include_terms`: patterns matching HPO phenotypes for annotation of known disease genes (seed genes)
-- `additional_include_terms`: patterns used alongside `seed_include_terms` for disease-specific feature extraction
-- `exclude_terms`: string patterns to exclude during seed gene selection and/or disease-specific feature extraction
-- `phenotype`: user-defined descriptive term for the disease/phenotype
-- `run_id`: output folder-name suffix
+#### Basic parameters:
+|__run__ parameters| Description|
+| --- | --- |
+|`Tissue`| primary tissue affected by disease|
+|`additional_tissues`| other tissues affected by disease|
+|`seed_include_terms`| patterns matching HPO phenotypes for annotation of known disease genes (seed genes)|
+|`additional_include_terms`| patterns used alongside `seed_include_terms` for disease-specific feature extraction|
+|`exclude_terms`| string patterns to exclude during seed gene selection and/or disease-specific feature extraction|
+|`phenotype`| user-defined descriptive term for the disease/phenotype|
+|`run_id`| output folder-name suffix|
 
-`pu` parameters:
-- `classifiers`: define list of classifiers to use for Positive-Unlabelled learning
-- `iterations`: number _L_ of stochastic iterations
-- `nthreads`: number of threads to use (optimally assign one CPU per thread)
+<br/>
 
-`run_steps` parameters:
-- `run_boruta`: _True_/_False_ to run/or not the Boruta feature importance estimation algorithm
-- `run_unsupervised`: _True_/_False_ to run/or not unsupervised learning methods (PCA, t-SNE and UMAP) during the pre-processing step.
+|__pu__ parameters| Description|
+| --- | --- |
+|`classifiers`| define list of classifiers to use for Positive-Unlabelled learning|
+|`iterations`| number _L_ of stochastic iterations|
+|`nthreads`| number of threads to use (optimally assign one CPU per thread)|
+
+<br/>
+
+|__run_steps__ parameters| Description|
+| --- | --- |
+|`run_boruta`| _True_/_False_ to run/or not the Boruta feature importance estimation algorithm|
+|`run_unsupervised`| _True_/_False_ to run/or not unsupervised learning methods (PCA, t-SNE and UMAP) during the pre-processing step|
 
 <br/>
 
@@ -127,7 +134,7 @@ All other config parameters (_Advanced_) can be used with their default values (
 
 
 
-Preview selected features based on input config parameters
+### 2. Preview selected features based on input config parameters (Optional)
 ----------------------------------------------------------
 ```
 cd mantis_ml/bin
@@ -138,7 +145,7 @@ Example output available at: `mantis_ml/bin/logs/profiling.out`
 
 <br/><br/>
 
-Run `mantis-ml`
+### 3. Run `mantis-ml`
 ---------------
 ```
 cd mantis_ml/bin
@@ -153,7 +160,7 @@ cd mantis_ml/bin
 
 <br>
 
-Run on a `SLURM` cluster
+### 3'. Run on a `SLURM` cluster
 ------------------------
 ```
 cd mantis_ml/bin
