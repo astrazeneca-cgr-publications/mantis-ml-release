@@ -82,7 +82,7 @@ Run
 -------------------
 
 #### Basic parameters:
-|__run__ parameters| Description|
+|__run__| Description|
 | --- | --- |
 |*Tissue*| primary tissue affected by disease|
 |*additional_tissues*| other tissues affected by disease|
@@ -94,7 +94,7 @@ Run
 
 <br/>
 
-|__pu__ parameters| Description|
+|__pu__| Description|
 | --- | --- |
 |*classifiers*| define list of classifiers to use for Positive-Unlabelled learning|
 |*iterations*| number _L_ of stochastic iterations|
@@ -102,7 +102,7 @@ Run
 
 <br/>
 
-|__run_steps__ parameters| Description|
+|__run_steps__| Description|
 | --- | --- |
 |*run_boruta*| _True_/_False_ to run/or not the Boruta feature importance estimation algorithm|
 |*run_unsupervised*| _True_/_False_ to run/or not unsupervised learning methods (PCA, t-SNE and UMAP) during the pre-processing step|
