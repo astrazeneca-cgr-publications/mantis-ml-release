@@ -84,28 +84,28 @@ Run
 #### Basic parameters:
 |__run__ parameters| Description|
 | --- | --- |
-|`Tissue`| primary tissue affected by disease|
-|`additional_tissues`| other tissues affected by disease|
-|`seed_include_terms`| patterns matching HPO phenotypes for annotation of known disease genes (seed genes)|
-|`additional_include_terms`| patterns used alongside `seed_include_terms` for disease-specific feature extraction|
-|`exclude_terms`| string patterns to exclude during seed gene selection and/or disease-specific feature extraction|
-|`phenotype`| user-defined descriptive term for the disease/phenotype|
-|`run_id`| output folder-name suffix|
+|*Tissue*| primary tissue affected by disease|
+|*additional_tissues*| other tissues affected by disease|
+|*seed_include_terms*| patterns matching HPO phenotypes for annotation of known disease genes (seed genes)|
+|*additional_include_terms*| patterns used alongside `seed_include_terms` for disease-specific feature extraction|
+|*exclude_terms*| string patterns to exclude during seed gene selection and/or disease-specific feature extraction|
+|*phenotype*| user-defined descriptive term for the disease/phenotype|
+|*run_id*| output folder-name suffix|
 
 <br/>
 
 |__pu__ parameters| Description|
 | --- | --- |
-|`classifiers`| define list of classifiers to use for Positive-Unlabelled learning|
-|`iterations`| number _L_ of stochastic iterations|
-|`nthreads`| number of threads to use (optimally assign one CPU per thread)|
+|*classifiers*| define list of classifiers to use for Positive-Unlabelled learning|
+|*iterations*| number _L_ of stochastic iterations|
+|*nthreads*| number of threads to use (optimally assign one CPU per thread)|
 
 <br/>
 
 |__run_steps__ parameters| Description|
 | --- | --- |
-|`run_boruta`| _True_/_False_ to run/or not the Boruta feature importance estimation algorithm|
-|`run_unsupervised`| _True_/_False_ to run/or not unsupervised learning methods (PCA, t-SNE and UMAP) during the pre-processing step|
+|*run_boruta*| _True_/_False_ to run/or not the Boruta feature importance estimation algorithm|
+|*run_unsupervised*| _True_/_False_ to run/or not unsupervised learning methods (PCA, t-SNE and UMAP) during the pre-processing step|
 
 <br/>
 
@@ -149,7 +149,7 @@ Example output available at: `mantis_ml/bin/logs/profiling.out`
 ---------------
 ```
 cd mantis_ml/bin
-./run_mantis_ml.sh [-c CONFIG_FILE] 
+./run_mantis_ml.sh -c [CONFIG_FILE] 
 ```
 
 #### Examples
