@@ -51,22 +51,19 @@ conda install --file requirements.txt
 
 <br>
 
-**3. Install `mantis-ml` package:**
-```
-cd mantis-ml-release
-python setup.py install
-```
+**3. Update `PYTHONPATH` environment variable to include the `mantis-ml-release` path:**
 
-and add based `mantis-ml-release` dir to `PYTHONPATH`:
+In `~/.bashrc` add the following line:
 ```
-# in ~/.basrhc add:
 export PYTHONPATH=[FULL_PATH_TO_DIR]/mantis-ml-release:$PYTHONPATH
 ```
+
+You are all set to start using `mantis-ml` now!
 
 
 <br>
 
-**4. Install `R` library dependencies:**
+**4. (Optional) Install `R` library dependencies (required to run feature selection with Boruta):**
 ```
 # R 
 > install.packages('Boruta')
