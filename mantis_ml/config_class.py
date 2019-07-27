@@ -1,4 +1,4 @@
-import os
+import os, sys
 try:
     user_paths = os.environ['PYTHONPATH'].split(os.pathsep)
 except KeyError:
@@ -68,7 +68,7 @@ class Config:
         ## === DIRS ===
         # Root Output path
         self.out_root = Path(self.dir_path + '/../out/' + self.phenotype + '-' + self.conf['run']['run_id'])
-        # print(out_root)
+        print(self.out_root)
 
         # Root Figs output dir
         self.figs_dir = self.out_root / "figs"
@@ -217,4 +217,6 @@ class Config:
 
 
 if __name__ == '__main__':
-    cfg = Config('config.yaml')
+
+    conf_file = sys.argv[1]
+    cfg = Config(conf_file)
