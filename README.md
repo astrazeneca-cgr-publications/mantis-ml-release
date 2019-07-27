@@ -83,17 +83,17 @@ Run
 | --- | --- |
 |*Tissue*| primary tissue affected by disease|
 |*additional_tissues*| other tissues affected by disease|
-|*seed_include_terms*| patterns matching HPO phenotypes for annotation of known disease genes (seed genes)|
+|*seed_include_terms*| patterns for matching HPO phenotypes for annotation of known disease genes (seed genes)|
 |*additional_include_terms*| patterns used alongside `seed_include_terms` for disease-specific feature extraction|
 |*exclude_terms*| string patterns to exclude during seed gene selection and/or disease-specific feature extraction|
 |*phenotype*| user-defined descriptive term for the disease/phenotype|
-|*run_id*| output folder-name suffix|
+|*run_id*| output folder's name suffix|
 
 <br/>
 
 |__pu__| Description|
 | --- | --- |
-|*classifiers*| define list of classifiers to use for Positive-Unlabelled learning|
+|*classifiers*| define list of classifiers to use for Positive-Unlabelled learning. Supported classifiers are: *ExtraTreesClassifier*, *RandomForestClassifier*, *DNN*, *SVC*, *XGBoost*, *GradientBoostingClassifier*, *Stacking*|
 |*iterations*| number _L_ of stochastic iterations|
 |*nthreads*| number of threads to use (optimally assign one CPU per thread)|
 
@@ -157,7 +157,7 @@ cd mantis_ml/bin
 
 <br>
 
-### 3'. Run on a `SLURM` cluster
+### 3+. Run on a `SLURM` cluster
 ------------------------
 ```
 cd mantis_ml/bin
