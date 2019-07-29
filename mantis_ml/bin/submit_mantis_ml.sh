@@ -195,7 +195,7 @@ function run_post_unsup_step() {
 # ****                  Main Workflow                 ****
 # ========================================================
 printf "\n\n\n\n\n============ Running pre-processing step (feature compilation, filtering, EDA, etc.) ============\n\n"
-#run_preprocess_step
+run_preprocess_step
 
 
 if [ $run_boruta == "True" ]; then
