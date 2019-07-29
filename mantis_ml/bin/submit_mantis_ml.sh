@@ -125,6 +125,7 @@ function run_preprocess_step() {
     # > mantis-ml pre-processing ('pre')
     run_tag=pre
     pre_job_name=${pheno}_$run_tag
+
     sbatch -J $pre_job_name -o $logs/${pre_job_name}.out.txt -e $logs/${pre_job_name}.err.txt --time=${time} --mem-per-cpu=${mem} --cpus-per-task=${fixed_nthreads} ./mantis_ml_wrapper.sh -c $config_file -r $run_tag
     wait_for_job $pre_job_name
     echo ">> mantis-ml pre-processing ('pre') step complete."
@@ -135,6 +136,7 @@ function run_boruta_step() {
     # > mantis-ml boruta algorithm ('boruta')
     run_tag=boruta
     boruta_job_name=${pheno}_$run_tag
+
     sbatch -J $boruta_job_name -o $logs/${boruta_job_name}.out.txt -e $logs/${boruta_job_name}.err.txt --time=${time} --mem-per-cpu=${mem} --cpus-per-task=${nthreads} ./mantis_ml_wrapper.sh -c $config_file -r $run_tag
     echo ">> mantis-ml Boruta ('boruta') step submitted."
 }
@@ -152,6 +154,7 @@ function run_pu_step() {
         if [ $clf_id = 'Stacking' ]; then
             final_lvl_clf=DNN
             job_id=${clf_id}_${final_lvl_clf}
+
             sbatch -J $pu_job_name -o $logs/${pu_job_name}.out.txt -e $logs/${pu_job_name}.err.txt --time=${time} --mem-per-cpu=${mem} --cpus-per-task=${nthreads} ./mantis_ml_wrapper.sh -c $config_file -r $run_tag -m $clf_id -s $final_lvl_clf
         else
             sbatch -J $pu_job_name -o $logs/${pu_job_name}.out.txt -e $logs/${pu_job_name}.err.txt --time=${time} --mem-per-cpu=${mem} --cpus-per-task=${nthreads} ./mantis_ml_wrapper.sh -c $config_file -r $run_tag -m $clf_id
@@ -171,6 +174,7 @@ function run_postprocess_step() {
     # > mantis-ml post-processing ('post')
     run_tag=post
     post_job_name=${pheno}_$run_tag
+
     sbatch -J $post_job_name -o $logs/${post_job_name}.out.txt -e $logs/${post_job_name}.err.txt --time=${time} --mem-per-cpu=${mem} --cpus-per-task=${fixed_nthreads} ./mantis_ml_wrapper.sh -c $config_file -r $run_tag
     wait_for_job $post_job_name
     echo ">> mantis-ml post-processing ('post') step complete."
@@ -180,10 +184,11 @@ function run_postprocess_step() {
 
 function run_post_unsup_step() {
     # > mantis-ml unsupervised learning with annotation from post-processing ('post_unsup')
-    clf_id=$1
     run_tag=post_unsup
     post_unsup_job_name=${pheno}_$run_tag
-    sbatch -J $post_unsup_job_name -o $logs/${post_unsup_job_name}.out.txt -e $logs/${post_unsup_job_name}.err.txt --time=${time} --mem-per-cpu=${mem} --cpus-per-task=${fixed_nthreads} ./mantis_ml_wrapper.sh -c $config_file -r $run_tag -m $clf_id
+
+    sbatch -J $post_unsup_job_name -o $logs/${post_unsup_job_name}.out.txt -e $logs/${post_unsup_job_name}.err.txt --time=${time} --mem-per-cpu=${mem} --cpus-per-task=${fixed_nthreads} ./mantis_ml_wrapper.sh -c $config_file -r $run_tag 
+    wait_for_job $post_unsup_job_name
     echo ">> mantis-ml post-processing -- unsupervised ('post_unsup') step submitted."
 }
 
@@ -210,6 +215,10 @@ run_pu_step
 
 printf "\n\n\n\n\n============ Running post-processing step (results aggregation) ============\n\n"
 run_postprocess_step
+
+
+printf "\n\n\n\n\n============ Running unsupervised learning with annotation from post-processing results ============\n\n" 
+run_post_unsup_step
 
 
 printf "\n\n\n============ mantis-ml run complete. ============\n"

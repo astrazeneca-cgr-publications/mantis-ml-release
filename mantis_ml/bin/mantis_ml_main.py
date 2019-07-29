@@ -178,7 +178,7 @@ if __name__ == '__main__':
     run_tag = args.run_tag
     final_level_classifier = args.final_level_classifier
 
-    # TODO: add default arguments
+
 
     mantis = MantisMl(config_file)
 

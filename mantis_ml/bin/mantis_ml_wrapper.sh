@@ -1,4 +1,7 @@
 #!/bin/bash 
+"""
+    manti-ml wrapper for SLURM submission
+"""
 
 # ==== Define default arg values ====
 clf_id=None
