@@ -3,7 +3,9 @@ matplotlib.use('agg')
 import matplotlib.pyplot as plt
 from argparse import ArgumentParser
 import sys
+import glob
 import pandas as pd
+import ntpath
 import pickle
 from mantis_ml.modules.supervised_learn.pu_learn.pu_learning import PULearning
 from mantis_ml.modules.pre_processing.eda_wrapper import EDAWrapper
@@ -23,7 +25,27 @@ class MantisMl:
         print('Stochastic iterations:', self.cfg.iterations)
         print('nthreads:', self.cfg.nthreads)
 
-		
+
+    def get_clf_id_with_top_auc(self):
+
+        auc_per_clf = {}
+
+        metric_files = glob.glob(str(self.cfg.superv_out / 'PU_*.evaluation_metrics.tsv'))
+
+        for f in metric_files:
+            clf_id = ntpath.basename(f).split('.')[0].replace('PU_', '')
+
+            tmp_df = pd.read_csv(f, sep='\t', index_col=0)
+            avg_auc = tmp_df.AUC.median()
+            auc_per_clf[clf_id] = avg_auc
+
+
+        top_clf = max(auc_per_clf, key=auc_per_clf.get)
+        print('Top classifier:', top_clf)
+
+        return top_clf
+
+
     def run(self, clf_id=None, final_level_classifier=None, run_feature_compiler=False, run_eda=False, run_pu=False,
                   run_aggregate_results=False, run_merge_results=False,
                   run_boruta=False, run_unsupervised=False):
@@ -70,14 +92,14 @@ class MantisMl:
         # ========= Unsupervised methods =========
         # PCA, sparse PCA and t-SNE
         if run_unsupervised:
-            recalc = False # default: True
+            recalc = False # default: False
         
             if clf_id is None:
                     gene_annot_list = self.cfg.gene_annot_list
             else:
-                et_novel_genes = pd.read_csv(str(self.cfg.superv_ranked_pred / (clf_id + '.Novel_genes.Ranked_by_prediction_proba.csv')), header=None, index_col=0)
-                print(et_novel_genes.head())
-                gene_annot_list = et_novel_genes.head(10).index.values
+                top_genes_num = 40
+                novel_genes = pd.read_csv(str(self.cfg.superv_ranked_pred / (clf_id + '.Novel_genes.Ranked_by_prediction_proba.csv')), header=None, index_col=0)
+                gene_annot_list = novel_genes.head(top_genes_num).index.values
 
             dim_reduct_wrapper = DimensReductionWrapper(self.cfg, data, gene_annot_list, recalc)
             dim_reduct_wrapper.run()
@@ -160,6 +182,7 @@ if __name__ == '__main__':
 
     mantis = MantisMl(config_file)
 
+
     if run_tag == 'pre':
         mantis.run_non_clf_specific_analysis()
 		
@@ -173,7 +196,8 @@ if __name__ == '__main__':
         mantis.run_post_processing_analysis()
 
     if run_tag == 'post_unsup':
-        mantis.run_clf_specific_unsupervised_analysis(clf_id)
+        top_clf = mantis.get_clf_id_with_top_auc()
+        mantis.run_clf_specific_unsupervised_analysis(top_clf)
     
     if run_tag == 'all':
         mantis.run_all(clf_id)
