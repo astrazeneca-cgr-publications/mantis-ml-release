@@ -78,6 +78,8 @@ Run
 ### 1. Prepare config file
 -------------------
 
+Example config files for various diseases can be found at `mantis-ml/conf`. You can use any of these files as your template config file and modify `Basic parameters` according to the phenotype/disease you want to run `mantis-ml` for.
+
 #### Basic parameters:
 |__run__| Description|
 | --- | --- |
@@ -106,7 +108,7 @@ Run
 
 <br/>
 
-**Config example** (for Epilepsy):
+**Config example** (Epilepsy):
 ```
 run:
     tissue: Brain
@@ -126,7 +128,7 @@ run_steps:
 ```
 
 #### Advanced parameters
-All other config parameters (_Advanced_) can be used with their default values (see `mantis_ml/conf/config.yaml` template).
+All other config parameters (_Advanced_) can be used with their default values (see also `mantis_ml/conf/*.yaml` files).
 <br/><br/>
 
 
