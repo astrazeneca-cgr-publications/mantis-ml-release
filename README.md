@@ -1,4 +1,4 @@
-# mantis-ml (v 1.0)
+# mantis-ml 
 
 - [Introduction](#introduction) 
 - [Installation](#installation) 
