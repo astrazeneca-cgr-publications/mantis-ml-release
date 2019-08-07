@@ -1,3 +1,6 @@
+## Stochastic semi-supervised learning
+The `pu_learning` module implements the stochastic semi-supervised framework used for extracting gene rankings as probability prediction scores.
+
 ## Example runs
 - CKD, Epilepsy arguments can be any string descriptive of a job -- they are not restricted by any dictionary and do not affect the job running, this is only defined by the config.yaml used'
 ```
