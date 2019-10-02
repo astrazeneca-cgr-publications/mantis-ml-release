@@ -41,14 +41,14 @@ conda activate mantis_ml			# activate the newly created conda environment
 
 <br>
 
-**2. Install `Python` library dependencies:**
+**3. Install `Python` library dependencies:**
 ```
 conda install --file requirements.txt
 ```
 
 <br>
 
-**3. Update `PYTHONPATH` environment variable to include the `mantis-ml-release` path:**
+**4. Update `PYTHONPATH` environment variable to include the `mantis-ml-release` path:**
 
 In `~/.bashrc` add the following line:
 ```
@@ -60,7 +60,7 @@ You are all set to start using `mantis-ml` now!
 
 <br>
 
-**4. (Optional) Install `R` library dependencies (required to run feature selection with Boruta):**
+**5. (Optional) Install `R` library dependencies (required to run feature selection with Boruta):**
 ```
 # R 
 > install.packages('Boruta')
