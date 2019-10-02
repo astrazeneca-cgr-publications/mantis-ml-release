@@ -76,39 +76,38 @@ Run
 ===
 
 ### 1. Prepare config file
--------------------
 
 Example config files for various diseases can be found at `mantis-ml/conf`. You can use any of these files as your template config file and modify `Basic parameters` according to the phenotype/disease you want to run `mantis-ml` for.
 
 #### Basic parameters:
-|__run__| Description|
-| --- | --- |
-|*Tissue*| primary tissue affected by disease|
-|*additional_tissues*| other tissues affected by disease|
-|*seed_include_terms*| patterns for matching HPO phenotypes for annotation of known disease genes (seed genes)|
-|*additional_include_terms*| patterns used alongside `seed_include_terms` for disease-specific feature extraction|
-|*exclude_terms*| string patterns to exclude during seed gene selection and/or disease-specific feature extraction|
-|*phenotype*| user-defined descriptive term for the disease/phenotype|
-|*run_id*| output folder's name suffix|
+|__run__| Description | Data type |
+| --- | --- | --- |
+|*Tissue*| Primary tissue affected by disease (to be used for querying _GTEx_ and _ProteinAtlas_; all available tissues can be found by running `mantis_ml_profiler.py`)  | String; e.g. Heart |
+|*additional_tissues*| Other tissues affected by disease (to be used for querying _GTEx_ and _ProteinAtlas_)  | List of strings; e.g. [Artery, Brain]|
+|*seed_include_terms*| **Patterns for automatically selecting known disease-associated genes (by string matching on HPO phenotypes)**| List of strings; e.g. [epilepsy, epileptic, seizure] |
+|*additional_include_terms*| **Patterns used in addition to `seed_include_terms` to extract disease-specific features e.g. from GTEx, GOs, MGI, etc.**| List of strings; e.g. [nerve, nervous, neuronal] |
+|*exclude_terms*| String patterns to exclude during seed gene selection and/or disease-specific feature extraction| List of strings; e.g. [adrenal] |
+|*phenotype*| User-defined descriptive term for the disease/phenotype (free text)| String; e.g. Epilepsy |
+|*run_id*| Output folder's name suffix (free text)| String; e.g. production-run |
 
 <br/>
 
 |__pu__| Description|
 | --- | --- |
-|*classifiers*| define list of classifiers to use for Positive-Unlabelled learning. Supported classifiers are: *ExtraTreesClassifier*, *RandomForestClassifier*, *DNN*, *SVC*, *XGBoost*, *GradientBoostingClassifier*, *Stacking*|
-|*iterations*| number _L_ of stochastic iterations|
-|*nthreads*| number of threads to use (optimally assign one CPU per thread)|
+|*classifiers*| define list of classifiers to use for Positive-Unlabelled learning. Supported classifiers are: *ExtraTreesClassifier*, *RandomForestClassifier*, *DNN*, *SVC*, *XGBoost*, *GradientBoostingClassifier*, *Stacking* (**Stacking** may be omitted from the list to speed up analysis; suggested value: **ExtraTreesClassifier**, **RandomForestClassifier**, **XGBoost**)|
+|*iterations*| number _L_ of stochastic iterations (suggested value: **10**)|
+|*nthreads*| number of threads to use - optimally assign one thread per available CPU core (suggested value: **4** on a convential Quad-core CPU / **20-100** on a cluster)|
 
 <br/>
 
 |__run_steps__| Description|
 | --- | --- |
-|*run_boruta*| _True_/_False_ to run/or not the Boruta feature importance estimation algorithm|
-|*run_unsupervised*| _True_/_False_ to run/or not unsupervised learning methods (PCA, t-SNE and UMAP) during the pre-processing step|
+|*run_boruta*| _True_/_False_ to run/or not the Boruta feature importance estimation algorithm (suggested value: **False**)|
+|*run_unsupervised*| _True_/_False_ to run/or not unsupervised learning methods (PCA, t-SNE and UMAP) during the pre-processing step (suggested value: **True**)|
 
 <br/>
 
-**Config example** (Epilepsy):
+**Config example** - Basic Parameters (Epilepsy):
 ```
 run:
     tissue: Brain
@@ -128,30 +127,31 @@ run_steps:
 ```
 
 #### Advanced parameters
-All other config parameters (_Advanced_) can be used with their default values (see also `mantis_ml/conf/*.yaml` files).
+All other config parameters (**Advanced**) can be used with their default values (see also `mantis_ml/conf/*.yaml` files).
 <br/><br/>
 
-
+---
+<br/>
 
 ### 2. Preview selected features based on input config parameters (Optional)
-----------------------------------------------------------
 ```
 cd mantis_ml/bin
 python mantis_ml_profiler.py input_config.yaml [-v]             # use -v for verbose output
 ```
 Example output available at: `mantis_ml/bin/logs/profiling.out`
-
-
 <br/><br/>
 
+---
+<br/>
+
 ### 3. Run `mantis-ml`
----------------
+
 ```
 cd mantis_ml/bin
 ./run_mantis_ml.sh -c [CONFIG_FILE] 
 ```
 
-#### Examples
+#### Example
 ```
 cd mantis_ml/bin
 ./run_mantis_ml.sh -c ../conf/config.yaml
@@ -160,7 +160,6 @@ cd mantis_ml/bin
 <br>
 
 ### 3+. Run on a `SLURM` cluster
-------------------------
 ```
 cd mantis_ml/bin
 sbatch [SBATCH_OPTIONS, e.g. -o, -t] ./submit_mantis_ml.sh [-h] [-c|--config CONFIG_FILE] [-m|--mem MEMORY]
