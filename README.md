@@ -20,9 +20,10 @@ Introduction
 Installation
 ============
 ### Requirements:
-- Python (Python3, tested with v3.6.7)
-- R (tested with v3.5.1)
-- Anaconda3 (tested with v5.3.0)
+- **Python3** (tested with v3.6.7)
+- **Anaconda3** (tested with v5.3.0)
+- [Optional] **R** (tested with v3.5.1)
+
 <br>
 
 **1. Download `mantis-ml-release` GitHub repository:**
