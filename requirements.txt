@@ -12,7 +12,7 @@ Keras==2.2.4
 Keras-Applications==1.0.7
 Keras-Preprocessing==1.0.9
 matplotlib==3.0.3
-nltk==3.4.1
+nltk==3.4.5
 palettable==3.1.1
 plotly==3.9.0
 PyYAML==5.1
