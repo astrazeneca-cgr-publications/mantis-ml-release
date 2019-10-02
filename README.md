@@ -30,6 +30,8 @@ Installation
 git clone https://github.com/astrazeneca-cgr-publications/mantis-ml-release.git
 ```
 
+<br/>
+
 **2. Create a new `conda` environment:**
 - [Install Anaconda](https://docs.anaconda.com/anaconda/install/)
 - Create a new environment with clean Python and R installations:
