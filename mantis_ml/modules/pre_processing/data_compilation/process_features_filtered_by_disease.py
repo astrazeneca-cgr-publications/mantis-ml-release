@@ -99,7 +99,7 @@ class ProcessFeaturesFilteredByDisease(ProcessGenericFeatures):
         print(full_df.head())
         all_tissue_cols = full_df.columns.values
         print(all_tissue_cols)
-        selected_tissue_cols = all_tissue_cols[:]
+        all_selected_tissue_cols = [] #all_tissue_cols[:]
 
         return_gtex_df = pd.DataFrame()
         if not self.cfg.generic_classifier:
@@ -108,6 +108,7 @@ class ProcessFeaturesFilteredByDisease(ProcessGenericFeatures):
                 if len(selected_tissue_cols) == 0: # return if no matching columns exist
                     continue
                 print('Tissue/Disease pattern:', selected_tissue_cols)
+                all_selected_tissue_cols.extend(selected_tissue_cols)
 
                 df = full_df[['Gene_Name', 'gene_id'] + selected_tissue_cols]
                 print(df.columns)
@@ -160,7 +161,7 @@ class ProcessFeaturesFilteredByDisease(ProcessGenericFeatures):
             print(return_gtex_df.head())
             # TODO: keep expression in each tissue as a separate feature - do not sum
 
-        return return_gtex_df, selected_tissue_cols, all_tissue_cols
+        return return_gtex_df, all_selected_tissue_cols, all_tissue_cols
 
 
 
@@ -684,5 +685,6 @@ if __name__ == '__main__':
     cfg = Config(config_file)
 
     proc = ProcessFeaturesFilteredByDisease(cfg)
+    #gtex_df, all_selected_tissue_cols, _ = proc.process_gtex_features()
     proc.run_all()
 
