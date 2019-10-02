@@ -6,10 +6,10 @@ run:
     exclude_terms: []
     additional_include_terms: [nerve, nervous, neuronal, cerebellum, cerebral, hippocampus, hypothalamus]
     phenotype: Epilepsy # user-defined descriptive term for disease/phenotype
-    run_id: production # output folder name suffix
+    run_id: example # output folder name suffix
 pu_params:
     classifiers: [ExtraTreesClassifier, RandomForestClassifier] #, XGBoost, DNN, SVC, GradientBoostingClassifier, Stacking]
-    iterations: 10 # default: 10
+    iterations: 2 # default: 10
     nthreads: 4 # default: 4 (or as many CPUs available)
 run_steps:
     run_boruta: False # default: False
