@@ -133,7 +133,11 @@ All other config parameters (**Advanced**) can be used with their default values
 ---
 <br/>
 
-### 2. Preview selected features based on input config parameters (Optional)
+### 2. Sanity Check and Feature refinement (optional)
+
+You may preview all selected features based on your input config file parameters by running the `mantis_ml_profiler.py` script under `bin/`.
+This allows the user to view which HPO phenotypes and features are picked up based on the given input parameters. Based on the results, the user may further tweak their input config file to better refelct the set of phenotypes and/or features that are more relevant for their disease/case under study.
+
 ```
 cd mantis_ml/bin
 python mantis_ml_profiler.py input_config.yaml [-v]             # use -v for verbose output
