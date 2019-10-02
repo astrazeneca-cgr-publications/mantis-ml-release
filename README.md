@@ -85,13 +85,13 @@ Example config files for various diseases can be found at `mantis-ml/conf`. You 
 #### Basic parameters:
 |__run__| Description | Data type |
 | --- | --- | --- |
-|*Tissue*| Primary tissue affected by disease (to be used for querying _GTEx_ and _ProteinAtlas_; all available tissues can be found by running `mantis_ml_profiler.py`)  | String; e.g. Heart |
-|*additional_tissues*| Other tissues affected by disease (to be used for querying _GTEx_ and _ProteinAtlas_)  | List of strings; e.g. [Artery, Brain]|
-|*seed_include_terms*| **Patterns for automatically selecting known disease-associated genes (by string matching on HPO phenotypes)**| List of strings; e.g. [epilepsy, epileptic, seizure] |
-|*additional_include_terms*| **Patterns used in addition to `seed_include_terms` to extract disease-specific features e.g. from GTEx, GOs, MGI, etc.**| List of strings; e.g. [nerve, nervous, neuronal] |
-|*exclude_terms*| String patterns to exclude during seed gene selection and/or disease-specific feature extraction| List of strings; e.g. [adrenal] |
-|*phenotype*| User-defined descriptive term for the disease/phenotype (free text)| String; e.g. Epilepsy |
-|*run_id*| Output folder's name suffix (free text)| String; e.g. production-run |
+|*Tissue*| Primary tissue affected by disease (to be used for querying _GTEx_ and _ProteinAtlas_; all available tissues can be found by running `mantis_ml_profiler.py`)  | String; e.g. **Heart** |
+|*additional_tissues*| Other tissues affected by disease (to be used for querying _GTEx_ and _ProteinAtlas_)  | List of strings; e.g. **[Artery, Brain]**|
+|*seed_include_terms*| **Patterns for automatically selecting known disease-associated genes (by string matching on HPO phenotypes)**| List of strings; e.g. **[epilepsy, epileptic, seizure]** |
+|*additional_include_terms*| **Patterns used in addition to `seed_include_terms` to extract disease-specific features e.g. from GTEx, GOs, MGI, etc.**| List of strings; e.g. **[nerve, nervous, neuronal]** |
+|*exclude_terms*| String patterns to exclude during seed gene selection and/or disease-specific feature extraction| List of strings; e.g. **[adrenal]** |
+|*phenotype*| User-defined descriptive term for the disease/phenotype (free text)| String; e.g. **Epilepsy** |
+|*run_id*| Output folder's name suffix (free text)| String; e.g. **production-run** |
 
 <br/>
 
