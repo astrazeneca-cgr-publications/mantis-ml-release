@@ -14,7 +14,7 @@ cd bin
 ### SLURM submission script
 ```
 cd bin
-sbatch ./submit_mantis_ml.sh [-h] [-c|--config CONFIG_FILE] [-m|--mem MEMORY]
+sbatch ./submit_mantis_ml.sh [-h] [-u|--user Unix_username] [-c|--config CONFIG_FILE] [-m|--mem MEMORY]
       			 [-t|--time TIME] [-n|nthredas NUM_THREADS]
 ```
 
@@ -24,14 +24,14 @@ sbatch ./submit_mantis_ml.sh [-h] [-c|--config CONFIG_FILE] [-m|--mem MEMORY]
 ./run_mantis_ml.sh -c ../conf/config.yaml
 
 # generic (SLURM)
-sbatch -o generic.sbatch.out -t 24:0:0 ./submit_mantis_ml.sh -c input_configs/Generic_config.yaml -m 12G -n 10
+sbatch -o generic.sbatch.out -t 24:0:0 ./submit_mantis_ml.sh -u [my_unix_username] -c input_configs/Generic_config.yaml -m 12G -n 10
 
 # CKD (SLURM)
-sbatch -o ckd.sbatch.out -t 24:0:0 ./submit_mantis_ml.sh -c input_configs/CKD_config.yaml
+sbatch -o ckd.sbatch.out -t 24:0:0 ./submit_mantis_ml.sh -u [my_unix_username] -c input_configs/CKD_config.yaml
 
 # Epilepsy (SLURM)
-sbatch -o epilepsy.sbatch.out -t 24:0:0 ./submit_mantis_ml.sh -c input_configs/Epilepsy_config.yaml
+sbatch -o epilepsy.sbatch.out -t 24:0:0 ./submit_mantis_ml.sh -u [my_unix_username] -c input_configs/Epilepsy_config.yaml
 
 # ALS (SLURM)
-sbatch -o als.sbatch.out -t 24:0:0 ./submit_mantis_ml.sh -c input_configs/ALS_config.yaml
+sbatch -o als.sbatch.out -t 24:0:0 ./submit_mantis_ml.sh -u [my_unix_username] -c input_configs/ALS_config.yaml
 ```

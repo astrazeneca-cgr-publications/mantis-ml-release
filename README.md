@@ -166,17 +166,17 @@ cd mantis_ml/bin
 ### 3+. Run on a `SLURM` cluster
 ```
 cd mantis_ml/bin
-sbatch [SBATCH_OPTIONS, e.g. -o, -t] ./submit_mantis_ml.sh [-h] [-c|--config CONFIG_FILE] [-m|--mem MEMORY]
+sbatch [SBATCH_OPTIONS, e.g. -o, -t] ./submit_mantis_ml.sh [-h] [-u|--user Unix_username] [-c|--config CONFIG_FILE] [-m|--mem MEMORY]
       			 [-t|--time TIME] [-n|--nthreads NUM_THREADS]
 ```
 
 #### Examples
 ```
 # generic
-sbatch -o generic.sbatch.out -t 24:0:0 ./submit_mantis_ml.sh -c ../conf/Generic_config.yaml -m 12G -n 10
+sbatch -o generic.sbatch.out -t 24:0:0 ./submit_mantis_ml.sh -u [my_unix_username] -c ../conf/Generic_config.yaml -m 12G -n 10
 
 # CKD
-sbatch -o ckd.sbatch.out -t 24:0:0 ./submit_mantis_ml.sh -c ../conf/CKD_config.yaml
+sbatch -o ckd.sbatch.out -t 24:0:0 ./submit_mantis_ml.sh -u [my_unix_username] -c ../conf/CKD_config.yaml
 ```
 
 <br/><br/>
