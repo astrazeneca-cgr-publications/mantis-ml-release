@@ -18,10 +18,6 @@ do
     key="$1"
 
     case $key in
-        -u|--user)
-        user_id="$2"
-        shift; shift
-        ;;
         -c|--config)
         config_file="$2"
         shift; shift
@@ -46,17 +42,14 @@ esac
 done
 set -- "${POSITIONAL[@]}"
 
+user_id=$USER
+
 echo "user_id: $user_id"
 echo "config_file: $config_file"
 echo "mem: $mem"
 echo "nthreads: $nthreads"
 echo "time: $time"
 
-if [ -z "$user_id"  ]; then
-        echo -e $usage
-	echo -e "\n[Error]: No Unix username provided. Please rerun using option: -u|--user."
-	exit
-fi
 if [ -z "$config_file"  ]; then
         echo -e $usage
 	echo -e "\n[Error]: No 'config.yaml' file was provided. Please rerun using option: -c|--config."
