@@ -15,6 +15,8 @@ Introduction
 `mantis-ml` is a disease-agnostic gene prioritisation framework, built on top of `scikit-learn` and `keras`/`tensorflow`.  
 `mantis-ml` takes its name from the Greek word 'μάντης' which means 'fortune teller', 'predicter'.
 
+<br>
+
 |Citation|
 |----|
 |Vitsios Dimitrios, Petrovski Slavé. **Stochastic semi-supervised learning to prioritise genes from high-throughput genomic screens**. <br/>
