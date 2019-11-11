@@ -11,8 +11,20 @@ import sys, os
 import random
 from pathlib import Path
 from scipy.integrate import simps
-
 from mantis_ml.config_class import Config
+
+
+"""
+	This module has been used to perform the benchmarking of mantis-ml and of other tools (Phenolyzer, ToppGene, ToppNet)
+	against results from published rare-variant genetic association studies on Chronic Kidney Disease, Amyotrophic Lateral Sclerosis
+	and Epilepsy.
+
+	The global variables 'run_external_benchmark' and 'benchmark_tool' need to be set to 'True' and to '[name_of_method'] when 
+	benchmarking any of the external tools (Phenolyzer, ToppGene, ToppNet).
+	
+	Benchmarking for mantis-ml can be performed by setting 'run_external_benchmark'to 'False'.
+
+"""
 
 
 clf_alias = {'ExtraTreesClassifier': 'ET', 'SVC': 'SVC', 'DNN': 'DNN', 'RandomForestClassifier': 'RF',
@@ -85,7 +97,7 @@ class CollapsingMantisMlOverlap:
 		if collapsing_top_ratio != -1:
 			collapsing_df = collapsing_df.loc[ 0:int(collapsing_top_ratio * collapsing_df.shape[0]), :]
 		else:
-			collapsing_df = collapsing_df.loc[collapsing_df['p-val'] <= pval_cutoff, :] # TODO: check <= vs <
+			collapsing_df = collapsing_df.loc[collapsing_df['p-val'] <= pval_cutoff, :] 
 
 
 		collapsing_df = collapsing_df.loc[ ~collapsing_df['Gene_Name'].isin(genes_to_remove), :]
@@ -134,6 +146,12 @@ class CollapsingMantisMlOverlap:
 
 		max_x_lim = -1
 
+		# define filename identifiers based on selected method to benchmark
+		method_identifier = clf_alias[clf_str]
+		if run_external_benchmark:
+			method_identifier = benchmark_tool
+
+
 		for analysis_type in analysis_types:
 
 			print('\n>>>> Analysis type:', analysis_type)
@@ -143,7 +161,7 @@ class CollapsingMantisMlOverlap:
 
 
 			# *** Ad-hoc for bencmarking ***
-			if run_benchmark:
+			if run_external_benchmark:
 				benchmark_input_dir = "../../../misc/overlap-collapsing-analyses/" + benchmark_tool
 				benchmark_intersection_genes_file = benchmark_input_dir + '/collapsing_genes_intersection.' + cfg.phenotype + '.txt'
 	 
@@ -170,7 +188,7 @@ class CollapsingMantisMlOverlap:
 			hypergeom_ordered_genes = []
 
 
-			if not run_benchmark:
+			if not run_external_benchmark:
 				clf = all_clf[clf_str]
 				proba_df = clf.gene_proba_df
 				proba_df = proba_df.iloc[:, ~proba_df.columns.isin(genes_to_remove)]
@@ -194,16 +212,6 @@ class CollapsingMantisMlOverlap:
 				print(mantis_ml_top_genes[:10])
 				# subset top_ratio % of external method rankings
 				mantis_ml_top_genes = mantis_ml_top_genes[ : int(len(mantis_ml_top_genes) * top_ratio)]
-
-
-
-			# TMP: Endeavour benchmarking
-			#mantis_ml_top_genes = []
-			#with open('../../../misc/overlap-collapsing-analyses/ALS-Endeavour-Ranking/endeavour_ranking.txt') as fh:
-			#	for line in fh:
-			#		line = line.rstrip()
-			#		mantis_ml_top_genes.append(line)			
-			#print(mantis_ml_top_genes)
 
 
 
@@ -266,7 +274,7 @@ class CollapsingMantisMlOverlap:
 			signif_ratio_per_analysis_type[analysis_type] = analysis_type + ': ' + str(signif_ratio) + '%'
 
 
-			if not run_benchmark:
+			if not run_external_benchmark:
 				top_overlapping_genes = hypergeom_ordered_genes[:last_signif_index]
 				mantis_ml_top_overlap_genes_ranking = [mantis_ml_top_genes.index(gene)+1 for gene in top_overlapping_genes]
 
@@ -283,16 +291,15 @@ class CollapsingMantisMlOverlap:
 												 how='left', left_on='Gene_Name', right_on='Gene_Name')
 					merged_results_df.fillna(0, inplace=True)
 
-					#merged_results_df.to_csv(Path(str(self.cfg.out_root / ('../../' + input_dir + '/Hypergeometric_results/collapsing_vs_mantis_ml.Top_' + str(top_ratio) + '.' + clf_alias[clf_str] + '.' + disease + '.csv'))), index=False)
-
+	
 					merged_results_df.sort_values(by='mantis_ml_rank', ascending=True, inplace=True)
-					merged_results_df.to_csv(Path(str(self.cfg.out_root / ('../../' + input_dir + '/Hypergeometric_results/mantis_ml_vs_collapsing.Top_' + str(top_ratio) + '.' + clf_alias[clf_str] + '.' + disease + '.csv'))), index=False)
+					merged_results_df.to_csv(Path(str(self.cfg.out_root / ('../../' + input_dir + '/Hypergeometric_results/mantis_ml_vs_collapsing.Top_' + str(top_ratio) + '.' + method_identifier + '.' + disease + '.csv'))), index=False)
 
 					novel_overlaping_genes = merged_results_df.loc[ merged_results_df.Known_gene == 0, 'Gene_Name']
-					novel_overlaping_genes.to_csv(Path(str(self.cfg.out_root / ('../../' + input_dir + '/Hypergeometric_results/Novel_overlaping_genes.Top_' + str(top_ratio) + '.' + clf_alias[clf_str] + '.' + disease + '.csv'))), index=False, header=False)
+					novel_overlaping_genes.to_csv(Path(str(self.cfg.out_root / ('../../' + input_dir + '/Hypergeometric_results/Novel_overlaping_genes.Top_' + str(top_ratio) + '.' + method_identifier + '.' + disease + '.csv'))), index=False, header=False)
 
 					known_overlaping_genes = merged_results_df.loc[ merged_results_df.Known_gene == 1, 'Gene_Name']
-					known_overlaping_genes.to_csv(Path(str(self.cfg.out_root / ('../../' + input_dir + '/Hypergeometric_results/Known_overlaping_genes.Top_' + str(top_ratio) + '.' + clf_alias[clf_str] + '.' + disease + '.csv'))), index=False, header=False)
+					known_overlaping_genes.to_csv(Path(str(self.cfg.out_root / ('../../' + input_dir + '/Hypergeometric_results/Known_overlaping_genes.Top_' + str(top_ratio) + '.' + method_identifier + '.' + disease + '.csv'))), index=False, header=False)
 
 
 
@@ -319,7 +326,7 @@ class CollapsingMantisMlOverlap:
 				break
 
 
-		with open(Path(str(cfg.out_root) + '/../../' + input_dir + '/Hypergeometric_results/' + disease + '/' + clf_alias[clf_str] + '.top' + str(top_ratio)
+		with open(Path(str(cfg.out_root) + '/../../' + input_dir + '/Hypergeometric_results/' + disease + '/' + method_identifier + '.top' + str(top_ratio)
 						  + '_genes.Mann_Whitney_U.txt'), "w") as text_file:
 			text_file.write(mann_whitney_res_str)
 
@@ -392,37 +399,32 @@ class CollapsingMantisMlOverlap:
 		if show_full_xaxis:
 		   xaxis_str = '.full_xaxis'
 
-		fig.savefig(str(self.cfg.out_root / ('../../' + input_dir + '/Hypergeometric_results/' + disease + '/' + clf_alias[clf_str] + '.' + disease + xaxis_str + remove_seed_genes_str + '.pdf')), bbox_inches='tight')
+		fig.savefig(str(self.cfg.out_root / ('../../' + input_dir + '/Hypergeometric_results/' + disease + '/' + method_identifier + '.' + disease + xaxis_str + remove_seed_genes_str + '.pdf')), bbox_inches='tight')
 
 
 
 if __name__ == '__main__':
 
 	config_file = sys.argv[1] # Path('../../config.yaml')
+	run_external_benchmark = bool(int(sys.argv[2]))
+	if run_external_benchmark:
+		benchmark_tool = sys.argv[3]
 
 	# *** Optional parameters ***
 	top_ratio = 0.05
-	if len(sys.argv) > 2:
-		top_ratio = float(sys.argv[2]) #0.01, 0.05
-
 	remove_seed_genes = 0
-	if len(sys.argv) > 3:
-		remove_seed_genes = bool(int(sys.argv[3])) #default: 0
-
 	show_full_xaxis = 0
-	if len(sys.argv) > 4:
-		show_full_xaxis = bool(int(sys.argv[4])) #default: 0
 	# ***************************
 
+
 	# ============ BENCHMARKING ============
-	run_benchmark = False # True
-	#benchmark_tool = "ToppNet"
-	benchmark_tool = "ToppGene"
+	#run_external_benchmark = True
 	#benchmark_tool = "Phenolyzer"
+	#benchmark_tool = "ToppGene"
+	#benchmark_tool = "ToppNet"
 	# ======================================
 
 	cfg = Config(config_file)
-
 	print(cfg.superv_out)
 	print(type(cfg.superv_out))
 
@@ -435,7 +437,7 @@ if __name__ == '__main__':
 
 
 	# Read aggregated results from classifiers
-	if not run_benchmark:
+	if not run_external_benchmark:
 		try:
 			print("Reading all_clf.pkl")
 			with open(str(cfg.superv_out / 'all_clf.pkl'), 'rb') as input:
@@ -447,14 +449,15 @@ if __name__ == '__main__':
 		all_clf = {}
 
 
-	#classifiers = ['ExtraTreesClassifier', 'RandomForestClassifier', 'GradientBoostingClassifier', 'SVC', 'XGBoost', 'DNN', 'Stacking']
-	classifiers = ['XGBoost']
+	classifiers = ['ExtraTreesClassifier', 'RandomForestClassifier', 'GradientBoostingClassifier', 'SVC', 'XGBoost', 'DNN', 'Stacking']
+	if run_external_benchmark:
+		classifiers = ['XGBoost']
 
 	# classifiers = ['ExtraTreesClassifier', 'SVC', 'Stacking_DNN'] # For CKD
 	# classifiers = ['ExtraTreesClassifier', 'RandomForestClassifier', 'GradientBoostingClassifier'] # For Epilepsy
 	# classifiers = ['ExtraTreesClassifier'] #, 'DNN', 'RandomForestClassifier', 'Stacking_DNN'] # For ALS
 
-	if not run_benchmark:
+	if not run_external_benchmark:
 		seed_genes = all_clf[classifiers[0]].known_genes.tolist()
 	else:
 		seed_genes = []
@@ -465,17 +468,10 @@ if __name__ == '__main__':
 	# >>> For CKD - JASN 2019
 	if cfg.phenotype == 'CKD':
 		analysis_types = ['v-AURORA-CUMC-all_dom_ultrarare_OO',
-						  # 'v-AURORA-CUMC-all_dom_rare_LOF',
-						  # 'piv-mendelian-all_dom_rare_LOF',
-						  # 'i-all_AURORA_dom_rare_missense',
-						  # 'viii-CUMC-all_dom_rare_mtr50',
-						  'i-all_AURORA_dom_rare_syn', 
-						  'i-all_AURORA_dom_rare_missense', 
-						  #'iii-CUMC-all_dom_rare_syn', 
-						  #'piv-mendelian-all_dom_rare_syn',
-						  'v-AURORA-CUMC-all_dom_rare_syn',
-						  #'v-AURORA-CUMC-all-rec_syn', 
-						  'shuffle']
+				  'i-all_AURORA_dom_rare_syn', 
+				  'i-all_AURORA_dom_rare_missense', 
+				  'v-AURORA-CUMC-all_dom_rare_syn',
+				  'shuffle']
 		input_dir = 'CKD_JASN_2019'
 		disease = 'CKD'
 
@@ -489,24 +485,9 @@ if __name__ == '__main__':
 	# >>> For ALS
 	if cfg.phenotype == 'ALS':
 		input_dir = 'ALS_Science_2015'
-		analysis_types = ['Dom_LoF', 'Dom_coding', 'Dom_not_benign', 'Rec_coding', 'shuffle'] # Not include: 'Rec_not_benign', 'Rec_LoF' (population only ~350 genes)
+		analysis_types = ['Dom_LoF', 'Dom_coding', 'Dom_not_benign', 'Rec_coding', 'shuffle'] 
 		disease = 'ALS'
 
-
-	# >>> For Epilepsy-biorxiv_2019
-	# analysis_types = ['URV_AC_eq_1', 'URV_AC_lteq_3', 'shuffle']
-	# input_dir = 'Epilepsy-biorxiv_2019'
-	# disease = 'GGE' # GGE, NAFE, DEE, EPI
-
-	# >>> For Alzheimer_ACN_2018
-	# input_dir = 'Alzheimer_ACN_2018'
-	# analysis_types = ['primary', 'shuffle']
-	# disease = 'Alzheimer'
-
-	# >>> For IPF
-	# input_dir = 'IPF_AJRCCM_2017'
-	# analysis_types = ['primary', 'lof', 'synonymous', 'shuffle']
-	# disease = 'IPF'
 
 
 	pval_cutoff = 1 # Seto to 1, to include all
