@@ -18,24 +18,12 @@ from mantis_ml.config_class import Config
 clf_alias = {'ExtraTreesClassifier': 'ET', 'SVC': 'SVC', 'DNN': 'DNN', 'RandomForestClassifier': 'RF',
 			 'XGBoost': 'XGB', 'GradientBoostingClassifier': 'GB', 'Stacking': 'Stacking'}
 
-primary_analysis_types = ['primary', 'URV_AC_eq_1', 'v-AURORA-CUMC-all_dom_ultrarare_OO', 'Dom_LoF']
+
+# TODO:
+color_pallete = {'primary': '#33a02c', 'lof': '#fb9a99'}
+dataset_ylim = 60 
 
 
-primary_analyses_dict = {'CKD': 'v-AURORA-CUMC-all_dom_ultrarare_OO', 'GGE': 'primary', 'ALS': 'Dom_LoF'}
-synonymous_analyses_dict = {'CKD': 'v-AURORA-CUMC-all_dom_rare_syn', 'GGE': 'synonymous', 'ALS': 'Dom_not_benign'}
-
-color_pallete = {'primary': '#33a02c', 'lof': '#fb9a99', 'common': '#a6cee3', 'synonymous': '#000000',
-				 'Dom_LoF': '#33a02c', 'Dom_coding': '#fb9a99', 'Dom_not_benign': '#000000',
-				 'Rec_LoF': '#feb24c', 'Rec_coding': '#a1d99b', 'Rec_not_benign': '#3182bd',
-				 'URV_AC_eq_1': '#33a02c', 'URV_AC_lteq_3': '#000000',
-				 'v-AURORA-CUMC-all_dom_ultrarare_OO': '#33a02c', 'v-AURORA-CUMC-all_dom_rare_LOF': '#33a02c',
-				 'piv-mendelian-all_dom_rare_LOF': '#33a02c', 'i-all_AURORA_dom_rare_missense': '#ff7f00',
-				 'viii-CUMC-all_dom_rare_mtr50': '#33a02c', 'v-AURORA-CUMC-all_dom_rare_missense_mtr50': '#000000',
-				 'i-all_AURORA_dom_rare_syn': '#a6cee3', 'v-AURORA-CUMC-all_dom_rare_syn': '#3182bd',
-				 'piv-mendelian-all_dom_rare_syn': '#756bb1', 'v-AURORA-CUMC-all-rec_syn': '#d95f0e', 'iii-CUMC-all_dom_rare_syn': '#c51b8a',
-				 'shuffle': '#1f78b4'}
-
-dataset_ylim = {'CKD': 60, 'GGE': 60, 'ALS': 60}
 
 class CollapsingMantisMlOverlap:
 
@@ -44,7 +32,7 @@ class CollapsingMantisMlOverlap:
 
 
 	# ------------ Read collapsing results based on selected analysis type ------------
-	def read_collapsing_ranking(self, analysis_type='primary', disease='GGE', pval_cutoff=0.05, collapsing_top_ratio=-1, genes_to_remove=[]):
+	def read_collapsing_ranking(self, input_file):
 
 		shuffle_file_path = str(self.cfg.out_root / ('../../' + input_dir + '/' + disease + '/shuffle_collapsing_ranking.' + disease + '.csv'))
 
@@ -100,13 +88,6 @@ class CollapsingMantisMlOverlap:
 
 		return collapsing_df
 
-
-
-	def shuffle_ranking(self, collapsing_df):
-		collapsing_df = collapsing_df.sample(frac=1).reset_index(drop=True)
-		collapsing_df['collapsing_rank'] = collapsing_df.index.values + 1
-
-		return collapsing_df
 
 
 	def calc_phred_score(self, pval):
