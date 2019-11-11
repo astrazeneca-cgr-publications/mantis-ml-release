@@ -6,11 +6,9 @@ import sys, os
 from mantis_ml.config_class import Config
 
 clf_alias = {'ExtraTreesClassifier': 'ET', 'SVC': 'SVC', 'DNN': 'DNN', 'RandomForestClassifier': 'RF', 'XGBoost': 'XGB', 'GradientBoostingClassifier': 'GB', 'Stacking': 'Stacking'}
-
 color_palette = {'Stacking': '#684392', 'ExtraTreesClassifier': '#35A037', 'SVC': '#651124', 'DNN': '#000000', 'RandomForestClassifier': '#1F7AB9', 'XGBoost': '#F07E21', 'GradientBoostingClassifier': '#E32321'}
-
-
 best_clf_per_disease = {'CKD': 'XGBoost', 'GGE': 'XGBoost', 'ALS': 'ExtraTreesClassifier'}
+
 
 def plot_grouped_barplot(df, out_filename, width=0.1, relaxation=0):
 
@@ -46,6 +44,7 @@ def plot_grouped_barplot(df, out_filename, width=0.1, relaxation=0):
     #plt.ylim([95, 100])
 
     fig.savefig(out_dir + gene_class + '.' + out_filename + '.pdf', bbox_inches="tight")
+
 
 
 def find_consensus_from_selected_classifiers(clf_subset, df, relaxation=0):
@@ -84,6 +83,7 @@ def find_consensus_from_selected_classifiers(clf_subset, df, relaxation=0):
     return df 
 
 
+
 def get_cons_list_and_plot(df, clf_subset, relaxation=0, width=0.1):
 
     filename_suffix = '_'.join([clf_alias[c] for c in clf_subset])
@@ -104,21 +104,19 @@ def get_cons_list_and_plot(df, clf_subset, relaxation=0, width=0.1):
 
 
 
+
 if __name__ == '__main__':
+
     overlap_collapsing_base_dir = 'misc/overlap-collapsing-analyses'
 
     config_file = sys.argv[1]
-    cfg = Config(config_file)
+    gene_class = sys.argv[2] 	# Novel or Known
+    top_ratio = float(sys.argv[3]) 	#0.01, 0.05
 
-    gene_class = 'Novel' # or Known
-    if len(sys.argv) > 2:
-        gene_class = sys.argv[2]
-
-    top_ratio = 0.05
-    if len(sys.argv) > 3:
-        top_ratio = float(sys.argv[3]) #0.01, 0.05
 
     print('gene class:', gene_class, 'top_ratio:', top_ratio)
+
+    cfg = Config(config_file)
 
     classifiers = ['ExtraTreesClassifier', 'RandomForestClassifier', 'GradientBoostingClassifier', 'SVC', 'XGBoost', 'DNN', 'Stacking']
 
@@ -126,19 +124,19 @@ if __name__ == '__main__':
     if cfg.phenotype == 'CKD':
         input_dir = 'CKD_JASN_2019'
         disease = 'CKD'
-        top_classifiers = ['XGBoost', 'RandomForestClassifier'] #['Stacking', 'ExtraTreesClassifier']
+        top_classifiers = ['XGBoost', 'RandomForestClassifier'] 
         relaxation = 2
 
     if cfg.phenotype == 'Epilepsy':
         input_dir = 'Epilepsy-LancetNeurology_2017'
         disease = 'GGE' # GGE, NAFE
-        top_classifiers = ['XGBoost', 'RandomForestClassifier'] #['GradientBoostingClassifier', 'XGBoost']
+        top_classifiers = ['XGBoost', 'RandomForestClassifier'] 
         relaxation = 2
 
     if cfg.phenotype == 'ALS':
         input_dir = 'ALS_Science_2015'
         disease = 'ALS'
-        top_classifiers = ['ExtraTreesClassifier', 'XGBoost'] #['Stacking', 'DNN']
+        top_classifiers = ['ExtraTreesClassifier', 'XGBoost'] 
         relaxation = 2
         if gene_class == 'Known':
             relaxation = len(classifiers) - 1
