@@ -1,7 +1,8 @@
 import matplotlib
 matplotlib.use('agg')
 import matplotlib.pyplot as plt
-from scipy.stats import hypergeom, mannwhitneyu
+from argparse import ArgumentParser
+from scipy.stats import hypergeom 
 import pandas as pd
 import numpy as np
 import pickle
@@ -13,6 +14,7 @@ from pathlib import Path
 from scipy.integrate import simps
 
 from mantis_ml.config_class import Config
+from mantis_ml.modules.hypergeom_enrichment.consensus_predictions import Consensus_Gene_Predictions
 
 
 clf_alias = {'ExtraTreesClassifier': 'ET', 'SVC': 'SVC', 'DNN': 'DNN', 'RandomForestClassifier': 'RF',
@@ -40,9 +42,6 @@ class ExternalRankingOverlap:
 		if not os.path.exists(self.enrichment_dir):
 			os.makedirs(self.enrichment_dir)
 
-		self.enrichment_figs_dir = self.base_enrichment_dir + '/Hypergeometric-results-Figures'
-		if not os.path.exists(self.enrichment_figs_dir):
-			os.makedirs(self.enrichment_figs_dir)
 
 
 	def read_external_ranked_gene_list(self, external_ranked_file):
@@ -196,7 +195,7 @@ class ExternalRankingOverlap:
 		novel_overlaping_genes.to_csv(self.enrichment_dir + '/Novel_overlaping_genes.Top_' + str(top_ratio) + '.' + clf_alias[self.clf_str] + '.csv', index=False, header=False)
 
 		known_overlaping_genes = merged_results_df.loc[ merged_results_df.Known_gene == 1, 'Gene_Name']
-		known_overlaping_genes.to_csv(self.enrichment_dir + '/Known_overlaping_genes.Top_' + str(top_ratio) + '.' + clf_alias[self.clf_str] + '.' + '.csv', index=False, header=False)
+		known_overlaping_genes.to_csv(self.enrichment_dir + '/Known_overlaping_genes.Top_' + str(top_ratio) + '.' + clf_alias[self.clf_str] + '.csv', index=False, header=False)
 		# ====================================================================
 
 
@@ -217,7 +216,7 @@ class ExternalRankingOverlap:
 		if show_full_xaxis:
 		   xaxis_str = '.full_xaxis'
 
-		fig.savefig(self.enrichment_figs_dir + '/' + self.clf_str + xaxis_str + remove_seed_genes_str + '.pdf', bbox_inches='tight')
+		fig.savefig(self.base_enrichment_dir + '/' + self.clf_str + xaxis_str + remove_seed_genes_str + '.pdf', bbox_inches='tight')
 
 
 
@@ -228,22 +227,37 @@ class ExternalRankingOverlap:
 
 if __name__ == '__main__':
 
-	config_file = sys.argv[1] # Path('../../config.yaml')
-	external_ranked_file = sys.argv[2]
 
-	# *** Optional parameters ***
-	top_ratio = 0.05
-	if len(sys.argv) > 3:
-		top_ratio = float(sys.argv[3]) #0.01, 0.05
+	parser = ArgumentParser()
+	parser.add_argument("-c", "--config", dest="config_file", required=True,
+			    help="config.yaml file with run parameters")
+	parser.add_argument("-i", "--input", dest="external_ranked_file", required=True,
+			    help="input file with external ranked gene list (either single-column or with an additional p-value based 2nd column")
+	parser.add_argument("-t", "--top-ratio", dest="top_ratio", required=False, default=5,
+			    help="Top % ratio of mantis-ml predictions to overlap with the external ranked list (default value: 5%)")
+	parser.add_argument("-r", "--remove-seed-genes", dest="remove_seed_genes", required=False, default=0,
+			    help="remove mantis-ml seed genes from the hypergeometric enrichment test against the external ranked gene list")
+	parser.add_argument("-s", "--show-full-xaxis", dest="show_full_xaxis", required=False, default=0,
+			    help="Plot enrichment signal across the entire x-axis and not just for the signifcat part of the external ranked list")
+	
+	args = parser.parse_args()
 
-	remove_seed_genes = 0
-	if len(sys.argv) > 4:
-		remove_seed_genes = bool(int(sys.argv[4])) #default: 0
 
-	show_full_xaxis = 0
-	if len(sys.argv) > 5:
-		show_full_xaxis = bool(int(sys.argv[5])) #default: 0
+	config_file = args.config_file
+	external_ranked_file = args.external_ranked_file
+	top_ratio = float(args.top_ratio) / 100
+	remove_seed_genes = bool(int(args.remove_seed_genes))
+	show_full_xaxis = bool(int(args.show_full_xaxis))
+
+	print("\nInput arguments:\n")
+	print('- config_file:', config_file)
+	print('- external_ranked_file:', external_ranked_file)
+	print('- top_ratio:', str(100 * top_ratio) + '%')
+	print('- remove_seed_genes:', remove_seed_genes)
+	print('- show_full_xaxis:', show_full_xaxis)
+	print("\n")
 	# ***************************
+
 
 	cfg = Config(config_file)
 
@@ -290,7 +304,6 @@ if __name__ == '__main__':
 
 
 
-
 	for clf_str in classifiers:
 	
 		print('\n> Classifier: ' + clf_str)
@@ -305,3 +318,9 @@ if __name__ == '__main__':
 		rank_overlap.calc_stepwise_hypergeometric(all_clf, top_ratio,  
 							 pval_cutoff=pval_cutoff,
 							 collapsing_top_ratio=collapsing_top_ratio)
+
+
+	# Get consensus of novel (and known) gene predictions
+	for gene_class in ['Novel', 'Known']:
+		cons_obj = Consensus_Gene_Predictions(config_file, top_ratio, gene_class)
+		cons_obj.run()

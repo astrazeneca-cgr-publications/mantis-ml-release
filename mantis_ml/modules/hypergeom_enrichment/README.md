@@ -1,16 +1,4 @@
-# CKD
+# Example:
 ```
- ./run_collapsing_mantis_overlap.sh ../../conf/CKD_config.yaml 0.05 0 0
-```
-
-
-# Epilepsy
-```
- ./run_collapsing_mantis_overlap.sh ../../conf/Epilepsy_config.yaml 0.05 0 0
-```
-
-
-# ALS
-```
- ./run_collapsing_mantis_overlap.sh ../../conf/ALS_config.yaml 0.05 0 0
+python overlap_external_ranked_list.py -c ../../conf/CKD_config.yaml -i collapsing_ranked_list.CKD.txt -t 10 -r 1 -s 1
 ```
