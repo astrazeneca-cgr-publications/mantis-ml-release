@@ -77,7 +77,6 @@ mkdir -p $logs
 function run_preprocess_step() {
     # > mantis-ml pre-processing ('pre')
     run_tag=pre
-    pre_job_name=${pheno}_$run_tag
 
     python -u mantis_ml_main.py -c $config_file -r $run_tag
 
@@ -88,7 +87,6 @@ function run_preprocess_step() {
 function run_boruta_step() {
     # > mantis-ml boruta algorithm ('boruta')
     run_tag=boruta
-    boruta_job_name=${pheno}_$run_tag
 
     python -u mantis_ml_main.py -c $config_file -r $run_tag
 
@@ -122,7 +120,6 @@ function run_pu_step() {
 function run_postprocess_step() {
     # > mantis-ml post-processing ('post')
     run_tag=post
-    post_job_name=${pheno}_$run_tag
 
     python -u mantis_ml_main.py -c $config_file -r $run_tag
 
@@ -134,13 +131,21 @@ function run_postprocess_step() {
 function run_post_unsup_step() {
     # > mantis-ml unsupervised learning with annotation from post-processing ('post_unsup')
     run_tag=post_unsup
-    post_unsup_job_name=${pheno}_$run_tag
 
     python -u mantis_ml_main.py -c $config_file -r $run_tag
 
     echo ">> mantis-ml post-processing -- unsupervised ('post_unsup') step complete."
 }
 
+
+function run_hypergeom_enrichment_step() {
+    # > mantis-ml Hypergeometric Enrichment test against external ranked list ('hypergeom_enrich')
+    run_tag='hypergeom_enrich'
+
+    python -u mantis_ml_main.py -c $config_file -r $run_tag
+
+    echo ">> mantis-ml hypergeometric enrichment ('hypergeom_enrich') step complete."
+}
 # ----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -169,6 +174,11 @@ run_postprocess_step
 
 printf "\n\n\n\n\n============ Running unsupervised learning with annotation from post-processing results ============\n\n"
 run_post_unsup_step
+
+
+printf "\n\n\n\n\n============ Running Hypergeometric Enrichment test against external ranked list ============\n\n"
+run_hypergeom_enrichment_step
+#python overlap_external_ranked_list.py -c ../../conf/CKD_config.yaml -i collapsing_ranked_list.CKD.txt -t 10 -r 1 -s 1
 
 
 printf "\n\n\n============ mantis-ml run complete. ============\n"
