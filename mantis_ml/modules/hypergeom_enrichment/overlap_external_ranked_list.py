@@ -59,6 +59,12 @@ class ExternalRankingOverlap:
 		if self.external_ranked_df.shape[1] > 1:
 			self.external_ranked_df.columns = ['Gene_Name', 'p-val']
 			self.has_p_values = True
+
+			# Sanity check for p-value column
+			if not (self.external_ranked_df['p-val'] >= 0 and self.external_ranked_df['p-val'] <= 1) :
+				sys.exit('[Error] The 2nd column of the provided file contains invalid values.\n \
+					  Please make sure the 2nd column contains p-value scores') 
+		
 		else:
 			self.external_ranked_df.columns = ['Gene_Name']
 
@@ -126,7 +132,7 @@ class ExternalRankingOverlap:
 
 		# ************* Hypergeometric Test *************
 		for x in range(self.external_ranked_df.shape[0]):
-			N = self.external_ranked_df.iloc[x, 2]
+			N = self.external_ranked_df.iloc[x, self.external_ranked_df.shape[1]-1]
 			cur_pval = hypergeom.sf(x - 1, M, n, N)
 
 			hypergeom_pvals = hypergeom_pvals + [cur_pval]
@@ -148,13 +154,17 @@ class ExternalRankingOverlap:
 					linewidth=linewidth)
 
 
-		last_signif_index = self.find_last_signif_gene_index(self.external_ranked_df)
-		if last_signif_index is None:
+		if self.has_p_values:
+			last_signif_index = self.find_last_signif_gene_index(self.external_ranked_df)
+			if last_signif_index is None:
+				last_signif_index = self.external_ranked_df.shape[0]		
+		else:
+			last_signif_index = self.external_ranked_df.shape[0]	
 
-			last_signif_index = self.external_ranked_df.shape[0]
 		print('last_signif_index:', last_signif_index)
 		if last_signif_index > max_x_lim:
 			max_x_lim = last_signif_index
+
 
 
 		ax.set_xlim(left=-0.5)
@@ -166,8 +176,6 @@ class ExternalRankingOverlap:
 		ax.set_ylabel(y_label, fontsize=14)
 		print('Min. enrichment p-value from hypergeometric test:', str(min_pval))
 
-
-		signif_ratio = round(100 * len([v for v in hypergeom_pvals if v > signif_thres]) / len(hypergeom_pvals), 2)
 
 
 
@@ -217,6 +225,7 @@ class ExternalRankingOverlap:
 		   xaxis_str = '.full_xaxis'
 
 		fig.savefig(self.base_enrichment_dir + '/' + self.clf_str + xaxis_str + remove_seed_genes_str + '.pdf', bbox_inches='tight')
+		plt.close()
 
 
 

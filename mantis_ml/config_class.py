@@ -4,8 +4,8 @@ try:
 except KeyError:
     user_paths = []
 
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 import yaml
-import os
 from pathlib import Path
 from shutil import copyfile
 import pandas as pd

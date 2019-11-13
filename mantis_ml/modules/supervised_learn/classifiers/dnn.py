@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
-import sys
+import sys, os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 import matplotlib.pyplot as plt
 import seaborn as sns
 

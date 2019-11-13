@@ -3,6 +3,7 @@ import numpy as np
 import random
 import sys
 import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 import warnings
 warnings.filterwarnings("ignore", message="numpy.dtype size changed")
 warnings.filterwarnings("ignore", message="numpy.ufunc size changed")
@@ -22,7 +23,6 @@ from keras.optimizers import Adam
 sklearn_extended_classifiers = ['RandomForestClassifier', 'ExtraTreesClassifier', 'GradientBoostingClassifier', 'SVC', 'XGBoost']
 feature_imp_classifiers = ['RandomForestClassifier', 'ExtraTreesClassifier', 'GradientBoostingClassifier', 'XGBoost']
 
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 
 class PULearning:
@@ -348,14 +348,12 @@ class PULearning:
         avg_test_acc = round(sum(test_acc_list) / len(test_acc_list), 2)
         avg_auc_score = round(sum(auc_score_list) / len(auc_score_list), 2)
     
-        print('\nAvg. training accuracy: ' + str(avg_train_acc) + ' %')
-        print('Avg. test accuracy: ' + str(avg_test_acc) + ' %')
+        #print('\nAvg. training accuracy: ' + str(avg_train_acc) + ' %')
+        #print('Avg. test accuracy: ' + str(avg_test_acc) + ' %')
         print('Avg. AUC score: ' + str(avg_auc_score))
     
-        # TODO: beta
-        #if self.clf_id == 'Stacking':
-        #    self.clf_id += '_' + final_level_classifier
     
+
         metrics_df = pd.DataFrame(list(zip(train_acc_list, test_acc_list, auc_score_list)), columns=['Train_Accuracy', 'Test_Accuracy', 'AUC'])
         metrics_df.to_csv(self.cfg.superv_out / ('PU_'+self.clf_id+'.evaluation_metrics.tsv'), sep='\t')
     
