@@ -21,6 +21,7 @@ from mantis_ml.config_class import Config
 class MantisMl:
 
 	def __init__(self, config_file):
+		self.config_file = config_file
 		self.cfg = Config(config_file)
 
 		print('Stochastic iterations:', self.cfg.iterations)
@@ -107,7 +108,7 @@ class MantisMl:
 					gene_annot_list = self.cfg.gene_annot_list
 			else:
 				top_genes_num = 40
-				novel_genes = pd.read_csv(str(self.cfg.superv_ranked_pred / (clf_id + '.Top-' + str(top_genes_num) + '_Novel_genes.Ranked_by_prediction_proba.csv')), header=None, index_col=0)
+				novel_genes = pd.read_csv(str(self.cfg.superv_ranked_pred / (clf_id + '.Novel_genes.Ranked_by_prediction_proba.csv')), header=None, index_col=0)
 				gene_annot_list = novel_genes.head(top_genes_num).index.values
 
 			dim_reduct_wrapper = DimensReductionWrapper(self.cfg, data, gene_annot_list, recalc)
@@ -118,60 +119,61 @@ class MantisMl:
 
 		
 	def run_non_clf_specific_analysis(self):
-		"""
-			run_tag: 'pre'
-		"""
+		""" run_tag: pre """
+
 		args_dict = {'run_feature_compiler': True, 'run_eda': True, 'run_unsupervised': self.cfg.run_unsupervised}
 		self.run(**args_dict)
 
 
 
 	def run_boruta_algorithm(self):
-		"""
-			run_tag: 'boruta'
-		"""
+		""" run_tag: boruta """
+
 		args_dict = {'run_boruta': True}
 		self.run(**args_dict)
 
 
 		
-	def run_pu_learning(self ):
-		"""
-			run_tag: 'pu'
-		"""
+	def run_pu_learning(self):
+		""" run_tag: pu """
+		
 		args_dict = {'run_pu': True}
 		self.run(**args_dict)
 
 
 		
 	def run_post_processing_analysis(self):
-		"""
-			run_tag: 'post'
-		"""
+		""" run_tag: post """
+		
 		args_dict = {'run_aggregate_results': True, 'run_merge_results': True}
 		self.run(**args_dict)
 
 
 		
 	def run_clf_specific_unsupervised_analysis(self, clf_id):
-		"""
-			run_tag: 'post_unsup'
-		"""
+		""" run_tag: post_unsup """
+		
 		args_dict = {'clf_id': clf_id, 'run_unsupervised': True}
 		self.run(**args_dict)
 
 		
-	# ----------------------------------------------
-	def run_all(self, clf_id):
-		"""
-			run_tag: 'all'
-		"""
-		args_dict = {'clf_id': clf_id, 'run_feature_compiler': True, 'run_eda': True, 'run_pu': True,
+	# ---------------------- Run Full pipeline ------------------------
+	def run_all(self):
+		""" run_tag: all """
+
+		args_dict = {'run_feature_compiler': True, 'run_eda': True, 'run_pu': True,
 				  'run_aggregate_results': True, 'run_merge_results': True,
 				  'run_boruta': False, 'run_unsupervised': True}
 		self.run(**args_dict)
-	# ----------------------------------------------
+	# -----------------------------------------------------------------
 		
+
+
+
+	# ***** hypergeometric enrichemnt test *****
+	def run_enrichment_overlap(self):
+		pass
+
 
 
 
@@ -180,19 +182,19 @@ def main():
 	parser = ArgumentParser()
 	parser.add_argument("-c", "--config", dest="config_file",
 						help="config.yaml file with run parameters")
-	parser.add_argument("-r", "--run", dest="run_tag", choices=['pre', 'boruta', 'pu', 'post', 'post_unsup', 'all'],
-						default='all', help="specify type of analysis to run: pre, boruta, pu, post, post_unsup or all")
-	#parser.add_argument("-m", "--model", dest="clf_id", choices=['ExtraTreesClassifier', 'DNN', 'RandomForestClassifier', 'SVC', 'XGBoost', 'GradientBoostingClassifier', 'Stacking', 'None'],
-	#					default='ExtraTreesClassifier', help="classifier for supervised learning")
+	parser.add_argument("-r", "--run", dest="run_tag", choices=['profiler', 'pre', 'boruta', 'pu', 'post', 'post_unsup', 'all'],
+						default='all', help="specify type of analysis to run: profiler, pre, boruta, pu, post, post_unsup or all")
+	parser.add_argument('-v', '--verbosity', action="count", help="print verbose output verbosity (run with -v option)")          
+
+
 
 
 	args = parser.parse_args()
 	print(args)
 
 	config_file = args.config_file
-	#clf_id = args.clf_id
 	run_tag = args.run_tag
-
+	verbose = bool(args.verbosity)
 
 
 
@@ -200,8 +202,6 @@ def main():
 
 
 	if run_tag == 'all':
-		# TODO: remove boruta from all -- allow it as a separate step
-		# Run PU for each classifier (in separate thread each; or keep it single-threaded as it is now to keep it simpler)
 		mantis.run_all()
 	elif run_tag == 'pre':
 		mantis.run_non_clf_specific_analysis()
@@ -214,8 +214,14 @@ def main():
 		mantis.run_clf_specific_unsupervised_analysis(top_clf)
 	elif run_tag == 'boruta':
 		mantis.run_boruta_algorithm()
-	# TODO:
-	# - Add option for hypergeom enrichment
+
+	elif run_tag == 'profiler':
+		# ***** Preview selected features *****
+		profiler = MantisMlProfiler(config_file, verbose=verbose)         
+		profiler.run_mantis_ml_profiler()
+
+	elif run_tag == 'overlap':
+		mantis.run_enrichment_overlap()
 
 
 

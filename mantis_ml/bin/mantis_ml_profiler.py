@@ -204,55 +204,47 @@ class MantisMlProfiler:
 
 
 
-def main():
+	def run_mantis_ml_profiler(self):
+
+		print('>>> Running mantis-ml config profiling ...')
+		print('verbose:', self.verbose)
+		print('Config file:', self.config_file)
+
+		cfg = Config(self.config_file)
+		proc_obj = ProcessFeaturesFilteredByDisease(cfg)
+
+		# HPO
+		self.assess_hpo_filtered_output(proc_obj, cfg)
 
 
-
-	parser = ArgumentParser()
-	parser.add_argument("-c", "--config", dest="config_file", help="config.yaml file with run parameters")
-	parser.add_argument('-v', '--verbosity', action="count", help="print verbose output verbosity (run with -v option)")     
-
-	args = parser.parse_args()      
-	verbose = bool(args.verbosity)
-	
-	config_file = args.config_file
-
-	profiler = MantisMlProfiler(config_file, verbose=verbose)
+		# GTEx
+		self.assess_gtex_filtered_output(proc_obj, cfg)
 
 
-	print('>>> Running mantis-ml config profiling ...')
-	print('verbose:', profiler.verbose)
-	print('Config file:', profiler.config_file)
-
-	cfg = Config(profiler.config_file)
-
-	proc_obj = ProcessFeaturesFilteredByDisease(cfg)
+		# Protein Atlas
+		self.assess_proteinatlas_filtered_output(proc_obj, cfg)
 
 
-	# HPO
-	profiler.assess_hpo_filtered_output(proc_obj, cfg)
+		# MSigDB
+		self.assess_msigdb_filtered_output(proc_obj, cfg)
 
 
-	# GTEx
-	profiler.assess_gtex_filtered_output(proc_obj, cfg)
-
-
-	# Protein Atlas
-	profiler.assess_proteinatlas_filtered_output(proc_obj, cfg)
-
-
-	# MSigDB
-	profiler.assess_msigdb_filtered_output(proc_obj, cfg)
-
-	# MGI
-	profiler.assess_mgi_filtered_output(proc_obj, cfg)
-
-	print('\n\n<<< mantis-ml config profiling complete.')
-
+		# MGI
+		self.assess_mgi_filtered_output(proc_obj, cfg)
+		print('\n\n<<< mantis-ml config profiling complete.')
 
 
 
 
 if __name__ == '__main__':
 	
-	main()
+	parser = ArgumentParser()
+	parser.add_argument("-c", "--config", dest="config_file", help="config.yaml file with run parameters")
+	parser.add_argument('-v', '--verbosity', action="count", help="print verbose output verbosity (run with -v option)")     
+
+	args = parser.parse_args()      
+	verbose = bool(args.verbosity)
+	config_file = args.config_file
+	
+	profiler = MantisMlProfiler(config_file, verbose=verbose)
+	profiler.run_mantis_ml_profiler()
