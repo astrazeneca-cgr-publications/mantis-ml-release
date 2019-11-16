@@ -169,7 +169,7 @@ class ClassifierEvaluator:
             cur_face_color = gene_colors['Novel']
             if gene in self.known_genes:
                 cur_face_color = gene_colors['Known']
-            if gene in self.cfg.anchor_genes:
+            if gene in self.cfg.highlighted_genes:
                 cur_face_color = gene_colors['Highlighted']
 
             # for patch in bp['boxes']:

@@ -12,11 +12,11 @@ warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 class DimensReductionWrapper(DimensionalityReduction):
 
-    def __init__(self, cfg, data, gene_annot_list, recalc, tsne_perplex=30):
+    def __init__(self, cfg, data, highlighted_genes, recalc, tsne_perplex=30):
         DimensionalityReduction.__init__(self, cfg)
 
         self.data = data
-        self.gene_annot_list = gene_annot_list
+        self.highlighted_genes = highlighted_genes
         self.recalc = recalc
         self.tsne_perplex = tsne_perplex
 
@@ -29,13 +29,13 @@ class DimensReductionWrapper(DimensionalityReduction):
 
         # Plot PCA
         plot_title = "Principal Component Analysis"
-        self.plot_embedding_w_labels(pca_df, self.gene_annot_list, 'PC1', 'PC2',
+        self.plot_embedding_w_labels(pca_df, self.highlighted_genes, 'PC1', 'PC2',
                                 plot_title=plot_title, filename_prefix=method, figsize=(12, 12))
 
         # Store Interactive PCA to .html file
         interactive_pca_df = pca_df.copy()
         interactive_pca_df.rename(columns={'PC1': 'x', 'PC2': 'y'}, inplace=True)
-        self.plot_interactive_viz(interactive_pca_df, self.gene_annot_list, method, 1, 0)
+        self.plot_interactive_viz(interactive_pca_df, self.highlighted_genes, method, 1, 0)
 
         # Make Scree Plot
         if method == 'PCA':
@@ -69,12 +69,12 @@ class DimensReductionWrapper(DimensionalityReduction):
 
 
         print('Plotting t-SNE embedding with selected gene labels...')
-        self.plot_embedding_w_labels(X_tsne, self.gene_annot_list, 'd0', 'd1',
+        self.plot_embedding_w_labels(X_tsne, self.highlighted_genes, 'd0', 'd1',
                                 plot_title=plot_title, filename_prefix=method, figsize=(14, 12))
 
         interactive_X_tsne = X_tsne.copy()
         interactive_X_tsne.rename(columns={'d0': 'x', 'd1': 'y'}, inplace=True)
-        self.plot_interactive_viz(interactive_X_tsne, self.gene_annot_list, method, 1, 0)
+        self.plot_interactive_viz(interactive_X_tsne, self.highlighted_genes, method, 1, 0)
 
         # TODO: complete automated nested-clustering
         # print('Getting clusters (agglomerative) on t-SNE...')
@@ -82,7 +82,7 @@ class DimensReductionWrapper(DimensionalityReduction):
         #
         #
         # filename_prefix = 't-SNE.perplexity' + str(self.tsne_perplex) + '.with_cluster_annotation'
-        # plot_embedding_w_clusters(agglom_cl, tsne_repr, gene_list=self.cfg.gene_annot_list,
+        # plot_embedding_w_clusters(agglom_cl, tsne_repr, gene_list=self.cfg.highlighted_genes,
         #                           gene_names=gene_names,
         #                           filename_prefix=filename_prefix)
 
@@ -108,12 +108,12 @@ class DimensReductionWrapper(DimensionalityReduction):
 
 
         print('Plotting UMAP embedding with selected gene labels...')
-        self.plot_embedding_w_labels(X_umap, self.gene_annot_list, 'd0', 'd1',
+        self.plot_embedding_w_labels(X_umap, self.highlighted_genes, 'd0', 'd1',
                                 plot_title=plot_title, filename_prefix=method, figsize=(14, 12))
 
         interactive_X_umap = X_umap.copy()
         interactive_X_umap.rename(columns={'d0': 'x', 'd1': 'y'}, inplace=True)
-        self.plot_interactive_viz(interactive_X_umap, self.gene_annot_list, method, 1, 0)
+        self.plot_interactive_viz(interactive_X_umap, self.highlighted_genes, method, 1, 0)
 
 
 
@@ -146,20 +146,20 @@ if __name__ == '__main__':
     # clf_id = 'ExtraTreesClassifier'
     # et_novel_genes = pd.read_csv(str(self.cfg.superv_ranked_pred / (clf_id + '.Novel_genes.Ranked_by_prediction_proba.csv')), header=None, index_col=0)
     # print(et_novel_genes.head())
-    # gene_annot_list = et_novel_genes.head(10).index.values
+    # highlighted_genes = et_novel_genes.head(10).index.values
 
-    gene_annot_list = cfg.gene_annot_list
+    highlighted_genes = cfg.highlighted_genes
     if len(sys.argv) > 2:
         gene_list_file = sys.argv[2]
-        gene_annot_list = pd.read_csv(gene_list_file, header=None)
-        gene_annot_list = gene_annot_list.iloc[ :, 0].tolist()
+        highlighted_genes = pd.read_csv(gene_list_file, header=None)
+        highlighted_genes = highlighted_genes.iloc[ :, 0].tolist()
 
-        gene_annot_list = gene_annot_list + cfg.gene_annot_list
-    print(gene_annot_list)
+        highlighted_genes = highlighted_genes + cfg.highlighted_genes
+    print(highlighted_genes)
 
 
     recalc = False # Default: True
 
     data = pd.read_csv(cfg.processed_data_dir / "processed_feature_table.tsv", sep='\t')
-    dim_reduct_wrapper = DimensReductionWrapper(cfg, data, gene_annot_list, recalc=recalc)
+    dim_reduct_wrapper = DimensReductionWrapper(cfg, data, highlighted_genes, recalc=recalc)
     dim_reduct_wrapper.run()

@@ -249,6 +249,8 @@ class ProcessGenericFeatures:
 
         return gwas_df
 
+
+
     def process_mgi_essential_features(self, save_to_file=False):
         '''
         Get humang genes with mouse ortholog with a lethality phenotype (essential mouse genes)

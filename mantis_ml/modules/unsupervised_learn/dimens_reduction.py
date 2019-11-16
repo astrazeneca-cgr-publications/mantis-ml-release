@@ -187,7 +187,7 @@ class DimensionalityReduction:
 
 
 
-    def plot_embedding_w_labels(self, df, gene_annot_list, x, y, plot_title, filename_prefix, figsize=(10, 10)):
+    def plot_embedding_w_labels(self, df, highlighted_genes, x, y, plot_title, filename_prefix, figsize=(10, 10)):
         '''
         Plot a (static) dimensionality reduction embedding (e.g. PCA, t-SNE)
         with label annotation for selected data points
@@ -216,7 +216,7 @@ class DimensionalityReduction:
         compon1 = list(df.loc[:, x])
         compon2 = list(df.loc[:, y])
 
-        for i, gene in enumerate(gene_annot_list):
+        for i, gene in enumerate(highlighted_genes):
             try:
                 idx = gene_names[gene_names == gene].index[0]
                 ax.annotate(gene, (compon1[idx], compon2[idx]))
@@ -226,7 +226,7 @@ class DimensionalityReduction:
         fig.savefig(str(self.cfg.unsuperv_figs_out / plot_filename), bbox_inches='tight')
 
 
-    def plot_interactive_viz(self, data, gene_annot_list, method, pos_label, neg_label, show_plot=False, save_plot=False):
+    def plot_interactive_viz(self, data, highlighted_genes, method, pos_label, neg_label, show_plot=False, save_plot=False):
         '''
         Plot an interactive dimensionality reduction embedding (e.g. PCA, t-SNE)
         with label annotation for selected data points
@@ -242,10 +242,10 @@ class DimensionalityReduction:
         data.loc[data['Gene_Name'] == 'PKD1', 'colors'] = known_genes_highlight_color
         data.loc[data['Gene_Name'] == 'PKD2', 'colors'] = known_genes_highlight_color
 
-        selected_gene_rows = data.loc[data['Gene_Name'].isin(gene_annot_list), :]
-        data = data[~data.Gene_Name.isin(gene_annot_list)]
+        selected_gene_rows = data.loc[data['Gene_Name'].isin(highlighted_genes), :]
+        data = data[~data.Gene_Name.isin(highlighted_genes)]
         data = pd.concat([data, selected_gene_rows], axis=0)
-        data.loc[data['Gene_Name'].isin(gene_annot_list), 'colors'] = '#252525'
+        data.loc[data['Gene_Name'].isin(highlighted_genes), 'colors'] = '#252525'
 
         data['annotation'] = data.known_gene.copy()
         data.loc[data.annotation == pos_label, 'annotation'] = 'Yes'

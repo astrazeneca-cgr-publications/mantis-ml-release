@@ -18,7 +18,7 @@ run_steps:
 
 # ============ ADVANCED ============
 run_advanced:
-    gene_annot_list: [] # optional for highlighting in plots
+    highlighted_genes: [] # optional for highlighting in plots
     anchor_genes: [] # optional/beta for highlighiting in plots
     include_disease_features: True
     generic_classifier: None # None (default), All (default for Generic), AD, AR, AD_only, AR_only

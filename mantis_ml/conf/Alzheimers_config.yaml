@@ -18,7 +18,7 @@ run_steps:
 
 # ============ ADVANCED ============
 run_advanced:
-    gene_annot_list: [SORL1, GRID2IP, WDR76, GRN, PSEN1, PSEN2, ZCWPW1, CD2AP, ABCA7, NME8] # optional for highlighting in plots
+    highlighted_genes: [SORL1, GRID2IP, WDR76, GRN, PSEN1, PSEN2, ZCWPW1, CD2AP, ABCA7, NME8] # optional for highlighting in plots
     anchor_genes: [SORL1, GRID2IP, WDR76, GRN, PSEN1, PSEN2, ZCWPW1, CD2AP, ABCA7, NME8] # optional/beta for highlighiting in plots
     include_disease_features: True
     generic_classifier: None # None (default), All (default for Generic), AD, AR, AD_only, AR_only

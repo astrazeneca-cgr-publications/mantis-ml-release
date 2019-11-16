@@ -143,6 +143,10 @@ class ProcessClassifierResults():
 	
 	def get_density_and_cdf_plots(self, all_clf, proba_means, gene_class='Known'):
 	
+		density_and_cdf_dir = str(self.cfg.superv_figs_out / 'misc')
+		if not os.path.exists(density_and_cdf_dir):
+			os.makedirs(density_and_cdf_dir)
+		
 		boxplot_pallete = Paired_12.hex_colors
 		plot_cnt = 0
 	
@@ -168,7 +172,7 @@ class ProcessClassifierResults():
 		plt.ylabel('Density', fontsize=22)
 		if self.show_plots:
 			plt.show()
-		fig.savefig(str(self.cfg.superv_figs_out / ('All_classifiers.' + gene_class + '_genes_proba_Density_plots.pdf')), bbox_inches='tight')
+		fig.savefig(density_and_cdf_dir + '/All_classifiers.' + gene_class + '_genes_proba_Density_plots.pdf', bbox_inches='tight')
 	
 		fig, ax = plt.subplots(figsize=(15, 15))
 		for clf_id, clf_eval in all_clf.items():
@@ -197,7 +201,7 @@ class ProcessClassifierResults():
 		plt.ylabel('ECDF(p)', fontsize=22)
 		if self.show_plots:
 			plt.show()
-		fig.savefig(str(self.cfg.superv_figs_out / ('All_classifiers.' + gene_class + '_genes_proba_CDFs.pdf')), bbox_inches='tight')
+		fig.savefig(density_and_cdf_dir + '/All_classifiers.' + gene_class + '_genes_proba_CDFs.pdf', bbox_inches='tight')
 	
 	
 	
@@ -254,7 +258,7 @@ if __name__ == '__main__':
 	# Create objects to process results from each classifier and merge them
 	aggr_res = ProcessClassifierResults(cfg, )
 
-	gene_annot_list = cfg.gene_annot_list
+	highlighted_genes = cfg.highlighted_genes
 
 
 	standard_classifiers = True

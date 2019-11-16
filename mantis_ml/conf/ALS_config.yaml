@@ -1,49 +1,8 @@
-# ============ BASIC ============
-run:
-    phenotype: ALS # user-defined descriptive term for disease/phenotype 
-    tissue: Brain
-    additional_tissues: [Muscle - Skeletal]
-    seed_include_terms: [Amyotrophic lateral sclerosis, Degeneration of the lateral corticospinal tracts, Dysfunction of lateral corticospinal tracts, Atrophy of the spinal cord, Progressive distal muscular atrophy, Spinal muscular atrophy, First dorsal interossei muscle atrophy, Cervical spinal cord atrophy, Corticospinal tract atrophy, Corticospinal tract hypoplasia, Atrophy/Degeneration involving the spinal cord]
-    exclude_terms: [heart muscle, heart_muscle, cardiac_muscle, smooth_muscle, cardiac muscle, smooth muscle, striated_muscle, striated muscle]
-    additional_include_terms: [nerve, nervous, neuronal, spine, spinal, cerebellum, cerebral, hippocampus, hypothalamus, muscular dystrophy, muscular fitness, muscle function, muscle, neuromuscular]
-    run_id: production # output folder name suffix
-pu_params:
-    classifiers: [ExtraTreesClassifier, RandomForestClassifier, DNN, SVC, XGBoost, GradientBoostingClassifier, Stacking]
-    iterations: 100 # default: 10
-    nthreads: 30 # default: 4 (or as many CPUs available)
-run_steps:
-    run_boruta: False # default: False
-    run_unsupervised: True # default: True
+# Required
+Disease/Phenotype terms: Amyotrophic lateral sclerosis, Degeneration of the lateral corticospinal tracts, Dysfunction of lateral corticospinal tracts, Atrophy of the spinal cord, Progressive distal muscular atrophy, Spinal muscular atrophy, First dorsal interossei muscle atrophy, Cervical spinal cord atrophy, Corticospinal tract atrophy, Corticospinal tract hypoplasia, Atrophy/Degeneration involving the spinal cord
+Run name: ALS
 
-
-# ============ ADVANCED ============
-run_advanced:
-    gene_annot_list: [DEAF1, OPTN, SPG11, TBK1] # optional for highlighting in plots
-    anchor_genes: [DEAF1, OPTN, SPG11, TBK1] # optional/beta for highlighiting in plots
-    include_disease_features: True
-    generic_classifier: None # None (default), All (default for Generic), AD, AR, AD_only, AR_only
-    hide_seed_genes_ratio: 0 # default: 0 (keep all seed genes)
-    seed_pos_ratio: 0.8 #default: 0.8
-    random_seeds: False
-supervised_filters:
-    feature_selection: None # Options: boruta, None
-    boruta_iterations: 100 # default: 100
-    boruta_decision_thres: 90 # default: 90
-    add_original_features_in_stacking: True # default: True
-    test_size: 0.2 # default: 0.2
-    balancing_ratio: 1.5 # default: 1.5
-    random_fold_split: True # use False for parameter GridSearch and debugging
-    kfold: 10 # default: 10
-static:
-    Y_label: known_gene
-    gene_name: Gene_Name
-    data_dir: ./data
-eda_filters:
-    drop_missing_data_features: True
-    discard_highly_correlated: True
-    drop_gene_len_features: False
-    manual_feature_selection: False
-    create_plots: True
-eda_parameters:
-    high_corr_thres: 0.8 # default: 0.8
-    missing_data_thres: 0.25 # default: 0.25
+# Optional
+Additional feature terms: brain, Muscle - Skeletal, nerve, nervous, neuronal, spine, spinal, cerebellum, cerebral, hippocampus, hypothalamus, muscular dystrophy, muscular fitness, muscle function, muscle, neuromuscular
+Diseases/Phenotypes to exclude: heart muscle, heart_muscle, cardiac_muscle, smooth_muscle, cardiac muscle, smooth muscle, striated_muscle, striated muscle
+Genes to highlight:

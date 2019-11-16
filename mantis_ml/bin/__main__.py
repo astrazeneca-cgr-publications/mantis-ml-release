@@ -20,12 +20,19 @@ from mantis_ml.config_class import Config
 
 class MantisMl:
 
-	def __init__(self, config_file):
+	def __init__(self, config_file, nthreads=4, iterations=10, include_stacking=False):
 		self.config_file = config_file
 		self.cfg = Config(config_file)
 
-		print('Stochastic iterations:', self.cfg.iterations)
+		# modify default config paramters when provided with respective parameters
+		self.cfg.nthreads = int(nthreads)
+		self.cfg.iterations = int(iterations)
+		if include_stacking:
+			self.cfg.classifiers.append('Stacking')
+
 		print('nthreads:', self.cfg.nthreads)
+		print('Stochastic iterations:', self.cfg.iterations)
+		print('Classifiers:', self.cfg.classifiers)
 
 
 
@@ -105,13 +112,13 @@ class MantisMl:
 			recalc = False # default: False
 		
 			if clf_id is None:
-					gene_annot_list = self.cfg.gene_annot_list
+					highlighted_genes = self.cfg.highlighted_genes
 			else:
 				top_genes_num = 40
 				novel_genes = pd.read_csv(str(self.cfg.superv_ranked_pred / (clf_id + '.Novel_genes.Ranked_by_prediction_proba.csv')), header=None, index_col=0)
-				gene_annot_list = novel_genes.head(top_genes_num).index.values
+				highlighted_genes = novel_genes.head(top_genes_num).index.values
 
-			dim_reduct_wrapper = DimensReductionWrapper(self.cfg, data, gene_annot_list, recalc)
+			dim_reduct_wrapper = DimensReductionWrapper(self.cfg, data, highlighted_genes, recalc)
 			dim_reduct_wrapper.run()
 
 			
@@ -180,10 +187,11 @@ class MantisMl:
 def main():
 
 	parser = ArgumentParser()
-	parser.add_argument("-c", "--config", dest="config_file",
-						help="config.yaml file with run parameters")
-	parser.add_argument("-r", "--run", dest="run_tag", choices=['profiler', 'pre', 'boruta', 'pu', 'post', 'post_unsup', 'all'],
-						default='all', help="specify type of analysis to run: profiler, pre, boruta, pu, post, post_unsup or all")
+	parser.add_argument("-c", "--config", dest="config_file", help="config.yaml file with run parameters")
+	parser.add_argument("-r", "--run", dest="run_tag", choices=['profiler', 'pre', 'boruta', 'pu', 'post', 'post_unsup', 'all'], default='all', help="specify type of analysis to run: profiler, pre, boruta, pu, post, post_unsup or all")
+	parser.add_argument("-n", "--nthreads", dest="nthreads", default=4, help="number of threads")
+	parser.add_argument("-i", "--iterations", dest="iterations", default=10, help="number of stochastic iterations of semi-supervised learning")
+	parser.add_argument("-s", "--stacking", action="count", help="include Stacking in set of classifiers")
 	parser.add_argument('-v', '--verbosity', action="count", help="print verbose output verbosity (run with -v option)")          
 
 
@@ -194,11 +202,13 @@ def main():
 
 	config_file = args.config_file
 	run_tag = args.run_tag
+	nthreads = args.nthreads
+	iterations = args.iterations
+	stacking = bool(args.stacking)
 	verbose = bool(args.verbosity)
 
 
-
-	mantis = MantisMl(config_file)
+	mantis = MantisMl(config_file, nthreads=nthreads, iterations=iterations, include_stacking=stacking)
 
 
 	if run_tag == 'all':

@@ -260,7 +260,7 @@ class MergePredictionsFromClassifiers:
         if 'AllClassifiers.Merged' in all_clf:
             del all_clf['AllClassifiers.Merged']
 
-        aggr_res.plot_gene_counts_per_clf(all_clf)
+        #aggr_res.plot_gene_counts_per_clf(all_clf)
         aggr_res.get_density_and_cdf_plots(all_clf, 'known_gene_proba_means', gene_class='Known')
         aggr_res.get_density_and_cdf_plots(all_clf, 'gene_proba_means', gene_class='All')
         aggr_res.get_density_and_cdf_plots(all_clf, 'unlabbeled_gene_proba_means', gene_class='Unlabelled')
