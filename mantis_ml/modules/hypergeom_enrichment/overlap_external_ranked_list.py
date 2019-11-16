@@ -61,14 +61,14 @@ class ExternalRankingOverlap:
 			self.has_p_values = True
 
 			# Sanity check for p-value column
-			if not (self.external_ranked_df['p-val'] >= 0 and self.external_ranked_df['p-val'] <= 1) :
-				sys.exit('[Error] The 2nd column of the provided file contains invalid values.\n \
-					  Please make sure the 2nd column contains p-value scores') 
+			if any(self.external_ranked_df['p-val'] < 0) or any(self.external_ranked_df['p-val'] > 1) :
+				sys.exit('[Error] The 2nd column of the provided file contains invalid values.\n        Please make sure the 2nd column contains p-value scores.') 
 		
 		else:
 			self.external_ranked_df.columns = ['Gene_Name']
 
 		self.external_ranked_df['external_rank'] = range(1, self.external_ranked_df.shape[0]+1)		
+
 
 		
 

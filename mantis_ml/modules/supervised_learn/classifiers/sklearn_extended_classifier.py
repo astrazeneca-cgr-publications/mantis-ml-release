@@ -129,7 +129,7 @@ if __name__ == '__main__':
     # get feature importance
     feature_cols = train_data.drop([cfg.Y], axis=1).columns.values
     model.get_feature_importance(X_train, y_train, feature_cols, clf_id)
-    plot_feature_imp_for_classifier(model.feature_dataframe, clf_id, clf_id, cfg.superv_figs_out)
+    plot_feature_imp_for_classifier(model.feature_dataframe, clf_id, clf_id, cfg.superv_feat_imp)
 
     model.process_predictions()
 

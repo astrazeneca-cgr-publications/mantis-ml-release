@@ -26,7 +26,7 @@ margin_params = go.layout.Margin(
 default_height = 650
 # ========================
 
-def plot_feature_imp_for_classifier(feature_dataframe, clf_id, plot_title, superv_figs_out):
+def plot_feature_imp_for_classifier(feature_dataframe, clf_id, plot_title, superv_feat_imp):
     trace = go.Bar(
         y=feature_dataframe[clf_id].values,
         x=feature_dataframe['features'].values,
@@ -62,11 +62,11 @@ def plot_feature_imp_for_classifier(feature_dataframe, clf_id, plot_title, super
     fig = go.Figure(data=data, layout=layout)
 
     filename = clf_id + '_feature_imp'
-    py.offline.plot(fig, filename=str(superv_figs_out / (filename + '.html')), auto_open=False)
-    # pio.write_image(fig, str(superv_figs_out / (filename + '.png')))
+    py.offline.plot(fig, filename=str(superv_feat_imp / (filename + '.html')), auto_open=False)
 
 
-def plot_average_feature_importance_scatterplots(feature_dataframe, superv_figs_out):
+
+def plot_average_feature_importance_scatterplots(feature_dataframe, superv_feat_imp):
     if 'SVC feature importances' in feature_dataframe.columns.values:
         feature_dataframe = feature_dataframe.drop(['SVC feature importances'], axis=1)
 
@@ -105,7 +105,7 @@ def plot_average_feature_importance_scatterplots(feature_dataframe, superv_figs_
     fig = go.Figure(data=data, layout=layout)
 
     filename = 'Ensemble_Classifier.average_feature_imp.html'
-    py.offline.plot(fig, filename=str(superv_figs_out / filename), auto_open=False)
+    py.offline.plot(fig, filename=str(superv_feat_imp / filename), auto_open=False)
 
 
 def plot_confusion_matrix(cm, classes,
@@ -159,30 +159,6 @@ def plot_confusion_matrix(cm, classes,
 
     f.savefig(pdf_filepath) #, bbox_inches='tight')
 
-"""
-def plot_roc_curve(clf_id, y_test, y_pred, roc_auc, superv_figs_out):
-    '''
-    Plot ROC curve
-    :param y_test: 
-    :param y_pred: 
-    :param clf_id: 
-    :return: 
-    '''
-    fpr, tpr, _ = roc_curve(y_test, y_pred)
-
-    f = plt.figure(figsize=(6, 6))
-    _ = plt.plot(fpr, tpr, label='ROC curve (area = %0.3f)' % roc_auc)
-    _ = plt.plot([0, 1], [0, 1], '--', linewidth=0.5)  # random predictions curve
-
-    _ = plt.xlim([0.0, 1.0])
-    _ = plt.ylim([0.0, 1.0])
-    _ = plt.title('ROC curve (area = %0.3f)' % roc_auc)
-    _ = plt.xlabel('False Positive Rate (1 — Specificity)')
-    _ = plt.ylabel('True Positive Rate (Sensitivity)')
-    plt.grid(True)
-    # plt.show()
-    f.savefig(str(superv_figs_out / (clf_id + "_ROC_curve.pdf")), bbox_inches='tight')
-"""
 
 
 if __name__ == '__main__':

@@ -75,7 +75,8 @@ class EnsembleClassifier():
         #     if clf_id in ['SVC']:
         #         continue
         #     plot_feature_imp_for_classifier(self.feature_dataframe, clf_id, clf_id + ' Feature Importance')
-        plot_average_feature_importance_scatterplots(feature_dataframe, self.cfg.superv_figs_out)
+        plot_average_feature_importance_scatterplots(feature_dataframe, self.cfg.superv_feat_imp)
+
 
     def get_base_level_predictions(self, X_train, y_train, X_test):
         '''

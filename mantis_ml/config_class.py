@@ -166,6 +166,7 @@ class Config:
 
 		# Supervised learning figures folder
 		self.superv_figs_out = self.figs_dir / 'supervised-learning'
+		self.superv_feat_imp = self.superv_figs_out / 'feature-importance'
 		self.superv_figs_gene_proba = self.superv_figs_out / 'gene_proba_predictions'
 
 		# Run steps (remove/add boruta and/or unsupervised steps)
@@ -223,59 +224,16 @@ class Config:
 		:return: 
 		'''
 
-		if not os.path.exists(self.compiled_data_dir):
-			os.makedirs(self.compiled_data_dir)
+		dirs = [self.compiled_data_dir, self.out_root, self.out_data_dir, self.figs_dir, 
+			self.processed_data_dir, self.eda_out, self.unsuperv_out, self.unsuperv_figs_out, 
+			self.superv_out, self.superv_pred, self.superv_ranked_pred, self.superv_proba_pred,
+			self.superv_figs_out, self.superv_feat_imp, self.superv_figs_gene_proba,
+			self.benchmark_out, self.boruta_figs_dir, self.feature_selection_dir, self.boruta_tables_dir]
 
-		if not os.path.exists(self.out_root):
-			os.makedirs(self.out_root)
 
-		if not os.path.exists(self.out_data_dir):
-			os.makedirs(self.out_data_dir)
-
-		if not os.path.exists(self.figs_dir):
-			os.makedirs(self.figs_dir)
-
-		if not os.path.exists(self.processed_data_dir):
-			os.makedirs(self.processed_data_dir)
-
-		if not os.path.exists(self.eda_out):
-			os.makedirs(self.eda_out)
-
-		if not os.path.exists(self.unsuperv_out):
-			os.makedirs(self.unsuperv_out)
-
-		if not os.path.exists(self.unsuperv_figs_out):
-			os.makedirs(self.unsuperv_figs_out)
-
-		if not os.path.exists(self.superv_out):
-			os.makedirs(self.superv_out)
-
-		if not os.path.exists(self.superv_pred):
-			os.makedirs(self.superv_pred)
-
-		if not os.path.exists(self.superv_ranked_pred):
-			os.makedirs(self.superv_ranked_pred)
-
-		if not os.path.exists(self.superv_proba_pred):
-			os.makedirs(self.superv_proba_pred)
-
-		if not os.path.exists(self.superv_figs_out):
-			os.makedirs(self.superv_figs_out)
-
-		if not os.path.exists(self.superv_figs_gene_proba):
-			os.makedirs(self.superv_figs_gene_proba)
-
-		if not os.path.exists(self.benchmark_out):
-			os.makedirs(self.benchmark_out)
-
-		if not os.path.exists(self.boruta_figs_dir):
-			os.makedirs(self.boruta_figs_dir)
-
-		if not os.path.exists(self.feature_selection_dir):
-			os.makedirs(self.feature_selection_dir)
-
-		if not os.path.exists(self.boruta_tables_dir):
-			os.makedirs(self.boruta_tables_dir)
+		for d in dirs:
+			if not os.path.exists(d):
+				os.makedirs(d)
 
 		# Copy input config.yaml to output dir
 		src_conf = str(self.config_file)

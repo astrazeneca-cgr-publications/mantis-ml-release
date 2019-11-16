@@ -45,7 +45,8 @@ class ClassifierEvaluator:
         avg_feat_imp_df.sort_values(by=[self.clf_id], ascending=True, inplace=True)
         #print(avg_feat_imp_df.head())
 
-        plot_feature_imp_for_classifier(avg_feat_imp_df, self.clf_id, self.clf_id, self.cfg.superv_figs_out)
+        plot_feature_imp_for_classifier(avg_feat_imp_df, self.clf_id, self.clf_id, self.cfg.superv_feat_imp)
+
 
     def plot_feat_imp_distribustion(self):
         feat_imp_distr_df = pd.read_csv(self.cfg.superv_out / ('PU_' + self.clf_id + '.feature_dfs_list.txt'), sep=',')
@@ -89,8 +90,10 @@ class ClassifierEvaluator:
         _ = ax.set_ylabel('Feature Importance scores Distribution')
         # plt.show()
 
-        fig.savefig(str(self.cfg.superv_figs_out / (self.clf_id + '_feature_imp_distr_boxplots.pdf')), bbox_inches='tight')
+        fig.savefig(str(self.cfg.superv_feat_imp / (self.clf_id + '_feature_imp_distr_boxplots.pdf')), bbox_inches='tight')
         plt.close()
+
+
 
     def plot_evaluation_metrics(self, make_plots=False):
         self.eval_metrics_df = pd.read_csv(self.cfg.superv_out / ('PU_' + self.clf_id + '.evaluation_metrics.tsv'), sep='\t')
