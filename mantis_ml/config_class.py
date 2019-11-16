@@ -73,14 +73,15 @@ class Config:
 		self.seed_include_terms = re.split(list_delim, self.conf['Disease/Phenotype terms'])
 
 		# Read tissues of interest
-		#if self.conf['Tissues'] is None:
-		#	self.tissues = None
-		#	self.tissue = None
-		#	self.additional_tissues = []
-		#else:
-		#	self.tissues = re.split(list_delim, self.conf['Tissues'])
-		#	self.tissue = self.tissues[0] # primary tissue
-		#	self.additional_tissues = [t for t in self.tissues if t != self.tissue] 
+		if self.conf['Tissues'] is None:
+			self.tissues = None
+			self.tissue = None
+			self.additional_tissues = []
+		else:
+			self.tissues = re.split(list_delim, self.conf['Tissues'])
+			self.tissue = self.tissues[0] # primary tissue
+			self.additional_tissues = [t for t in self.tissues if t != self.tissue] 
+
 
 
 		# >> Optional input parameters

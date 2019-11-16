@@ -35,7 +35,7 @@ class FeatureTableCompiler:
         # TODO: Look in to missing data ratios of disease-specific features
         # disease specific only
         if self.cfg.include_disease_features:
-            no_addit_disease_features = 'No disease-specific additional ad-hoc features available'
+            no_addit_disease_features = 'Invalid phenotype for additional features'
             disease_specific_func = self.disease_specific_compiler.get(self.cfg.phenotype, no_addit_disease_features)
 
 
