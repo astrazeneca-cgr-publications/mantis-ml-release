@@ -172,6 +172,9 @@ class Config:
 		self.superv_feat_imp = self.superv_figs_out / 'feature-importance'
 		self.superv_figs_gene_proba = self.superv_figs_out / 'gene_proba_predictions'
 
+		# Hypergeometric enrichment figures per classifier
+		self.hypergeom_figs_out = self.figs_dir / 'hypergeom-enrichment-results'
+
 		# Run steps (remove/add boruta and/or unsupervised steps)
 		self.run_boruta = self.conf['run_steps']['run_boruta']
 		self.run_unsupervised = self.conf['run_steps']['run_unsupervised']
@@ -230,7 +233,7 @@ class Config:
 		dirs = [self.compiled_data_dir, self.out_root, self.out_data_dir, self.figs_dir, 
 			self.processed_data_dir, self.eda_out, self.unsuperv_out, self.unsuperv_figs_out, 
 			self.superv_out, self.superv_pred, self.superv_ranked_pred, self.superv_proba_pred,
-			self.superv_figs_out, self.superv_feat_imp, self.superv_figs_gene_proba,
+			self.superv_figs_out, self.superv_feat_imp, self.superv_figs_gene_proba, self.hypergeom_figs_out,
 			self.benchmark_out, self.boruta_figs_dir, self.feature_selection_dir, self.boruta_tables_dir]
 
 

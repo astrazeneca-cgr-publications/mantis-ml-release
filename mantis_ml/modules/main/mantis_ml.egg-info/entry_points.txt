@@ -1,0 +1,3 @@
+[console_scripts]
+mantisml = mantis_ml.bin.__main__:main
+

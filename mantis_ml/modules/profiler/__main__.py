@@ -236,11 +236,16 @@ class MantisMlProfiler:
 
 
 
-if __name__ == '__main__':
 	
+def main():
+
 	parser = ArgumentParser()
-	parser.add_argument("-c", "--config", dest="config_file", help="config.yaml file with run parameters")
-	parser.add_argument('-v', '--verbosity', action="count", help="print verbose output verbosity (run with -v option)")     
+	parser.add_argument("-c", dest="config_file", help="Config file (.yaml) with run parameters")
+	parser.add_argument('-v', '--verbosity', action="count", help="Print verbose output")     
+
+	if len(sys.argv)==1:
+		parser.print_help(sys.stderr)
+		sys.exit(1)
 
 	args = parser.parse_args()      
 	verbose = bool(args.verbosity)
@@ -248,3 +253,7 @@ if __name__ == '__main__':
 	
 	profiler = MantisMlProfiler(config_file, verbose=verbose)
 	profiler.run_mantis_ml_profiler()
+
+
+if __name__ == '__main__':
+	main()

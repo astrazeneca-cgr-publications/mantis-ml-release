@@ -7,6 +7,8 @@ import glob
 import pandas as pd
 import ntpath
 import pickle
+from argparse import RawTextHelpFormatter
+from mantis_ml.config_class import Config
 from mantis_ml.modules.supervised_learn.pu_learn.pu_learning import PULearning
 from mantis_ml.modules.pre_processing.eda_wrapper import EDAWrapper
 from mantis_ml.modules.pre_processing.feature_table_compiler import FeatureTableCompiler
@@ -14,13 +16,13 @@ from mantis_ml.modules.unsupervised_learn.dimens_reduction_wrapper import Dimens
 from mantis_ml.modules.post_processing.process_classifier_results import ProcessClassifierResults
 from mantis_ml.modules.post_processing.merge_predictions_from_classifiers import MergePredictionsFromClassifiers
 from mantis_ml.modules.supervised_learn.feature_selection.run_boruta import BorutaWrapper
-from mantis_ml.bin.mantis_ml_profiler import MantisMlProfiler
-from mantis_ml.config_class import Config
+
 
 
 class MantisMl:
 
 	def __init__(self, config_file, nthreads=4, iterations=10, include_stacking=False):
+		
 		self.config_file = config_file
 		self.cfg = Config(config_file)
 
@@ -177,24 +179,20 @@ class MantisMl:
 
 
 
-	# ***** hypergeometric enrichemnt test *****
-	def run_enrichment_overlap(self):
-		pass
-
-
 
 
 def main():
 
-	parser = ArgumentParser()
-	parser.add_argument("-c", "--config", dest="config_file", help="config.yaml file with run parameters", required=True)
-	parser.add_argument("-r", "--run", dest="run_tag", choices=['profiler', 'pre', 'boruta', 'pu', 'post', 'post_unsup', 'all'], default='all', help="specify type of analysis to run: profiler, pre, boruta, pu, post, post_unsup or all")
-	parser.add_argument("-n", "--nthreads", dest="nthreads", default=4, help="number of threads")
-	parser.add_argument("-i", "--iterations", dest="iterations", default=10, help="number of stochastic iterations of semi-supervised learning")
-	parser.add_argument("-s", "--stacking", action="count", help="include Stacking in set of classifiers")
-	parser.add_argument('-v', '--verbosity', action="count", help="print verbose output verbosity (run with -v option)")          
+	parser = ArgumentParser(formatter_class=RawTextHelpFormatter)
+	parser.add_argument("-c", dest="config_file", help="Config file (.yaml) with run parameters\n\n", required=True)
+	parser.add_argument("-r", dest="run_tag", choices=['all', 'pre', 'boruta', 'pu', 'post', 'post_unsup'], default='all', help="Specify type of analysis to run (default: all)\n\n")
+	parser.add_argument("-n", dest="nthreads", default=4, help="Number of threads (default: 4)\n\n")
+	parser.add_argument("-i", dest="iterations", default=10, help="Number of stochastic iterations for semi-supervised learning (default: 10)\n\n")
+	parser.add_argument("-s", "--stacking", action="count", help="Include 'Stacking' in set of classifiers\n\n")
 
-
+	if len(sys.argv)==1:
+		parser.print_help(sys.stderr)
+		sys.exit(1)
 
 
 	args = parser.parse_args()
@@ -205,7 +203,6 @@ def main():
 	nthreads = args.nthreads
 	iterations = args.iterations
 	stacking = bool(args.stacking)
-	verbose = bool(args.verbosity)
 
 
 	mantis = MantisMl(config_file, nthreads=nthreads, iterations=iterations, include_stacking=stacking)
@@ -224,14 +221,6 @@ def main():
 		mantis.run_clf_specific_unsupervised_analysis(top_clf)
 	elif run_tag == 'boruta':
 		mantis.run_boruta_algorithm()
-
-	elif run_tag == 'profiler':
-		# ***** Preview selected features *****
-		profiler = MantisMlProfiler(config_file, verbose=verbose)         
-		profiler.run_mantis_ml_profiler()
-
-	elif run_tag == 'overlap':
-		mantis.run_enrichment_overlap()
 
 
 
