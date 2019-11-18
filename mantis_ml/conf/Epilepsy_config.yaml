@@ -1,9 +1,9 @@
 # Required
 Disease/Phenotype terms: epilep, seizure
-Tissues: Brain
+#Tissues: Brain
 Run name: Epilepsy
 
 # Optional
-Additional feature terms: nerve, nervous, neuronal, cerebellum, cerebral, hippocampus, hypothalamus
+Additional feature terms: brain, nerve, nervous, neuronal, cerebellum, cerebral, hippocampus, hypothalamus
 Diseases/Phenotypes to exclude: 
 Genes to highlight: 

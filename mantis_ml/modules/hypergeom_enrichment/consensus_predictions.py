@@ -80,8 +80,8 @@ class Consensus_Gene_Predictions:
 			for top_clf in range(1, len(self.sorted_classifiers)):
 				tmp_clf_subset = self.sorted_classifiers[:top_clf]
 				self.get_consensus_list_and_plot(self.predicted_genes_df, tmp_clf_subset, top_n_clf=True)
-		except:
-			pass
+		except Exception as e:
+			print(e)
 
 
 
