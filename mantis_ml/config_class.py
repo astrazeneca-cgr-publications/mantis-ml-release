@@ -12,6 +12,7 @@ from shutil import copyfile
 import pandas as pd
 from random import randint
 import string
+import ntpath
 
 
 class Config:
@@ -68,6 +69,7 @@ class Config:
 		self.gene_name = self.conf['static']['gene_name']
 
 		self.phenotype = self.get_valid_filename_from_str(self.conf['Run name'])
+		#print('phenotype:', self.phenotype)
 
 		# >> Mandatory input parameters
 		self.seed_include_terms = re.split(list_delim, self.conf['Disease/Phenotype terms'])

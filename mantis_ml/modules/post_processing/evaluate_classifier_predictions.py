@@ -231,7 +231,7 @@ class ClassifierEvaluator:
         self.percentile_df['mantis_ml_perc'] = 100 * self.percentile_df['mantis_ml_proba'].rank(pct=True)
         #print(self.percentile_df.head())
 
-        self.gene_proba_means.to_csv(self.cfg.superv_ranked_pred / (self.clf_id + '.All_genes.Ranked_by_prediction_proba.csv'))
+        self.gene_proba_means.to_csv(self.cfg.superv_ranked_pred / (self.clf_id + '.All_genes.Ranked_by_prediction_proba.csv'), header=False)
         self.percentile_df.to_csv(self.cfg.superv_ranked_pred / (self.clf_id + '.All_genes.mantis-ml_percentiles.csv'))
 
 
@@ -248,7 +248,7 @@ class ClassifierEvaluator:
             known_genes_top_hits = self.known_gene_proba_df.iloc[:, 0:top_hits].columns.values
             self.gene_ranking_boxplot(known_genes_top_hits, 'Known')
         self.known_gene_proba_means = self.known_gene_proba_df.mean(axis=0)
-        self.known_gene_proba_means.to_csv(self.cfg.superv_ranked_pred / (self.clf_id + '.Known_genes.Ranked_by_prediction_proba.csv'))
+        self.known_gene_proba_means.to_csv(self.cfg.superv_ranked_pred / (self.clf_id + '.Known_genes.Ranked_by_prediction_proba.csv'), header=False)
 
 
         # Boxplot for 'Unlabelled' genes
@@ -266,7 +266,7 @@ class ClassifierEvaluator:
             unlabelled_genes_top_hits = self.unlabelled_gene_proba_df.iloc[:, 0:top_hits].columns.values
             self.gene_ranking_boxplot(unlabelled_genes_top_hits, 'Novel')
         self.unlabbeled_gene_proba_means = self.unlabelled_gene_proba_df.mean(axis=0)
-        self.unlabbeled_gene_proba_means.to_csv(self.cfg.superv_ranked_pred / (self.clf_id + '.Novel_genes.Ranked_by_prediction_proba.csv'))
+        self.unlabbeled_gene_proba_means.to_csv(self.cfg.superv_ranked_pred / (self.clf_id + '.Novel_genes.Ranked_by_prediction_proba.csv'), header=False)
 
 
 

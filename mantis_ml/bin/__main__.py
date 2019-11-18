@@ -187,7 +187,7 @@ class MantisMl:
 def main():
 
 	parser = ArgumentParser()
-	parser.add_argument("-c", "--config", dest="config_file", help="config.yaml file with run parameters")
+	parser.add_argument("-c", "--config", dest="config_file", help="config.yaml file with run parameters", required=True)
 	parser.add_argument("-r", "--run", dest="run_tag", choices=['profiler', 'pre', 'boruta', 'pu', 'post', 'post_unsup', 'all'], default='all', help="specify type of analysis to run: profiler, pre, boruta, pu, post, post_unsup or all")
 	parser.add_argument("-n", "--nthreads", dest="nthreads", default=4, help="number of threads")
 	parser.add_argument("-i", "--iterations", dest="iterations", default=10, help="number of stochastic iterations of semi-supervised learning")
