@@ -143,10 +143,6 @@ if __name__ == '__main__':
     config_file = sys.argv[1] #'../../config.yaml'
     cfg = Config(config_file)
 
-    # clf_id = 'ExtraTreesClassifier'
-    # et_novel_genes = pd.read_csv(str(self.cfg.superv_ranked_pred / (clf_id + '.Novel_genes.Ranked_by_prediction_proba.csv')), header=None, index_col=0)
-    # print(et_novel_genes.head())
-    # highlighted_genes = et_novel_genes.head(10).index.values
 
     highlighted_genes = cfg.highlighted_genes
     if len(sys.argv) > 2:

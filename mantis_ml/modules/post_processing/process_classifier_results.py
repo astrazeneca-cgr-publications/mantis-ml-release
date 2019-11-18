@@ -107,6 +107,7 @@ class ProcessClassifierResults():
 		   plt.show()
 	
 		fig.savefig(str(self.cfg.superv_figs_out / 'All_classifiers.AUC_distribution_boxplots.pdf'), bbox_inches='tight')
+		fig.savefig(str(self.cfg.superv_ranked_pred / 'AUC_performance_by_Classifier.pdf'), bbox_inches='tight')
 
 	
 	

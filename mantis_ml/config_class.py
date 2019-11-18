@@ -142,7 +142,7 @@ class Config:
 		# Root Output path
 		self.out_root = Path(self.dir_path + '/../out/' + self.phenotype)
 		print(self.out_root)
-
+		
 		# Root Figs output dir
 		self.figs_dir = self.out_root / "figs"
 
@@ -155,8 +155,11 @@ class Config:
 		# Supervised learning predictions/output folder
 		self.superv_out = self.out_root / 'supervised-learning'
 		self.superv_pred = self.superv_out / 'gene_predictions'
-		self.superv_ranked_pred = self.superv_out / 'ranked_gene_predictions'
 		self.superv_proba_pred = self.superv_out / 'gene_proba_predictions'
+		self.superv_ranked_by_proba = self.superv_out / 'ranked-by-proba_predictions'
+
+		# Gene Predictions per classifier
+		self.superv_ranked_pred = self.out_root / 'Gene-Predictions'
 
 		# Output foldr for classifier benchmarking output
 		self.benchmark_out = self.figs_dir / 'benchmarking'
@@ -206,7 +209,7 @@ class Config:
 		self.kfold = self.conf['supervised_filters']['kfold']
 
 		# randomisation
-		self.random_state = 2018  # randint(1, 100000000)
+		self.random_state = 2018  
 
 		# ============================
 		# Dir with compiled feature tables
@@ -232,9 +235,10 @@ class Config:
 
 		dirs = [self.compiled_data_dir, self.out_root, self.out_data_dir, self.figs_dir, 
 			self.processed_data_dir, self.eda_out, self.unsuperv_out, self.unsuperv_figs_out, 
-			self.superv_out, self.superv_pred, self.superv_ranked_pred, self.superv_proba_pred,
-			self.superv_figs_out, self.superv_feat_imp, self.superv_figs_gene_proba, self.hypergeom_figs_out,
-			self.benchmark_out, self.boruta_figs_dir, self.feature_selection_dir, self.boruta_tables_dir]
+			self.superv_out, self.superv_pred, self.superv_ranked_pred, self.superv_ranked_by_proba, 
+			self.superv_proba_pred, self.superv_figs_out, self.superv_feat_imp, self.superv_figs_gene_proba, 
+			self.hypergeom_figs_out, self.benchmark_out, self.boruta_figs_dir, self.feature_selection_dir, 
+			self.boruta_tables_dir]
 
 
 		for d in dirs:

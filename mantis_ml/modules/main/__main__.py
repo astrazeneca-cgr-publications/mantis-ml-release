@@ -119,7 +119,7 @@ class MantisMl:
 					highlighted_genes = self.cfg.highlighted_genes
 			else:
 				top_genes_num = 40
-				novel_genes = pd.read_csv(str(self.cfg.superv_ranked_pred / (clf_id + '.Novel_genes.Ranked_by_prediction_proba.csv')), header=None, index_col=0)
+				novel_genes = pd.read_csv(str(self.cfg.superv_ranked_by_proba / (clf_id + '.Novel_genes.Ranked_by_prediction_proba.csv')), header=None, index_col=0)
 				highlighted_genes = novel_genes.head(top_genes_num).index.values
 
 			dim_reduct_wrapper = DimensReductionWrapper(self.cfg, data, highlighted_genes, recalc)

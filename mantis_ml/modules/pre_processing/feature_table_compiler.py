@@ -1,4 +1,5 @@
 import sys
+import re
 import pandas as pd
 from mantis_ml.modules.pre_processing.data_compilation import (process_generic_features,
                                                                process_features_filtered_by_disease,
@@ -35,8 +36,17 @@ class FeatureTableCompiler:
         # TODO: Look in to missing data ratios of disease-specific features
         # disease specific only
         if self.cfg.include_disease_features:
-            no_addit_disease_features = 'Invalid phenotype for additional features'
-            disease_specific_func = self.disease_specific_compiler.get(self.cfg.phenotype, no_addit_disease_features)
+            no_addit_disease_features = 'No additional ad-hoc features found for current phenotype'
+
+            self.simplified_phenotype = self.cfg.phenotype
+            # CKD-specific features
+            if any(re.findall(r'CKD|Kidney', self.cfg.phenotype, re.IGNORECASE)):
+                self.simplified_phenotype = 'CKD'
+            # Cardiovascular disease-specific features
+            if any(re.findall(r'Heart|Cardio|Stroke', self.cfg.phenotype, re.IGNORECASE)):
+                self.simplified_phenotype = 'CardioV'
+
+            disease_specific_func = self.disease_specific_compiler.get(self.simplified_phenotype, no_addit_disease_features)
 
 
             if disease_specific_func != no_addit_disease_features:
@@ -61,7 +71,7 @@ class FeatureTableCompiler:
         # read compiled disease specific features
         if self.cfg.include_disease_features:
             try:
-                disease_specific_file = self.disease_specific_feature_files[self.cfg.phenotype]
+                disease_specific_file = self.disease_specific_feature_files[self.simplified_phenotype]
                 disease_specific_df = pd.read_csv(disease_specific_file, sep='\t')
                 print(disease_specific_df.shape)
 
@@ -244,7 +254,6 @@ class FeatureTableCompiler:
 
         # merge all tables
         self.combine_all_feature_tables()
-
 
         # check for missing data
         missing_data = self.inspect_missing_data(self.full_features_df, verbose=True)

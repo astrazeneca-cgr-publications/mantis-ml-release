@@ -29,7 +29,7 @@ class Consensus_Gene_Predictions:
 
 	def init_dirs(self):
 		self.base_enrichment_dir = str(self.cfg.hypergeom_figs_out)
-		self.consensus_predictions_dir = str(self.cfg.out_root / 'Consensus-of-Gene-Predictions-From-Enrichment-Test')
+		self.consensus_predictions_dir = str(self.cfg.out_root / 'Consensus-Gene-Predictions-From-Enrichment-Test')
 		if not os.path.exists(self.consensus_predictions_dir):
 			os.makedirs(self.consensus_predictions_dir)
 	
