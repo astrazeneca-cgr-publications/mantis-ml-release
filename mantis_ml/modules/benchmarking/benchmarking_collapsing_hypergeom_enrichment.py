@@ -108,7 +108,6 @@ class CollapsingMantisMlOverlap:
 			collapsing_df.to_csv(shuffle_file_path)
    
 		print(collapsing_df.head())
-		sys.exit()
 
 
 		return collapsing_df
@@ -438,7 +437,10 @@ if __name__ == '__main__':
 		all_clf = {}
 
 
-	classifiers = ['ExtraTreesClassifier', 'RandomForestClassifier', 'GradientBoostingClassifier', 'SVC', 'XGBoost', 'DNN', 'Stacking']
+
+	classifiers = list(all_clf.keys()) # ['ExtraTreesClassifier', 'RandomForestClassifier', 'GradientBoostingClassifier', 'SVC', 'XGBoost', 'DNN', 'Stacking']
+	print(classifiers)
+
 	if run_external_benchmark:
 		classifiers = ['XGBoost']
 
@@ -452,7 +454,7 @@ if __name__ == '__main__':
 
 	# ============== Hypergeometric test parameters ==============
 	# >>> For CKD - JASN 2019
-	if cfg.phenotype == 'CKD':
+	if 'CKD' in cfg.phenotype:
 		analysis_types = ['v-AURORA-CUMC-all_dom_ultrarare_OO',
 				  'i-all_AURORA_dom_rare_syn', 
 				  'i-all_AURORA_dom_rare_missense', 
@@ -463,13 +465,14 @@ if __name__ == '__main__':
 
 
 	# # >>> For Epilepsy-LancetNeurology_2017
-	if cfg.phenotype == 'Epilepsy':
+	if 'Epilepsy' in cfg.phenotype:
+		print('Found Epilepsy!')
 		analysis_types = ['primary', 'synonymous', 'common', 'shuffle']
 		input_dir = 'Epilepsy-LancetNeurology_2017'
 		disease = 'GGE' # GGE, NAFE
 
 	# >>> For ALS
-	if cfg.phenotype == 'ALS':
+	if 'ALS' in cfg.phenotype:
 		input_dir = 'ALS_Science_2015'
 		analysis_types = ['Dom_LoF', 'Dom_coding', 'Dom_not_benign', 'Rec_coding', 'shuffle'] 
 		disease = 'ALS'
