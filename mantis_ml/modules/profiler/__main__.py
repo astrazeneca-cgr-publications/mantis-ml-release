@@ -240,7 +240,7 @@ class MantisMlProfiler:
 def main():
 
 	parser = ArgumentParser()
-	parser.add_argument("-c", dest="config_file", help="Config file (.yaml) with run parameters")
+	parser.add_argument("-c", dest="config_file", required=True, help="Config file (.yaml) with run parameters [Required]")
 	parser.add_argument('-v', '--verbosity', action="count", help="Print verbose output")     
 
 	if len(sys.argv)==1:

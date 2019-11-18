@@ -8,21 +8,12 @@ import pandas as pd
 import ntpath
 import pickle
 from argparse import RawTextHelpFormatter
-from mantis_ml.config_class import Config
-from mantis_ml.modules.supervised_learn.pu_learn.pu_learning import PULearning
-from mantis_ml.modules.pre_processing.eda_wrapper import EDAWrapper
-from mantis_ml.modules.pre_processing.feature_table_compiler import FeatureTableCompiler
-from mantis_ml.modules.unsupervised_learn.dimens_reduction_wrapper import DimensReductionWrapper
-from mantis_ml.modules.post_processing.process_classifier_results import ProcessClassifierResults
-from mantis_ml.modules.post_processing.merge_predictions_from_classifiers import MergePredictionsFromClassifiers
-from mantis_ml.modules.supervised_learn.feature_selection.run_boruta import BorutaWrapper
-
-
 
 class MantisMl:
 
 	def __init__(self, config_file, nthreads=4, iterations=10, include_stacking=False):
 		
+		from mantis_ml.config_class import Config
 		self.config_file = config_file
 		self.cfg = Config(config_file)
 
@@ -63,6 +54,17 @@ class MantisMl:
 	def run(self, clf_id=None, final_level_classifier='DNN', run_feature_compiler=False, run_eda=False, run_pu=False,
 				  run_aggregate_results=False, run_merge_results=False,
 				  run_boruta=False, run_unsupervised=False):
+
+		# *** Load required modules ***
+		from mantis_ml.modules.supervised_learn.pu_learn.pu_learning import PULearning
+		from mantis_ml.modules.pre_processing.eda_wrapper import EDAWrapper
+		from mantis_ml.modules.pre_processing.feature_table_compiler import FeatureTableCompiler
+		from mantis_ml.modules.unsupervised_learn.dimens_reduction_wrapper import DimensReductionWrapper
+		from mantis_ml.modules.post_processing.process_classifier_results import ProcessClassifierResults
+		from mantis_ml.modules.post_processing.merge_predictions_from_classifiers import MergePredictionsFromClassifiers
+		from mantis_ml.modules.supervised_learn.feature_selection.run_boruta import BorutaWrapper
+
+
 
 		# ========= Compile feature table =========
 		if run_feature_compiler:
@@ -184,7 +186,7 @@ class MantisMl:
 def main():
 
 	parser = ArgumentParser(formatter_class=RawTextHelpFormatter)
-	parser.add_argument("-c", dest="config_file", help="Config file (.yaml) with run parameters\n\n", required=True)
+	parser.add_argument("-c", dest="config_file", help="Config file (.yaml) with run parameters [Required]\n\n", required=True)
 	parser.add_argument("-r", dest="run_tag", choices=['all', 'pre', 'boruta', 'pu', 'post', 'post_unsup'], default='all', help="Specify type of analysis to run (default: all)\n\n")
 	parser.add_argument("-n", dest="nthreads", default=4, help="Number of threads (default: 4)\n\n")
 	parser.add_argument("-i", dest="iterations", default=10, help="Number of stochastic iterations for semi-supervised learning (default: 10)\n\n")

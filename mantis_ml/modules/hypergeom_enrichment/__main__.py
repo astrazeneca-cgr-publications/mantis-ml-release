@@ -6,6 +6,7 @@ from scipy.stats import hypergeom
 import pandas as pd
 import numpy as np
 import pickle
+from argparse import RawTextHelpFormatter
 pd.set_option('display.max_rows', 400)
 pd.set_option('display.max_columns', 10)
 import sys, os
@@ -245,17 +246,17 @@ class ExternalRankingOverlap:
 
 def main():
 
-	parser = ArgumentParser()
+	parser = ArgumentParser(formatter_class=RawTextHelpFormatter)
 	parser.add_argument("-c", dest="config_file", required=True,
 			    help="Config file (.yaml) with run parameters\n\n")
 	parser.add_argument("-e", dest="external_ranked_file", required=True,
-			    help="Input file with external ranked gene list (either single-column or with an additional p-value based 2nd column\n\n")
+			    help="Input file with external ranked gene list;\neither 1-column or 2-columns (with p-values in the 2nd column)\n\n")
 	parser.add_argument("-t", dest="top_ratio", required=False, default=5,
-			    help="Top percent ratio of mantis-ml predictions to overlap with the external ranked list (default: 5)\n\n")
+			    help="Top percent ratio of mantis-ml predictions\nto overlap with the external ranked list (default: 5)\n\n")
 	parser.add_argument("-m", dest="max_overlapping_genes", required=False, default=50,
-			    help="Max. number of genes to retain that overlap mantis-ml and external ranked list predictions (default: 50)\n\n")
+			    help="Max. number of genes to retain that overlap\nmantis-ml and EXTERNAL_RANKED_FILE predictions (default: 50)\n\n")
 	parser.add_argument("-f", "--full_xaxis", action="count", required=False,
-			    help="Plot enrichment signal across the entire x-axis and not just for the significant part (or the MAX_OVERLAPPING_GENES) of the external ranked list\n\n")
+			    help="Plot enrichment signal across the entire x-axis\nand not just for the significant part (or the MAX_OVERLAPPING_GENES)\nof the external ranked list\n\n")
 	
 	if len(sys.argv)==1:
 		parser.print_help(sys.stderr)     
