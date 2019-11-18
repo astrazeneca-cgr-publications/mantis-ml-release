@@ -29,7 +29,7 @@ class Consensus_Gene_Predictions:
 
 	def init_dirs(self):
 		self.base_enrichment_dir = str(self.cfg.hypergeom_figs_out)
-		self.consensus_predictions_dir = str(self.cfg.out_root / 'Consensus-Gene-Predictions-From-Enrichment-Test')
+		self.consensus_predictions_dir = str(self.cfg.out_root / 'Consensus-Gene-Predictions-From-Overlap')
 		if not os.path.exists(self.consensus_predictions_dir):
 			os.makedirs(self.consensus_predictions_dir)
 	
@@ -69,16 +69,19 @@ class Consensus_Gene_Predictions:
 	def run(self):
 
 		self.init_dirs()
-		self.compile_predicted_genes_df()
+		try:
+			self.compile_predicted_genes_df()
 
-		# The 1st classifier in clf_subset should be the one with best overlap performance
-		for relaxation in range(len(self.sorted_classifiers)-1):
-			self.get_consensus_list_and_plot(self.predicted_genes_df, self.sorted_classifiers, relaxation=relaxation)
+			# The 1st classifier in clf_subset should be the one with best overlap performance
+			for relaxation in range(len(self.sorted_classifiers)-1):
+				self.get_consensus_list_and_plot(self.predicted_genes_df, self.sorted_classifiers, relaxation=relaxation)
 
 
-		for top_clf in range(1, len(self.sorted_classifiers)):
-			tmp_clf_subset = self.sorted_classifiers[:top_clf]
-			self.get_consensus_list_and_plot(self.predicted_genes_df, tmp_clf_subset, top_n_clf=True)
+			for top_clf in range(1, len(self.sorted_classifiers)):
+				tmp_clf_subset = self.sorted_classifiers[:top_clf]
+				self.get_consensus_list_and_plot(self.predicted_genes_df, tmp_clf_subset, top_n_clf=True)
+		except:
+			pass
 
 
 
@@ -111,6 +114,7 @@ class Consensus_Gene_Predictions:
 		for i in range(len(df.columns)):
 			clf = df.columns.values[i]
 			x_coord = [(p + (width * i)) for p in pos]
+
 			plt.bar(x_coord, df[clf].values, width, alpha=0.5, color=self.color_palette[clf], label=clf)
 
 		ax.set_ylabel('mantis-ml percentile score')
@@ -145,8 +149,10 @@ class Consensus_Gene_Predictions:
 		
 		# read gene mantis-ml scores per classifier
 		for clf in clf_subset:
-			tmp_mantis_ml_file = str(self.cfg.superv_ranked_pred / (clf + '.All_genes.mantis-ml_percentiles.csv'))  
+			tmp_mantis_ml_file = str(self.cfg.superv_ranked_pred / (clf + '.mantis-ml_predictions.csv'))  
 			tmp_mantis_df = pd.read_csv(tmp_mantis_ml_file, header=0, index_col=0)
+			if 'known_gene' in tmp_mantis_df.columns:
+				tmp_mantis_df.drop(['known_gene'], axis=1, inplace=True)
 			tmp_mantis_df = tmp_mantis_df.rename(columns={'mantis_ml_perc': clf}) 
 			tmp_mantis_df.drop(['mantis_ml_proba'], axis=1, inplace=True)
 
@@ -195,7 +201,6 @@ class Consensus_Gene_Predictions:
 
 		cons_df = self.find_consensus_from_selected_classifiers(clf_subset, df, relaxation=relaxation)
 		self.plot_grouped_barplot(cons_df, out_dir, relaxation=relaxation, width=width)
-
 
 		print('\n> ' + ', '.join(clf_subset) + ':')
 

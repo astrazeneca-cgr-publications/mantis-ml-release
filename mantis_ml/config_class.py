@@ -144,7 +144,7 @@ class Config:
 		print(self.out_root)
 		
 		# Root Figs output dir
-		self.figs_dir = self.out_root / "figs"
+		self.figs_dir = self.out_root / "Output-Figures"
 
 		# Output dir to store processed feature tables
 		self.processed_data_dir = self.out_root / "processed-feature-tables"
