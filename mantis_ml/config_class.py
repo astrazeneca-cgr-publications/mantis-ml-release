@@ -22,6 +22,10 @@ class Config:
 		self.output_dir = output_dir
 		self.verbose = verbose
 
+
+		# remove any tralining '/' from output dir
+		self.output_dir = re.sub(r"\/$", "", self.output_dir)
+
 		# Read static .config YAML file
 		static_config_file = Path(self.config_dir_path + '/conf/.config')  
 		with open(static_config_file, 'r') as ymlfile:

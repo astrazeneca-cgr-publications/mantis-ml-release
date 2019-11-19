@@ -352,7 +352,7 @@ def main():
 
 	# Get consensus of novel (and known) gene predictions
 	for gene_class in ['Novel', 'Known']:
-		cons_obj = Consensus_Gene_Predictions(config_file, top_ratio, gene_class)
+		cons_obj = Consensus_Gene_Predictions(config_file, output_dir, top_ratio, gene_class)
 		cons_obj.run()
 
 

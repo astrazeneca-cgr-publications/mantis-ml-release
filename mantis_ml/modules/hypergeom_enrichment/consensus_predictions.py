@@ -10,13 +10,14 @@ from mantis_ml.config_class import Config
 
 class Consensus_Gene_Predictions:
 
-	def __init__(self, config_file, top_ratio, gene_class):
+	def __init__(self, config_file, output_dir, top_ratio, gene_class):
 
 		self.config_file = config_file
+		self.output_dir = output_dir
 		self.top_ratio = top_ratio	 #0.01, 0.05
 		self.gene_class = gene_class	# Novel or Known
 	
-		self.cfg = Config(config_file)
+		self.cfg = Config(config_file, self.output_dir)
 		self.sorted_classifiers = self.read_sorted_classifers()
 
 
