@@ -1,8 +1,7 @@
 # Required
 Disease/Phenotype terms: epilep, seizure
-Run name: Epilepsy
+Output directory name: Epilepsy
 
 # Optional
 Additional associated terms: brain, nerve, nervous, neuronal, cerebellum, cerebral, hippocampus, hypothalamus
 Diseases/Phenotypes to exclude: 
-Genes to highlight: 

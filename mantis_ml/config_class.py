@@ -68,13 +68,17 @@ class Config:
 		self.Y = self.conf['static']['Y_label']
 		self.gene_name = self.conf['static']['gene_name']
 
-		self.phenotype = self.get_valid_filename_from_str(self.conf['Run name'])
-		#print('phenotype:', self.phenotype)
 
 		# >> Mandatory input parameters
+		if self.conf['Disease/Phenotype terms'] is None:
+			sys.exit("\n[Error] Please provide 'Disease/Phenotype terms' in input config file and re-run.")
+		if self.conf['Output directory name'] is None:
+			sys.exit("\n[Error] Please provide 'Output directory name' in input config file and re-run.")
 		self.seed_include_terms = re.split(list_delim, self.conf['Disease/Phenotype terms'])
+		self.phenotype = self.get_valid_filename_from_str(self.conf['Output directory name'])
+		
 
-		# Read tissues of interest
+		# [Deprecated] Read tissues of interest
 		#if self.conf['Tissues'] is None:
 		#	self.tissues = None
 		#	self.tissue = None
@@ -102,7 +106,7 @@ class Config:
 			self.additional_include_terms = re.split(list_delim, self.additional_include_terms)
 
 		# Genes to highlight on plots
-		self.highlighted_genes = self.conf['Genes to highlight']
+		self.highlighted_genes = None # self.conf['Genes to highlight'] -- TODO: include it in next release
 		if self.highlighted_genes is None:
 			self.highlighted_genes = []
 		else:
@@ -110,10 +114,8 @@ class Config:
 
 		
 		if self.verbose:
-			print('Run name:', self.phenotype)
+			print('Output dirname:', self.phenotype)
 			print('Disease/Phenotype terms:', self.seed_include_terms)
-			#print('Primary tissue:', self.tissue)
-			#print('Additional tissues:', self.additional_tissues)
 			print('\nDiseases/Phenotypes to exclude:', self.exclude_terms)
 			print('Additional associated terms:', self.additional_include_terms)
 			print('Genes to highlight:', self.highlighted_genes)

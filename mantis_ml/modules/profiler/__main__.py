@@ -123,7 +123,7 @@ class MantisMlProfiler:
 		protatlas_include_terms.extend(cfg.additional_include_terms)
 
 		self.blockPrint()
-		prot_atlas_df, selected_normal_tissues, all_normal_tissues,  selected_rna_samples, all_rna_samples = proc_obj.process_protein_atlas_features(protatlas_include_terms, cfg.exclude_terms)
+		prot_atlas_df, selected_normal_tissues, all_normal_tissues, selected_rna_samples, all_rna_samples = proc_obj.process_protein_atlas_features(protatlas_include_terms, cfg.exclude_terms)
 		self.enablePrint()
 
 		if self.verbose:
