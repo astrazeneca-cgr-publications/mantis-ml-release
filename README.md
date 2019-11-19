@@ -56,28 +56,26 @@ conda activate mantis_ml			# activate the newly created conda environment
 python setup.py install
 ```
 
+<br>
+
 ---
 
-You can now call the following scripts from the command line:
-- **mantisml**: run mantis-ml gene prioritisation based on a provided config file (.yaml)
-- **mantisml-preview**: preview selected phenotypes and features based on a provided config file
-- **mantisml-overlap**: run enrichment test between mantis-ml predictions and an external ranked gene list to get refined gene predictions
+You may now call the following scripts from the command line:
+- **`mantisml`**: run mantis-ml gene prioritisation based on a provided config file (.yaml)
+- **`mantisml-preview`**: preview selected phenotypes and features based on a provided config file
+- **`mantisml-overlap`**: run enrichment test between mantis-ml predictions and an external ranked gene list to get refined gene predictions
 
 Run each command with `-h` to see all available options.
 <br><br>
 
----
-<br>
 
 
 Run
 ===
 
-### Input config file
-
-You need to create a config file containing information about the diseases/phenotypes of interest.
-<br>
-**Required parameters**:
+You need to create a config file (`.yaml`) containing information about the diseases/phenotypes of interest.
+<br><br>
+**Required parameter**:
 <br>
 `Disease/Phenotype terms`: terms that characterise a phenotype or disease of interest
 
@@ -102,7 +100,6 @@ Additional associated terms:
 Diseases/Phenotypes to exclude: adrenal
 ```
 
-
 Other example config files can be found under `mantis-ml/conf`. 
 
 <br>
@@ -111,9 +108,9 @@ Other example config files can be found under `mantis-ml/conf`.
 
 
 ## `mantisml`
-You need to provide a config file (.yaml) and an output directory. 
+You need to provide a config file (`.yaml`) and an output directory. 
 <br>
-You may also define the number of threads to use (-n option; default value: 4).
+You may also define the number of threads to use (`-n` option; default value: 4).
 ```
 mantisml -c [config_file] -o -o [output_dir] [-n nthreads]
 ```
@@ -157,10 +154,18 @@ mantisml-overlap -c [config_file] -o [output_dir] -e [external_ranked_file]
 ```
 
 #### `mantisml-overlap` Output
-Results are available under `[output_dir]/Overlap-Enrichment-Results`.
+Results are available under **`[output_dir]/Overlap-Enrichment-Results`**.
 
-- `mantisml-overlap` generates figures with the enrichment signal between mantis-ml predictions and the external ranked file, based on a hypergeometric test. These can be found under: `Overlap-Enrichment-Results/hypergeom-enrichment-figures`
+- `mantisml-overlap` generates figures with the enrichment signal between mantis-ml predictions and the external ranked file, based on a hypergeometric test. 
 
-- `mantisml-overlap` also extracts consensus gene predictions with support by multiple classifiers. Results can be found at `Overlap-Enrichment-Results/Gene-Predictions-After-Overlap/`.
+<br>
+
+These can be found under: **`Overlap-Enrichment-Results/hypergeom-enrichment-figures`**.
+
+- `mantisml-overlap` also extracts consensus gene predictions with support by multiple classifiers. 
+
+<br>
+
+Results can be found at **`Overlap-Enrichment-Results/Gene-Predictions-After-Overlap`**.
 
 
