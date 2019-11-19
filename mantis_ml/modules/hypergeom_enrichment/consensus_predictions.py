@@ -29,7 +29,7 @@ class Consensus_Gene_Predictions:
 
 	def init_dirs(self):
 		self.base_enrichment_dir = str(self.cfg.hypergeom_figs_out)
-		self.consensus_predictions_dir = str(self.cfg.out_root / 'Consensus-Gene-Predictions-From-Overlap')
+		self.consensus_predictions_dir = str(self.cfg.overlap_gene_predictions)
 		if not os.path.exists(self.consensus_predictions_dir):
 			os.makedirs(self.consensus_predictions_dir)
 	
@@ -81,7 +81,7 @@ class Consensus_Gene_Predictions:
 				tmp_clf_subset = self.sorted_classifiers[:top_clf]
 				self.get_consensus_list_and_plot(self.predicted_genes_df, tmp_clf_subset, top_n_clf=True)
 		except Exception as e:
-			print(e)
+			pass
 
 
 

@@ -175,8 +175,11 @@ class Config:
 		self.superv_feat_imp = self.superv_figs_out / 'feature-importance'
 		self.superv_figs_gene_proba = self.superv_figs_out / 'gene_proba_predictions'
 
-		# Hypergeometric enrichment figures per classifier
-		self.hypergeom_figs_out = self.figs_dir / 'hypergeom-enrichment-results'
+		# Overlap Results (from hypergeometric enrichment) 
+		# figures per classifier
+		self.overlap_out_dir = self.out_root / 'Overlap-Enrichment-Results'
+		self.hypergeom_figs_out = self.overlap_out_dir / 'hypergeom-enrichment-figures'
+		self.overlap_gene_predictions = self.overlap_out_dir / 'Gene-Predictions-After-Overlap'
 
 		# Run steps (remove/add boruta and/or unsupervised steps)
 		self.run_boruta = self.conf['run_steps']['run_boruta']
@@ -237,8 +240,8 @@ class Config:
 			self.processed_data_dir, self.eda_out, self.unsuperv_out, self.unsuperv_figs_out, 
 			self.superv_out, self.superv_pred, self.superv_ranked_pred, self.superv_ranked_by_proba, 
 			self.superv_proba_pred, self.superv_figs_out, self.superv_feat_imp, self.superv_figs_gene_proba, 
-			self.hypergeom_figs_out, self.benchmark_out, self.boruta_figs_dir, self.feature_selection_dir, 
-			self.boruta_tables_dir]
+			self.overlap_out_dir, self.hypergeom_figs_out, self.overlap_gene_predictions, self.benchmark_out, 
+			self.boruta_figs_dir, self.feature_selection_dir, self.boruta_tables_dir]
 
 
 		for d in dirs:

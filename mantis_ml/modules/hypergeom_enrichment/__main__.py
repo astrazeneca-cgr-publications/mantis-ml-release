@@ -26,12 +26,13 @@ clf_alias = {'ExtraTreesClassifier': 'ET', 'SVC': 'SVC', 'DNN': 'DNN', 'RandomFo
 
 class ExternalRankingOverlap:
 
-	def __init__(self, cfg, clf_str, seed_genes, top_ratio=0.05, max_overlapping_genes=50, show_full_xaxis=False):
+	def __init__(self, cfg, clf_str, seed_genes, top_ratio=0.05, max_overlapping_genes=50, show_full_xaxis=False, ylim=None):
 		self.cfg = cfg
 		self.clf_str = clf_str
 		self.seed_genes = seed_genes
 		self.top_ratio = top_ratio
 		self.max_overlapping_genes = max_overlapping_genes
+		self.ylim = ylim
 		self.show_full_xaxis = show_full_xaxis
 
 		print('top_ratio:', self.top_ratio)
@@ -222,8 +223,8 @@ class ExternalRankingOverlap:
 		ax.legend(bbox_to_anchor=(1.32, 1), fontsize=12, loc='upper right', framealpha =0.6)
 		if not self.show_full_xaxis:
 			ax.set_xlim(0, max_x_lim * 1.5)
-			#dataset_ylim = 60 
-			#ax.set_ylim(0, dataset_ylim[disease])
+			if self.ylim:
+				ax.set_ylim(0, self.ylim)
 
 
 
@@ -255,6 +256,8 @@ def main():
 			    help="Top percent ratio of mantis-ml predictions\nto overlap with the external ranked list (default: 5)\n\n")
 	parser.add_argument("-m", dest="max_overlapping_genes", required=False, default=50,
 			    help="Max. number of genes to retain that overlap\nmantis-ml and EXTERNAL_RANKED_FILE predictions (default: 50)\n\n")
+	parser.add_argument("-y", dest="ylim", required=False,
+			    help="Explicitly define y-axis max. limit (PHRED score value)\n\n")
 	parser.add_argument("-f", "--full_xaxis", action="count", required=False,
 			    help="Plot enrichment signal across the entire x-axis\nand not just for the significant part (or the MAX_OVERLAPPING_GENES)\nof the external ranked list\n\n")
 	
@@ -269,12 +272,17 @@ def main():
 	external_ranked_file = args.external_ranked_file
 	top_ratio = float(args.top_ratio) / 100
 	max_overlapping_genes = int(args.max_overlapping_genes)
+	ylim = None
+	if args.ylim:
+		ylim = float(args.ylim)
 	show_full_xaxis = bool(args.full_xaxis)
 
 	print("\nInput arguments:\n")
 	print('- config_file:', config_file)
 	print('- external_ranked_file:', external_ranked_file)
 	print('- top_ratio:', str(100 * top_ratio) + '%')
+	print('-max_overlapping_genes (if applicable):', max_overlapping_genes)
+	print('-ylim:', ylim)
 	print('- show_full_xaxis:', show_full_xaxis)
 	print("\n")
 	# ***************************
@@ -330,7 +338,7 @@ def main():
 		print('\n> Classifier: ' + clf_str)
 		print('Overlapping with top ' + str(float(top_ratio) * 100) + '% of ' + clf_str + ' predictions ...')
 		
-		rank_overlap = ExternalRankingOverlap(cfg, clf_str, seed_genes, top_ratio=top_ratio, max_overlapping_genes=max_overlapping_genes, show_full_xaxis=show_full_xaxis)
+		rank_overlap = ExternalRankingOverlap(cfg, clf_str, seed_genes, top_ratio=top_ratio, max_overlapping_genes=max_overlapping_genes, show_full_xaxis=show_full_xaxis, ylim=ylim)
 
 		rank_overlap.read_external_ranked_gene_list(external_ranked_file)
 		print(rank_overlap.external_ranked_df.head())
