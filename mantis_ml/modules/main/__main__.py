@@ -27,7 +27,8 @@ class MantisMl:
 		print('Stochastic iterations:', self.cfg.iterations)
 		print('Classifiers:', self.cfg.classifiers)
 
-
+		# Run profiler and store results to ouput dir	
+		os.system("mantisml-profiler -vc " + config_file + " > " + str(self.cfg.out_root) + "/profiler_metadata.out")
 
 
 

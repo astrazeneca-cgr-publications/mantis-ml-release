@@ -73,6 +73,8 @@ class MantisMlProfiler:
 			count_hpo_terms = Counter(hpo_selected_terms_expanded)
 			print('\n' + u'\u2022' + ' Most common strings in filtered HPO phenotype terms:')
 			for s, count in count_hpo_terms.most_common():
+				if count == 1:
+					continue
 				print(s + ':', count)
 
 
