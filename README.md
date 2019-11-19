@@ -58,7 +58,6 @@ python setup.py install
 
 <br>
 
----
 
 You may now call the following scripts from the command line:
 - **`mantisml`**: run mantis-ml gene prioritisation based on a provided config file (.yaml)
@@ -66,6 +65,11 @@ You may now call the following scripts from the command line:
 - **`mantisml-overlap`**: run enrichment test between mantis-ml predictions and an external ranked gene list to get refined gene predictions
 
 Run each command with `-h` to see all available options.
+
+<br> 
+
+---
+
 <br><br>
 
 
