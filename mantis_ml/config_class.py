@@ -17,8 +17,9 @@ import ntpath
 
 class Config:
 
-	def __init__(self, config_file, verbose=False): 
+	def __init__(self, config_file, output_dir, verbose=False): 
 		self.config_dir_path = os.path.dirname(os.path.realpath(__file__))
+		self.output_dir = output_dir
 		self.verbose = verbose
 
 		# Read static .config YAML file
@@ -29,6 +30,7 @@ class Config:
 			print('\n> Static config:')
 			for k,v in static_conf.items():
 				print(k+':\t', v)
+
 
 
 		# Read input config YAML file
@@ -72,10 +74,13 @@ class Config:
 		# >> Mandatory input parameters
 		if self.conf['Disease/Phenotype terms'] is None:
 			sys.exit("\n[Error] Please provide 'Disease/Phenotype terms' in input config file and re-run.")
-		if self.conf['Output directory name'] is None:
-			sys.exit("\n[Error] Please provide 'Output directory name' in input config file and re-run.")
 		self.seed_include_terms = re.split(list_delim, self.conf['Disease/Phenotype terms'])
-		self.phenotype = self.get_valid_filename_from_str(self.conf['Output directory name'])
+		
+		#if self.conf['Output directory name'] is None:
+		#	sys.exit("\n[Error] Please provide 'Output directory name' in input config file and re-run.")
+		#self.phenotype = self.get_valid_filename_from_str(self.conf['Output directory name'])
+		self.phenotype = self.get_valid_filename_from_str(ntpath.basename(self.output_dir))
+		print('Phenotype/Output dir:', self.phenotype)
 		
 
 		# [Deprecated] Read tissues of interest
@@ -114,7 +119,7 @@ class Config:
 
 		
 		if self.verbose:
-			print('Output dirname:', self.phenotype)
+			#print('Output dirname:', self.phenotype)
 			print('Disease/Phenotype terms:', self.seed_include_terms)
 			print('\nDiseases/Phenotypes to exclude:', self.exclude_terms)
 			print('Additional associated terms:', self.additional_include_terms)
@@ -142,7 +147,8 @@ class Config:
 
 		## === DIRS ===
 		# Root Output path
-		self.out_root = Path(self.config_dir_path + '/../out/' + self.phenotype)
+		#self.out_root = Path(self.config_dir_path + '/../out/' + self.phenotype)
+		self.out_root = Path(self.output_dir)
 		print(self.out_root)
 		
 		# Root Figs output dir
@@ -238,7 +244,7 @@ class Config:
 		:return: 
 		'''
 
-		dirs = [self.compiled_data_dir, self.out_root, self.out_data_dir, self.figs_dir, 
+		dirs = [self.out_root, self.compiled_data_dir, self.out_root, self.out_data_dir, self.figs_dir, 
 			self.processed_data_dir, self.eda_out, self.unsuperv_out, self.unsuperv_figs_out, 
 			self.superv_out, self.superv_pred, self.superv_ranked_pred, self.superv_ranked_by_proba, 
 			self.superv_proba_pred, self.superv_figs_out, self.superv_feat_imp, self.superv_figs_gene_proba, 

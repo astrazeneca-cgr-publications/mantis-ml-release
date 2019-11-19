@@ -11,11 +11,13 @@ from argparse import RawTextHelpFormatter
 
 class MantisMl:
 
-	def __init__(self, config_file, nthreads=4, iterations=10, include_stacking=False):
+	def __init__(self, config_file, output_dir, nthreads=4, iterations=10, include_stacking=False):
 		
 		from mantis_ml.config_class import Config
 		self.config_file = config_file
-		self.cfg = Config(config_file)
+		self.output_dir = output_dir
+
+		self.cfg = Config(config_file, self.output_dir)
 
 		# modify default config paramters when provided with respective parameters
 		self.cfg.nthreads = int(nthreads)
@@ -28,7 +30,7 @@ class MantisMl:
 		print('Classifiers:', self.cfg.classifiers)
 
 		# Run profiler and store results to ouput dir	
-		os.system("mantisml-profiler -vc " + config_file + " > " + str(self.cfg.out_root) + "/profiler_metadata.out")
+		os.system("mantisml-profiler -vc " + config_file + " -o " + self.output_dir + " > " + str(self.cfg.out_root) + "/profiler_metadata.out")
 
 
 
@@ -189,6 +191,7 @@ def main():
 
 	parser = ArgumentParser(formatter_class=RawTextHelpFormatter)
 	parser.add_argument("-c", dest="config_file", help="Config file (.yaml) with run parameters [Required]\n\n", required=True)
+	parser.add_argument("-o", dest="output_dir", help="Output directory name\n(absolute/relative path e.g. ./CKD, /tmp/Epilepsy-testing, etc.)\nIf it doesn't exist it will automatically be created [Required]\n\n", required=True)
 	parser.add_argument("-r", dest="run_tag", choices=['all', 'pre', 'boruta', 'pu', 'post', 'post_unsup'], default='all', help="Specify type of analysis to run (default: all)\n\n")
 	parser.add_argument("-n", dest="nthreads", default=4, help="Number of threads (default: 4)\n\n")
 	parser.add_argument("-i", dest="iterations", default=10, help="Number of stochastic iterations for semi-supervised learning (default: 10)\n\n")
@@ -203,13 +206,14 @@ def main():
 	print(args)
 
 	config_file = args.config_file
+	output_dir = args.output_dir
 	run_tag = args.run_tag
 	nthreads = args.nthreads
 	iterations = args.iterations
 	stacking = bool(args.stacking)
 
 
-	mantis = MantisMl(config_file, nthreads=nthreads, iterations=iterations, include_stacking=stacking)
+	mantis = MantisMl(config_file, output_dir, nthreads=nthreads, iterations=iterations, include_stacking=stacking)
 
 
 	if run_tag == 'all':
