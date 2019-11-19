@@ -80,10 +80,14 @@ class MantisMlProfiler:
 	def assess_gtex_filtered_output(self, proc_obj, cfg):
 
 		print(self.line_spacer + "-----------------	Assessing GTEx filtering [config parameters: 'tissue' and 'additional_tissues']	-----------------\n")
-		print("- Provided 'tissue':")
-		print(cfg.tissue)
-		print("\n- Provided 'additional_tissues':")
-		print(cfg.additional_tissues)
+		print("\n- Provided 'seed_include_terms':")
+		print(cfg.seed_include_terms)
+		print("\n- Provided 'additional_include_terms':")
+		print(cfg.additional_include_terms)
+		#print("- Provided 'tissue':")
+		#print(cfg.tissue)
+		#print("\n- Provided 'additional_tissues':")
+		#print(cfg.additional_tissues)
 
 		self.blockPrint()
 		_, selected_tissue_cols, all_tissue_cols = proc_obj.process_gtex_features()
@@ -105,14 +109,15 @@ class MantisMlProfiler:
 
 		print(self.line_spacer + "-----------------	Assessing Protein Atlas filtering [config parameters: 'tissue', 'seed_include_terms', 'additional_include_terms']	-----------------\n")
 		print("- Provided 'tissue':")
-		print(cfg.tissue)
+		#print(cfg.tissue)
 		print("\n- Provided 'seed_include_terms':")
 		print(cfg.seed_include_terms)
 		print("\n- Provided 'additional_include_terms':")
 		print(cfg.additional_include_terms)
 
-		protatlas_include_terms = [cfg.tissue]
-		protatlas_include_terms.extend(cfg.seed_include_terms)
+		#protatlas_include_terms = [cfg.tissue]
+		#protatlas_include_terms.extend(cfg.seed_include_terms)
+		protatlas_include_terms = cfg.seed_include_terms[:]
 		protatlas_include_terms.extend(cfg.additional_include_terms)
 
 		self.blockPrint()
@@ -138,15 +143,16 @@ class MantisMlProfiler:
 
 	def assess_msigdb_filtered_output(self, proc_obj, cfg):
 		print(self.line_spacer + "-----------------	Assessing MSigDB filtering [config parameters: 'tissue', 'seed_include_terms', 'additional_include_terms']	-----------------\n")
-		print("- Provided 'tissue':")
-		print(cfg.tissue)
+		#print("- Provided 'tissue':")
+		#print(cfg.tissue)
 		print("\n- Provided 'seed_include_terms':")
 		print(cfg.seed_include_terms)
 		print("\n- Provided 'additional_include_terms':")
 		print(cfg.additional_include_terms)
 
-		msigdb_include_terms = [cfg.tissue]
-		msigdb_include_terms.extend(cfg.seed_include_terms)
+		#msigdb_include_terms = [cfg.tissue]
+		#msigdb_include_terms.extend(cfg.seed_include_terms)
+		msigdb_include_terms = cfg.seed_include_terms[:]
 		msigdb_include_terms.extend(cfg.additional_include_terms)
 		exclude_terms = cfg.exclude_terms
 
@@ -174,7 +180,7 @@ class MantisMlProfiler:
 		print("\n- Provided 'additional_include_terms':")
 		print(cfg.additional_include_terms)
 
-		mgi_include_terms = cfg.seed_include_terms
+		mgi_include_terms = cfg.seed_include_terms[:]
 		mgi_include_terms.extend(cfg.additional_include_terms)
 
 		self.blockPrint()

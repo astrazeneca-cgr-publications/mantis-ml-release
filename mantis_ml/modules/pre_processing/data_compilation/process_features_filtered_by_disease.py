@@ -89,7 +89,7 @@ class ProcessFeaturesFilteredByDisease(ProcessGenericFeatures):
 		:return: 
 		'''
 		print("\n>> Compiling GTEx features...")
-		all_patterns = self.cfg.seed_include_terms
+		all_patterns = self.cfg.seed_include_terms[:]
 		all_patterns.extend(self.cfg.additional_include_terms)
 		print('All patterns:', all_patterns)
 		
@@ -576,7 +576,7 @@ class ProcessFeaturesFilteredByDisease(ProcessGenericFeatures):
 
 		# GWAS
 		if not self.cfg.generic_classifier:
-			gwas_include_terms = seed_include_terms.copy()
+			gwas_include_terms = seed_include_terms[:]
 			gwas_include_terms.extend(self.cfg.additional_include_terms)
 			pattern_lists = [gwas_include_terms, exclude_terms]
 			print(pattern_lists)
@@ -586,7 +586,7 @@ class ProcessFeaturesFilteredByDisease(ProcessGenericFeatures):
 
 
 		# Protein Atlas
-		protatlas_include_terms = self.cfg.seed_include_terms
+		protatlas_include_terms = self.cfg.seed_include_terms[:]
 		protatlas_include_terms.extend(self.cfg.additional_include_terms)
 
 		prot_atlas_df, _, _, _, _ = self.process_protein_atlas_features(protatlas_include_terms, self.cfg.exclude_terms)
@@ -595,7 +595,7 @@ class ProcessFeaturesFilteredByDisease(ProcessGenericFeatures):
 
 
 		# MSigDB
-		msigdb_include_terms = self.cfg.seed_include_terms
+		msigdb_include_terms = self.cfg.seed_include_terms[:]
 		msigdb_include_terms.extend(self.cfg.additional_include_terms)
 
 		if self.cfg.generic_classifier:
@@ -609,7 +609,7 @@ class ProcessFeaturesFilteredByDisease(ProcessGenericFeatures):
 
 		# MGI
 		if not self.cfg.generic_classifier:
-			mgi_include_terms = seed_include_terms.copy()
+			mgi_include_terms = seed_include_terms[:]
 			mgi_include_terms.extend(self.cfg.additional_include_terms)
 
 			mgi_pheno_df, _ = self.process_mgi_features(mgi_include_terms, exclude_terms)
