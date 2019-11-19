@@ -197,7 +197,8 @@ class ClassifierEvaluator:
 
 		custom_legend_elements = [Patch(facecolor=gene_colors['Known'], edgecolor=None, label='Known genes'),
 								  Patch(facecolor=gene_colors['Novel'], edgecolor=None, label='Novel genes'),
-								  Patch(facecolor=gene_colors['Highlighted'], edgecolor=None, label='Highlighted genes')]
+								  #Patch(facecolor=gene_colors['Highlighted'], edgecolor=None, label='Highlighted genes')
+								  ]
 		ax.legend(handles=custom_legend_elements, bbox_to_anchor=(1.125, 0.55))
 		fig.savefig(str(self.cfg.superv_figs_gene_proba / (
 		self.clf_id + '.' + list_id + '_genes.top_' + str(top_hits) + '.pdf')), bbox_inches='tight')

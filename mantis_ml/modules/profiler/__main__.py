@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from collections import Counter
 from argparse import ArgumentParser
+from argparse import RawTextHelpFormatter
 import sys, os
 import re
 
@@ -11,9 +12,10 @@ from mantis_ml.config_class import Config
 
 class MantisMlProfiler:
 
-	def __init__(self, config_file, verbose=False):
+	def __init__(self, config_file, output_dir, verbose=False):
 
 		self.config_file = config_file
+		self.output_dir = output_dir
 		self.verbose = verbose
 
 		# common strings to exclude from profiling
@@ -217,8 +219,9 @@ class MantisMlProfiler:
 		print('>>> Running mantis-ml config profiling ...')
 		print('verbose:', self.verbose)
 		print('Config file:', self.config_file)
+		print('Output dir:', self.output_dir)
 
-		cfg = Config(self.config_file)
+		cfg = Config(self.config_file, self.output_dir)
 		proc_obj = ProcessFeaturesFilteredByDisease(cfg)
 
 		# HPO
@@ -247,19 +250,21 @@ class MantisMlProfiler:
 	
 def main():
 
-	parser = ArgumentParser()
-	parser.add_argument("-c", dest="config_file", required=True, help="Config file (.yaml) with run parameters [Required]")
-	parser.add_argument('-v', '--verbosity', action="count", help="Print verbose output")     
+	parser = ArgumentParser(formatter_class=RawTextHelpFormatter)
+	parser.add_argument("-c", dest="config_file", required=True, help="Config file (.yaml) with run parameters [Required]\n\n")
+	parser.add_argument("-o", dest="output_dir", help="Output directory name\n(absolute/relative path e.g. ./CKD, /tmp/Epilepsy-testing, etc.)\nIf it doesn't exist it will automatically be created [Required]\n\n", required=True)
+	parser.add_argument('-v', '--verbosity', action="count", help="Print verbose output\n\n")     
 
 	if len(sys.argv)==1:
 		parser.print_help(sys.stderr)
 		sys.exit(1)
 
 	args = parser.parse_args()      
-	verbose = bool(args.verbosity)
 	config_file = args.config_file
+	output_dir = args.output_dir
+	verbose = bool(args.verbosity)
 	
-	profiler = MantisMlProfiler(config_file, verbose=verbose)
+	profiler = MantisMlProfiler(config_file, output_dir, verbose=verbose)
 	profiler.run_mantis_ml_profiler()
 
 

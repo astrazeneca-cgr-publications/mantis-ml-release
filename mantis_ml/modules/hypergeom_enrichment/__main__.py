@@ -249,9 +249,10 @@ def main():
 
 	parser = ArgumentParser(formatter_class=RawTextHelpFormatter)
 	parser.add_argument("-c", dest="config_file", required=True,
-			    help="Config file (.yaml) with run parameters\n\n")
+			    help="Config file (.yaml) with run parameters [Required]\n\n")
+	parser.add_argument("-o", dest="output_dir", help="Output directory name\n(absolute/relative path e.g. ./CKD, /tmp/Epilepsy-testing, etc.)\nIf it doesn't exist it will automatically be created [Required]\n\n", required=True)
 	parser.add_argument("-e", dest="external_ranked_file", required=True,
-			    help="Input file with external ranked gene list;\neither 1-column or 2-columns (with p-values in the 2nd column)\n\n")
+			    help="Input file with external ranked gene list;\neither 1-column or 2-columns (with p-values in the 2nd column) [Required]\n\n")
 	parser.add_argument("-t", dest="top_ratio", required=False, default=5,
 			    help="Top percent ratio of mantis-ml predictions\nto overlap with the external ranked list (default: 5)\n\n")
 	parser.add_argument("-m", dest="max_overlapping_genes", required=False, default=50,
@@ -269,6 +270,7 @@ def main():
 
 
 	config_file = args.config_file
+	output_dir = args.output_dir
 	external_ranked_file = args.external_ranked_file
 	top_ratio = float(args.top_ratio) / 100
 	max_overlapping_genes = int(args.max_overlapping_genes)
@@ -288,7 +290,7 @@ def main():
 	# ***************************
 
 
-	cfg = Config(config_file)
+	cfg = Config(config_file, output_dir)
 
 
 	# Read aggregated results from classifiers
