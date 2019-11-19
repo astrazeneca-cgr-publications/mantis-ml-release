@@ -2,7 +2,6 @@
 
 - [Introduction](#introduction) 
 - [Installation](#installation) 
-- [Input config file](#input-config-file)
 - [Run](#run) 
 
 
@@ -70,8 +69,13 @@ Run each command with `-h` to see all available options.
 ---
 <br>
 
-Input config file
-=================
+
+Run
+===
+
+### Input config file
+
+You need to create a config file containing information about the diseases/phenotypes of interest.
 **Required parameters**:
 <br>
 `Disease/Phenotype terms`: terms that characterise a phenotype or disease of interest
@@ -90,7 +94,6 @@ Disease/Phenotype terms: epileptic, epilepsy, seizure
 Additional associated terms: brain, nerve, nervous, neuronal, cerebellum, cerebral, hippocampus, hypothalamus
 Diseases/Phenotypes to exclude: 
 ```
-
 ```
 # CKD
 Disease/Phenotype terms: renal, kidney, nephro, glomerul, distal tubule 
@@ -103,8 +106,9 @@ Other example config files can be found under `mantis-ml/conf`.
 
 <br>
 
-Run
-===
+
+
+
 ## `mantisml`
 You need to provide a config file (.yaml) and an output directory. You may also define the number of threads to use (-n option; default value: 4).
 ```
