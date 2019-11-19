@@ -53,6 +53,7 @@ setup(	name='mantis_ml',
 				     'modules/supervised_learn/feature_selection/boruta_feature_selection.R',
 				     'conf/.config',
 				     'conf/*']},
+	include_package_data=True,
 	entry_points={'console_scripts': ['mantisml=mantis_ml.modules.main.__main__:main',
 					  'mantisml-profiler=mantis_ml.modules.profiler.__main__:main',
 					  'mantisml-overlap=mantis_ml.modules.hypergeom_enrichment.__main__:main']}
