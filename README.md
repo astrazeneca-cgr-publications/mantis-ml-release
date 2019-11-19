@@ -2,6 +2,7 @@
 
 - [Introduction](#introduction) 
 - [Installation](#installation) 
+- [Input config file](#input-config-file)
 - [Run](#run) 
 
 
@@ -69,11 +70,14 @@ Run each command with `-h` to see all available options.
 ---
 <br>
 
-### Config file
-#### Required parameters:
+Input config file
+=================
+**Required parameters**:
+<br>
 `Disease/Phenotype terms`: terms that characterise a phenotype or disease of interest
 
-#### Optional parameters:
+**Optional parameters**:
+<br>
 `Additional associated terms`: terms used in addition to `Disease/Phenotype terms` to extract disease/phenotype-associated features 
 <br>
 `Diseases/Phenotypes to exclude`: terms to exclude from disease/phenotype characterisation and feature selection
@@ -87,8 +91,6 @@ Additional associated terms: brain, nerve, nervous, neuronal, cerebellum, cerebr
 Diseases/Phenotypes to exclude: 
 ```
 
-<br>
-
 ```
 # CKD
 Disease/Phenotype terms: renal, kidney, nephro, glomerul, distal tubule 
@@ -99,7 +101,7 @@ Diseases/Phenotypes to exclude: adrenal
 
 Other example config files can be found under `mantis-ml/conf`. 
 
----
+<br>
 
 Run
 ===
@@ -115,7 +117,6 @@ mantisml -c CKD_config.yaml -o ./CKD-run
 mantisml -c Epilepsy_config.yaml -o /tmp/Epilepsy-testing -n 20
 ```
 
-<br>
 
 ### `mantisml` Output
 `mantisml` predictions for all genes and across all classifiers can be found at **[output_dir]/Gene-Predictions**. 
@@ -145,8 +146,6 @@ To run `mantisml-overlap`, you need to provide a config file (.yaml), an output 
 ```
 mantisml-overlap -c [config_file] -o [output_dir] -e [external_ranked_file]
 ```
-
-<br>
 
 #### `mantisml-overlap` Output
 Results are available under `[output_dir]/Overlap-Enrichment-Results`.
