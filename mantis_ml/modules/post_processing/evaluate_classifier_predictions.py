@@ -284,7 +284,7 @@ class ClassifierEvaluator:
 		print(self.percentile_df.head())
 		print(self.percentile_df.shape)
 		# ====== Store all results (proba, percentile score, known/novel gene flag) ======
-		self.percentile_df.to_csv(self.cfg.superv_ranked_pred / (self.clf_id + '.mantis-ml_predictions.csv'))
+		self.percentile_df.to_csv(self.cfg.superv_ranked_pred / (self.clf_id + '.mantis-ml_predictions.csv'), index=False)
 
 
 

@@ -150,7 +150,7 @@ class Consensus_Gene_Predictions:
 		# read gene mantis-ml scores per classifier
 		for clf in clf_subset:
 			tmp_mantis_ml_file = str(self.cfg.superv_ranked_pred / (clf + '.mantis-ml_predictions.csv'))  
-			tmp_mantis_df = pd.read_csv(tmp_mantis_ml_file, header=0, index_col=0)
+			tmp_mantis_df = pd.read_csv(tmp_mantis_ml_file, header=0)
 			if 'known_gene' in tmp_mantis_df.columns:
 				tmp_mantis_df.drop(['known_gene'], axis=1, inplace=True)
 			tmp_mantis_df = tmp_mantis_df.rename(columns={'mantis_ml_perc': clf}) 
