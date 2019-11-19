@@ -3,6 +3,6 @@ Disease/Phenotype terms: Amyotrophic lateral sclerosis, Degeneration of the late
 Run name: ALS
 
 # Optional
-Additional feature terms: brain, Muscle - Skeletal, nerve, nervous, neuronal, spine, spinal, cerebellum, cerebral, hippocampus, hypothalamus, muscular dystrophy, muscular fitness, muscle function, muscle, neuromuscular
+Additional associated terms: brain, Muscle - Skeletal, nerve, nervous, neuronal, spine, spinal, cerebellum, cerebral, hippocampus, hypothalamus, muscular dystrophy, muscular fitness, muscle function, muscle, neuromuscular
 Diseases/Phenotypes to exclude: heart muscle, heart_muscle, cardiac_muscle, smooth_muscle, cardiac muscle, smooth muscle, striated_muscle, striated muscle
 Genes to highlight:

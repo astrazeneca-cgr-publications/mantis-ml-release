@@ -95,7 +95,7 @@ class Config:
 			self.exclude_terms = re.split(list_delim, self.exclude_terms)
 
 		# Additional feature terms to look up
-		self.additional_include_terms = self.conf['Additional feature terms']
+		self.additional_include_terms = self.conf['Additional associated terms']
 		if self.additional_include_terms is None:
 			self.additional_include_terms = []
 		else:
@@ -115,7 +115,7 @@ class Config:
 			#print('Primary tissue:', self.tissue)
 			#print('Additional tissues:', self.additional_tissues)
 			print('\nDiseases/Phenotypes to exclude:', self.exclude_terms)
-			print('Additional feature terms:', self.additional_include_terms)
+			print('Additional associated terms:', self.additional_include_terms)
 			print('Genes to highlight:', self.highlighted_genes)
 
 		# Run advanced

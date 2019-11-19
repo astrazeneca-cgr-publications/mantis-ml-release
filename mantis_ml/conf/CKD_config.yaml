@@ -3,6 +3,6 @@ Disease/Phenotype terms: renal, kidney, nephro, glomerul, distal tubule
 Run name: CKD
 
 # Optional
-Additional feature terms: 
+Additional associated terms: 
 Diseases/Phenotypes to exclude: adrenal
 Genes to highlight: COL4A3, COL4A5, PKD1, COL4A1, COL4A4, PKD2, UMOD
