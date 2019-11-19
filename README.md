@@ -157,15 +157,9 @@ mantisml-overlap -c [config_file] -o [output_dir] -e [external_ranked_file]
 Results are available under **`[output_dir]/Overlap-Enrichment-Results`**.
 
 - `mantisml-overlap` generates figures with the enrichment signal between mantis-ml predictions and the external ranked file, based on a hypergeometric test. 
-
-<br>
-
 These can be found under: **`Overlap-Enrichment-Results/hypergeom-enrichment-figures`**.
 
 - `mantisml-overlap` also extracts consensus gene predictions with support by multiple classifiers. 
-
-<br>
-
 Results can be found at **`Overlap-Enrichment-Results/Gene-Predictions-After-Overlap`**.
 
 
