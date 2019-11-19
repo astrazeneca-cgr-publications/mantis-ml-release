@@ -58,13 +58,15 @@ conda activate mantis_ml			# activate the newly created conda environment
 python setup.py install
 ```
 
+---
+
 You can now call the following scripts from the command line:
 - **mantisml**: run mantis-ml gene prioritisation based on a provided config file (.yaml)
 - **mantisml-preview**: preview selected phenotypes and features based on a provided config file
 - **mantisml-overlap**: run enrichment test between mantis-ml predictions and an external ranked gene list to get refined gene predictions
 
 Run each command with `-h` to see all available options.
-<br>
+<br><br>
 
 ---
 
@@ -77,12 +79,21 @@ Run each command with `-h` to see all available options.
 - `Diseases/Phenotypes to exclude`: terms to exclude from disease/phenotype characterisation and feature selection
 
 
-**Config example** - (Epilepsy):
+**Config examples**:
 ```
+# Epilepsy
 Disease/Phenotype terms: epileptic, epilepsy, seizure
 Additional associated terms: brain, nerve, nervous, neuronal, cerebellum, cerebral, hippocampus, hypothalamus
 Diseases/Phenotypes to exclude: 
 ```
+<br>
+```
+# CKD
+Disease/Phenotype terms: renal, kidney, nephro, glomerul, distal tubule 
+Additional associated terms: 
+Diseases/Phenotypes to exclude: adrenal
+```
+
 
 Other example config files can be found under `mantis-ml/conf`. 
 
@@ -102,7 +113,7 @@ mantisml -c CKD_config.yaml -o ./CKD-run
 mantisml -c Epilepsy_config.yaml -o /tmp/Epilepsy-testing -n 20
 ```
 
-<br/><br/>
+<br><br>
 
 
 #### `mantisml` Output
@@ -111,7 +122,7 @@ The `AUC_performance_by_Classifier.pdf` file under the same dir contains informa
 
 Output figures from all steps during the `mantis-ml` run (e.g. Exploratory Data Analysis/EDA, supervised-learning, unsupervised-learning) can be found under **[output_dir]/Output-Figures**.
 
-<br/>
+<br>
 
 ## `mantisml-profiler`
 
@@ -124,7 +135,7 @@ To run `mantisml-profiler`, you need to provide a config file (.yaml) and an out
 mantisml-profiler [-v] -c [config_file] -o [output_dir]
 ```
 
-<br/><br/>
+<br><br>
 
 ## `mantisml-overlap`
 ### Run enrichment test between mantis-ml predictions and an external ranked gene list to get refined gene predictions
@@ -146,4 +157,4 @@ Results are available under `[output_dir]/Overlap-Enrichment-Results`.
 #### Advanced Config parameters
 All advanced config parameters (**Advanced**) can be used with their default values in `mantis_ml/conf/.config`.
 The number of threads and the number of stochastic iterations may be specified by the user during the `mantisml` run with the `-n` and `-i` options respectively.
-<br/><br/>
+<br><br>
