@@ -76,6 +76,7 @@ Run
 ### Input config file
 
 You need to create a config file containing information about the diseases/phenotypes of interest.
+<br>
 **Required parameters**:
 <br>
 `Disease/Phenotype terms`: terms that characterise a phenotype or disease of interest
@@ -110,7 +111,9 @@ Other example config files can be found under `mantis-ml/conf`.
 
 
 ## `mantisml`
-You need to provide a config file (.yaml) and an output directory. You may also define the number of threads to use (-n option; default value: 4).
+You need to provide a config file (.yaml) and an output directory. 
+<br>
+You may also define the number of threads to use (-n option; default value: 4).
 ```
 mantisml -c [config_file] -o -o [output_dir] [-n nthreads]
 ```
@@ -124,6 +127,7 @@ mantisml -c Epilepsy_config.yaml -o /tmp/Epilepsy-testing -n 20
 
 ### `mantisml` Output
 `mantisml` predictions for all genes and across all classifiers can be found at **[output_dir]/Gene-Predictions**. 
+<br>
 The `AUC_performance_by_Classifier.pdf` file under the same dir contains information about the AUC performance per classifier and thus informs about the best performing classifier.
 
 Output figures from all steps during the `mantis-ml` run (e.g. Exploratory Data Analysis/EDA, supervised-learning, unsupervised-learning) can be found under **[output_dir]/Output-Figures**.
@@ -134,6 +138,7 @@ Output figures from all steps during the `mantis-ml` run (e.g. Exploratory Data 
 
 #### Preview selected phenotypes and features (optional)
 You may preview all selected features based on your input config file parameters by running the `mantisml-profiler` command.
+<br>
 This allows the user to view which HPO phenotypes and features are picked up based on the given input parameters. Based on the results, the user may further tweak their input config file to better refelct the set of phenotypes and/or features that are more relevant for their disease/case under study.
 
 To run `mantisml-profiler`, you need to provide a config file (.yaml) and an output directory
