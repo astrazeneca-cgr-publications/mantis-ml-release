@@ -70,19 +70,19 @@ class Consensus_Gene_Predictions:
 	def run(self):
 
 		self.init_dirs()
-		try:
-			self.compile_predicted_genes_df()
+		#try:
+		self.compile_predicted_genes_df()
 
-			# The 1st classifier in clf_subset should be the one with best overlap performance
-			for relaxation in range(len(self.sorted_classifiers)-1):
-				self.get_consensus_list_and_plot(self.predicted_genes_df, self.sorted_classifiers, relaxation=relaxation)
+		# The 1st classifier in clf_subset should be the one with best overlap performance
+		for relaxation in range(len(self.sorted_classifiers)-1):
+			self.get_consensus_list_and_plot(self.predicted_genes_df, self.sorted_classifiers, relaxation=relaxation)
 
 
-			for top_clf in range(1, len(self.sorted_classifiers)):
-				tmp_clf_subset = self.sorted_classifiers[:top_clf]
-				self.get_consensus_list_and_plot(self.predicted_genes_df, tmp_clf_subset, top_n_clf=True)
-		except Exception as e:
-			pass
+		for top_clf in range(1, len(self.sorted_classifiers)):
+			tmp_clf_subset = self.sorted_classifiers[:top_clf]
+			self.get_consensus_list_and_plot(self.predicted_genes_df, tmp_clf_subset, top_n_clf=True)
+		#except Exception as e:
+		#	pass
 
 
 
@@ -152,6 +152,7 @@ class Consensus_Gene_Predictions:
 		for clf in clf_subset:
 			tmp_mantis_ml_file = str(self.cfg.superv_ranked_pred / (clf + '.mantis-ml_predictions.csv'))  
 			tmp_mantis_df = pd.read_csv(tmp_mantis_ml_file, header=0)
+
 			if 'known_gene' in tmp_mantis_df.columns:
 				tmp_mantis_df.drop(['known_gene'], axis=1, inplace=True)
 			tmp_mantis_df = tmp_mantis_df.rename(columns={'mantis_ml_perc': clf}) 
@@ -219,10 +220,11 @@ class Consensus_Gene_Predictions:
 if __name__ == '__main__':
 
 	config_file = sys.argv[1]
-	top_ratio = sys.argv[2]	#0.01, 0.05
-	gene_class = sys.argv[3]	# Novel or Known
+	output_dir = sys.argv[2]
+	top_ratio = sys.argv[3]	#0.01, 0.05
+	gene_class = sys.argv[4]	# Novel or Known
 	print('\ngene class:', gene_class, '\ntop_ratio:', top_ratio)
 
 
-	cons_obj = Consensus_Gene_Predictions(config_file, top_ratio, gene_class)
+	cons_obj = Consensus_Gene_Predictions(config_file, output_dir, top_ratio, gene_class)
 	cons_obj.run()
