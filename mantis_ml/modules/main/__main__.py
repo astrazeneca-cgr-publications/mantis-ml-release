@@ -2,7 +2,7 @@ import matplotlib
 matplotlib.use('agg')
 import matplotlib.pyplot as plt
 from argparse import ArgumentParser
-import sys
+import sys, os
 import glob
 import pandas as pd
 import ntpath
@@ -26,6 +26,7 @@ class MantisMl:
 		print('nthreads:', self.cfg.nthreads)
 		print('Stochastic iterations:', self.cfg.iterations)
 		print('Classifiers:', self.cfg.classifiers)
+
 
 
 

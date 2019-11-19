@@ -18,11 +18,11 @@ import ntpath
 class Config:
 
 	def __init__(self, config_file, verbose=False): 
-		self.dir_path = os.path.dirname(os.path.realpath(__file__))
+		self.config_dir_path = os.path.dirname(os.path.realpath(__file__))
 		self.verbose = verbose
 
 		# Read static .config YAML file
-		static_config_file = Path(self.dir_path + '/conf/.config')  
+		static_config_file = Path(self.config_dir_path + '/conf/.config')  
 		with open(static_config_file, 'r') as ymlfile:
 			static_conf = yaml.load(ymlfile, Loader=yaml.FullLoader)
 		if self.verbose:
@@ -133,14 +133,14 @@ class Config:
 		self.nthreads = self.conf['pu_params']['nthreads']
 
 		# Data dir with input feature tables to be processed and compiled
-		self.data_dir = Path(self.dir_path + '/' + self.conf['static']['data_dir'])
+		self.data_dir = Path(self.config_dir_path + '/' + self.conf['static']['data_dir'])
 
 		# Define default gene-set
 		self.hgnc_genes_series = pd.read_csv(self.data_dir / 'exac-broadinstitute/all_hgnc_genes.txt', header=None).loc[:, 0]
 
 		## === DIRS ===
 		# Root Output path
-		self.out_root = Path(self.dir_path + '/../out/' + self.phenotype)
+		self.out_root = Path(self.config_dir_path + '/../out/' + self.phenotype)
 		print(self.out_root)
 		
 		# Root Figs output dir

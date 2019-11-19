@@ -16,10 +16,9 @@ from  mantis_ml.modules.supervised_learn.feature_selection.boruta_score_aggregat
 
 def call_boruta_r_wrapper(cfg, train_data_file, test_data_file, tmp_run_id, verbose=1):
 
-    cur_path = os.path.dirname(os.path.realpath(__file__))
-    print('Cur path:', cur_path)
+    config_base_path = cfg.config_dir_path
 
-    cmd = ' '.join(['Rscript', '../modules/supervised_learn/feature_selection/boruta_feature_selection.R "', str(train_data_file), '" "', str(test_data_file), '" "',
+    cmd = ' '.join(['Rscript', config_base_path + '/modules/supervised_learn/feature_selection/boruta_feature_selection.R "', str(train_data_file), '" "', str(test_data_file), '" "',
                     str(cfg.boruta_figs_dir), '" "',
                     str(cfg.boruta_tables_dir), '" "', str(tmp_run_id), '"'])
 
@@ -37,7 +36,6 @@ def call_boruta_r_wrapper(cfg, train_data_file, test_data_file, tmp_run_id, verb
     # if verbose:
     #     stdout = str(stdout, "utf-8")
     #     stderr = str(stderr, "utf-8")
-    #
     #     print('>', tmp_run_id, 'STDOUT:\n\n', stdout)
     #     print('>', tmp_run_id, 'STDERR:\n\n', stderr)
 
