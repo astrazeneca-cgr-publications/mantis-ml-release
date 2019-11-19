@@ -43,8 +43,6 @@ git clone https://github.com/astrazeneca-cgr-publications/mantis-ml-release.git
 <br/>
 
 **2. Create a new `conda` environment:** [Recommended]
-- [Install Anaconda](https://docs.anaconda.com/anaconda/install/)
-- Create a new environment with clean Python and R installations:
 ```
 conda create -n mantis_ml python=3.6 r
 conda config --append channels conda-forge   	# add conda-forge in the channels list
@@ -69,14 +67,16 @@ Run each command with `-h` to see all available options.
 <br><br>
 
 ---
+<br>
 
 ### Config file
 #### Required parameters:
-- `Disease/Phenotype terms`: terms that characterise a phenotype or disease of interest
+`Disease/Phenotype terms`: terms that characterise a phenotype or disease of interest
 
 #### Optional parameters:
-- `Additional associated terms`: terms used in addition to `Disease/Phenotype terms` to extract disease/phenotype-associated features 
-- `Diseases/Phenotypes to exclude`: terms to exclude from disease/phenotype characterisation and feature selection
+`Additional associated terms`: terms used in addition to `Disease/Phenotype terms` to extract disease/phenotype-associated features 
+<br>
+`Diseases/Phenotypes to exclude`: terms to exclude from disease/phenotype characterisation and feature selection
 
 
 **Config examples**:
@@ -86,7 +86,9 @@ Disease/Phenotype terms: epileptic, epilepsy, seizure
 Additional associated terms: brain, nerve, nervous, neuronal, cerebellum, cerebral, hippocampus, hypothalamus
 Diseases/Phenotypes to exclude: 
 ```
+
 <br>
+
 ```
 # CKD
 Disease/Phenotype terms: renal, kidney, nephro, glomerul, distal tubule 
@@ -102,7 +104,7 @@ Other example config files can be found under `mantis-ml/conf`.
 Run
 ===
 ## `mantisml`
-You need to provide a config file (.yaml) and an output directory. You may also define the number of threads to use (-n option)
+You need to provide a config file (.yaml) and an output directory. You may also define the number of threads to use (-n option; default value: 4).
 ```
 mantisml -c [config_file] -o -o [output_dir] [-n nthreads]
 ```
@@ -113,10 +115,9 @@ mantisml -c CKD_config.yaml -o ./CKD-run
 mantisml -c Epilepsy_config.yaml -o /tmp/Epilepsy-testing -n 20
 ```
 
-<br><br>
+<br>
 
-
-#### `mantisml` Output
+### `mantisml` Output
 `mantisml` predictions for all genes and across all classifiers can be found at **[output_dir]/Gene-Predictions**. 
 The `AUC_performance_by_Classifier.pdf` file under the same dir contains information about the AUC performance per classifier and thus informs about the best performing classifier.
 
@@ -126,7 +127,7 @@ Output figures from all steps during the `mantis-ml` run (e.g. Exploratory Data 
 
 ## `mantisml-profiler`
 
-### Preview selected phenotypes and features (optional)
+#### Preview selected phenotypes and features (optional)
 You may preview all selected features based on your input config file parameters by running the `mantisml-profiler` command.
 This allows the user to view which HPO phenotypes and features are picked up based on the given input parameters. Based on the results, the user may further tweak their input config file to better refelct the set of phenotypes and/or features that are more relevant for their disease/case under study.
 
@@ -138,23 +139,20 @@ mantisml-profiler [-v] -c [config_file] -o [output_dir]
 <br><br>
 
 ## `mantisml-overlap`
-### Run enrichment test between mantis-ml predictions and an external ranked gene list to get refined gene predictions
+#### Run enrichment test between mantis-ml predictions and an external ranked gene list to get refined gene predictions
 
 To run `mantisml-overlap`, you need to provide a config file (.yaml), an output directory with mantis-ml output and an external ranked gene list file
 ```
 mantisml-overlap -c [config_file] -o [output_dir] -e [external_ranked_file]
 ```
 
+<br>
+
 #### `mantisml-overlap` Output
 Results are available under `[output_dir]/Overlap-Enrichment-Results`.
 
 - `mantisml-overlap` generates figures with the enrichment signal between mantis-ml predictions and the external ranked file, based on a hypergeometric test. These can be found under: `Overlap-Enrichment-Results/hypergeom-enrichment-figures`
 
-- `mantisml-overlap` also extracts consensus gene predictions with support by multiple classifiers. Results can be found at `Overlap-Enrichment-Results/Gene-Predictions-After-Overlap/
+- `mantisml-overlap` also extracts consensus gene predictions with support by multiple classifiers. Results can be found at `Overlap-Enrichment-Results/Gene-Predictions-After-Overlap/`.
 
 
-
-#### Advanced Config parameters
-All advanced config parameters (**Advanced**) can be used with their default values in `mantis_ml/conf/.config`.
-The number of threads and the number of stochastic iterations may be specified by the user during the `mantisml` run with the `-n` and `-i` options respectively.
-<br><br>
