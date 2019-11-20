@@ -80,7 +80,7 @@ You need to provide a config file (`.yaml`) containing information about the dis
 
 
 #### Required field:
-- `Disease/Phenotype terms`: terms that characterise a phenotype or disease of interest
+- `Disease/Phenotype terms`: **terms that characterise a phenotype or disease of interest**
 
 
 #### Optional fields:
@@ -139,9 +139,8 @@ Output figures from all steps during the `mantis-ml` run (e.g. *Exploratory Data
 ## `mantisml-profiler`
 
 #### Preview selected phenotypes and features (optional)
-You may preview all selected features based on your input config file parameters by running the `mantisml-profiler` command.
+You may preview all selected phenotypes and relevant features based on your input config file parameters by running the `mantisml-profiler` command.
 <br>
-This allows the user to view which HPO phenotypes and features are picked up based on the given input parameters. Based on the results, the user may further tweak their input config file to better refelct the set of phenotypes and/or features that are more relevant for their disease/case under study.
 
 To run `mantisml-profiler`, you need to provide a config file (`.yaml`) and an output directory.
 ```
