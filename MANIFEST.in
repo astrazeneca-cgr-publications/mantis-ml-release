@@ -26,3 +26,7 @@ include mantis_ml/data/gtex/RNASeq/*
 include mantis_ml/modules/supervised_learn/feature_selection/boruta_feature_selection.R
 include mantis_ml/conf/.config
 include mantis_ml/conf/*
+include README.md
+include ABOUT.md
+include VERSION
+include LICENSE
