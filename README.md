@@ -82,12 +82,12 @@ You need to provide a config file (`.yaml`) containing information about the dis
 
 
 #### Required field:
-- `Disease/Phenotype terms`: **terms that characterise a phenotype or disease of interest**
+- `Disease/Phenotype terms`: **terms that characterise a phenotype or disease of interest** (free text)
 
 
 #### Optional fields:
-- `Additional associated terms`: terms used along with `Disease/Phenotype terms` to extract additional disease/phenotype-associated features
-- `Diseases/Phenotypes to exclude`: terms to exclude from disease/phenotype characterisation and feature selection
+- `Additional associated terms`: terms used along with `Disease/Phenotype terms` to extract additional disease/phenotype-associated features (free text)
+- `Diseases/Phenotypes to exclude`: terms to exclude from disease/phenotype characterisation and feature selection (free text)
 
 
 <br>
@@ -161,7 +161,7 @@ mantisml-overlap -c [config_file] -o [output_dir] -e [external_ranked_file]
 
 <br>
 
-#### `mantisml-overlap` external ranked file input [-e]
+#### `mantisml-overlap` external ranked file [-e]
 The external ranked gene list file may contain a single column with ranked genes or 2 columns, with the 2nd column containing p-values. Examples of external ranked lists for both cases are available at [example-input](example-input).
 
 
