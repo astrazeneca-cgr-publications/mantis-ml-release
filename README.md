@@ -32,8 +32,6 @@ Installation
 ============
 **Requirements:** `Python3` (tested with v3.6.7)
 
-<br>
-
 `mantis-ml` can be installed through `pip`:
 ```
 pip install mantis-ml
