@@ -81,15 +81,13 @@ You need to provide a config file (`.yaml`) containing information about the dis
 
 
 
-#### Require field:
-|`Disease/Phenotype terms`| terms that characterise a phenotype or disease of interest |
-| ----------------------- | --- |
+#### Required field:
+- `Disease/Phenotype terms`: terms that characterise a phenotype or disease of interest
 
 
 #### Optional fields:
-|  `Additional associated terms` &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; | terms used along with `Disease/Phenotype terms` to extract additional disease/phenotype-associated features |
-| :------------------------------ | :---- |
-| **`Diseases/Phenotypes to exclude`** | **terms to exclude from disease/phenotype characterisation and feature selection** |
+- `Additional associated terms`: terms used along with `Disease/Phenotype terms` to extract additional disease/phenotype-associated features
+- `Diseases/Phenotypes to exclude`: terms to exclude from disease/phenotype characterisation and feature selection
 
 
 <br>
@@ -130,7 +128,6 @@ mantisml -c CKD_config.yaml -o ./CKD-run
 mantisml -c Epilepsy_config.yaml -o /tmp/Epilepsy-testing -n 20
 ```
 
-<br>
 
 #### `mantisml` Output
 `mantisml` predictions for all genes and across all classifiers can be found at **`[output_dir]/Gene-Predictions`**. 
@@ -163,7 +160,6 @@ To run `mantisml-overlap`, you need to provide a config file (`.yaml`), an outpu
 mantisml-overlap -c [config_file] -o [output_dir] -e [external_ranked_file]
 ```
 
-<br>
 
 #### `mantisml-overlap` Output
 Results are available under **`[output_dir]/Overlap-Enrichment-Results`**.
