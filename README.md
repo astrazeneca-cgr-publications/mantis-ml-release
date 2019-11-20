@@ -52,7 +52,7 @@ conda activate mantis_ml			# activate the newly created conda environment
 
 <br>
 
-**3. Install `Python` library dependencies:**
+**3. Install `mantis-ml` with all dependencies:**
 ```
 python setup.py install
 ```
