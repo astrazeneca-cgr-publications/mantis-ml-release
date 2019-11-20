@@ -82,12 +82,12 @@ You need to provide a config file (`.yaml`) containing information about the dis
 
 
 #### Required field:
-- `Disease/Phenotype terms`: **terms that characterise a phenotype or disease of interest** (free text)
+- `Disease/Phenotype terms`: **terms that characterise a phenotype or disease of interest** (*free text*)
 
 
 #### Optional fields:
-- `Additional associated terms`: terms used along with `Disease/Phenotype terms` to extract additional disease/phenotype-associated features (free text)
-- `Diseases/Phenotypes to exclude`: terms to exclude from disease/phenotype characterisation and feature selection (free text)
+- `Additional associated terms`: terms used along with `Disease/Phenotype terms` to extract additional disease/phenotype-associated features (*free text*)
+- `Diseases/Phenotypes to exclude`: terms to exclude from disease/phenotype characterisation and feature selection (*free text*)
 
 
 <br>
