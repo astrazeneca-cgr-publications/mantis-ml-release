@@ -76,9 +76,7 @@ Run
 ===
 
 You need to provide a config file (`.yaml`) containing information about the diseases/phenotypes of interest.
-<br><br>
-
-
+<br>
 
 
 #### Required field:
