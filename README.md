@@ -152,7 +152,7 @@ mantisml-profiler [-v] -c [config_file] -o [output_dir]
 ## `mantisml-overlap`
 #### Run enrichment test between mantis-ml predictions and an external ranked gene list to get refined gene predictions
 
-To run `mantisml-overlap`, you need to provide a config file (`.yaml`), an output directory with `mantisml` results and an external ranked gene list file.
+To run `mantisml-overlap`, you need to provide a config file (`.yaml`), an output directory with `mantisml` results and an external ranked gene list file (`mantisml` has to be run already given the same ouput directory).
 ```
 mantisml-overlap -c [config_file] -o [output_dir] -e [external_ranked_file]
 ```
