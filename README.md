@@ -77,17 +77,24 @@ Run each command with `-h` to see all available options.
 Run
 ===
 
-You need to create a config file (`.yaml`) containing information about the diseases/phenotypes of interest.
+You need to provide a config file (`.yaml`) containing information about the diseases/phenotypes of interest.
 <br><br>
-**Required parameter**:
-<br>
-`Disease/Phenotype terms`: terms that characterise a phenotype or disease of interest
 
-**Optional parameters**:
+
+
+
+#### Require field:
+|`Disease/Phenotype terms`| terms that characterise a phenotype or disease of interest |
+| ----------------------- | --- |
+
+
+#### Optional fields:
+|  `Additional associated terms` &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; | terms used along with `Disease/Phenotype terms` to extract additional disease/phenotype-associated features |
+| :------------------------------ | :---- |
+| **`Diseases/Phenotypes to exclude`** | **terms to exclude from disease/phenotype characterisation and feature selection** |
+
+
 <br>
-`Additional associated terms`: terms used in addition to `Disease/Phenotype terms` to extract disease/phenotype-associated features 
-<br>
-`Diseases/Phenotypes to exclude`: terms to exclude from disease/phenotype characterisation and feature selection
 
 
 **Config examples**:
@@ -127,11 +134,11 @@ mantisml -c Epilepsy_config.yaml -o /tmp/Epilepsy-testing -n 20
 
 
 ### `mantisml` Output
-`mantisml` predictions for all genes and across all classifiers can be found at **[output_dir]/Gene-Predictions**. 
+`mantisml` predictions for all genes and across all classifiers can be found at **`[output_dir]/Gene-Predictions`**. 
 <br>
 The `AUC_performance_by_Classifier.pdf` file under the same dir contains information about the AUC performance per classifier and thus informs about the best performing classifier.
 
-Output figures from all steps during the `mantis-ml` run (e.g. Exploratory Data Analysis/EDA, supervised-learning, unsupervised-learning) can be found under **[output_dir]/Output-Figures**.
+Output figures from all steps during the `mantis-ml` run (e.g. *Exploratory Data Analysis/EDA, supervised-learning, unsupervised-learning*) can be found under **`[output_dir]/Output-Figures`**.
 
 <br>
 
@@ -142,7 +149,7 @@ You may preview all selected features based on your input config file parameters
 <br>
 This allows the user to view which HPO phenotypes and features are picked up based on the given input parameters. Based on the results, the user may further tweak their input config file to better refelct the set of phenotypes and/or features that are more relevant for their disease/case under study.
 
-To run `mantisml-profiler`, you need to provide a config file (.yaml) and an output directory
+To run `mantisml-profiler`, you need to provide a config file (`.yaml`) and an output directory.
 ```
 mantisml-profiler [-v] -c [config_file] -o [output_dir]
 ```
@@ -152,7 +159,7 @@ mantisml-profiler [-v] -c [config_file] -o [output_dir]
 ## `mantisml-overlap`
 #### Run enrichment test between mantis-ml predictions and an external ranked gene list to get refined gene predictions
 
-To run `mantisml-overlap`, you need to provide a config file (.yaml), an output directory with mantis-ml output and an external ranked gene list file
+To run `mantisml-overlap`, you need to provide a config file (`.yaml`), an output directory with `mantisml` results and an external ranked gene list file.
 ```
 mantisml-overlap -c [config_file] -o [output_dir] -e [external_ranked_file]
 ```
