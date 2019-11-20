@@ -75,44 +75,40 @@ class Config:
 		self.gene_name = self.conf['static']['gene_name']
 
 
-		# >> Mandatory input parameters
+		# >> Mandatory config field
+		required_field_error_msg = "\n[Error] Please provide 'Disease/Phenotype terms:' in input config file and re-run.\nSee also example config file (example-input/config.yaml) from mantis-ml GitHub repo)."
+		if 'Disease/Phenotype terms' not in self.conf:
+			sys.exit(required_field_error_msg)
 		if self.conf['Disease/Phenotype terms'] is None:
-			sys.exit("\n[Error] Please provide 'Disease/Phenotype terms' in input config file and re-run.")
+			sys.exit(required_field_error_msg)
 		self.seed_include_terms = re.split(list_delim, self.conf['Disease/Phenotype terms'])
 		
-		#if self.conf['Output directory name'] is None:
-		#	sys.exit("\n[Error] Please provide 'Output directory name' in input config file and re-run.")
-		#self.phenotype = self.get_valid_filename_from_str(self.conf['Output directory name'])
 		self.phenotype = self.get_valid_filename_from_str(ntpath.basename(self.output_dir))
 		print('Phenotype/Output dir:', self.phenotype)
 		
 
-		# [Deprecated] Read tissues of interest
-		#if self.conf['Tissues'] is None:
-		#	self.tissues = None
-		#	self.tissue = None
-		#	self.additional_tissues = []
-		#else:
-		#	self.tissues = re.split(list_delim, self.conf['Tissues'])
-		#	self.tissue = self.tissues[0] # primary tissue
-		#	self.additional_tissues = [t for t in self.tissues if t != self.tissue] 
-
-
 
 		# >> Optional input parameters
-		# Diseases/Phenotypes to exclude from HPO and features
-		self.exclude_terms = self.conf['Diseases/Phenotypes to exclude']
-		if self.exclude_terms is None:
-			self.exclude_terms = []
-		else:
-			self.exclude_terms = re.split(list_delim, self.exclude_terms)
-
 		# Additional feature terms to look up
-		self.additional_include_terms = self.conf['Additional associated terms']
-		if self.additional_include_terms is None:
+		if 'Additional associated terms' not in self.conf:
 			self.additional_include_terms = []
 		else:
-			self.additional_include_terms = re.split(list_delim, self.additional_include_terms)
+			self.additional_include_terms = self.conf['Additional associated terms']
+			if self.additional_include_terms is None:
+				self.additional_include_terms = []
+			else:
+				self.additional_include_terms = re.split(list_delim, self.additional_include_terms)
+
+		# Diseases/Phenotypes to exclude from HPO and features
+		if 'Diseases/Phenotypes to exclude' not in self.conf:
+			self.exclude_terms = []
+		else:
+			self.exclude_terms = self.conf['Diseases/Phenotypes to exclude']
+			if self.exclude_terms is None:
+				self.exclude_terms = []
+			else:
+				self.exclude_terms = re.split(list_delim, self.exclude_terms)
+
 
 		# Genes to highlight on plots
 		self.highlighted_genes = None # self.conf['Genes to highlight'] -- TODO: include it in next release
