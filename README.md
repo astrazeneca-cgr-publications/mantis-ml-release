@@ -93,13 +93,13 @@ You need to provide a config file (`.yaml`) containing information about the dis
 
 **Config examples**:
 ```
-# Epilepsy
+# Epilepsy_config.yaml
 Disease/Phenotype terms: epileptic, epilepsy, seizure
 Additional associated terms: brain, nerve, nervous, neuronal, cerebellum, cerebral, hippocampus, hypothalamus
 Diseases/Phenotypes to exclude: 
 ```
 ```
-# CKD
+# CKD_config.yaml
 Disease/Phenotype terms: renal, kidney, nephro, glomerul, distal tubule 
 Additional associated terms: 
 Diseases/Phenotypes to exclude: adrenal
