@@ -3,7 +3,12 @@ include mantis_ml/data/exSNP/*
 include mantis_ml/data/gwas_catalog/*
 include mantis_ml/data/gnomad/*
 include mantis_ml/data/goa/*
-include mantis_ml/data/mgi/*
+include mantis_ml/data/mgi/HMD_HumanPhenotype.rpt
+include mantis_ml/data/mgi/VOC_MammalianPhenotype.rpt
+include mantis_ml/data/mgi/MGI_LethalityPhenotypes.txt
+include mantis_ml/data/mgi/hmd_human_pheno.processed.rpt
+include mantis_ml/data/mgi/process_mgi_files.py
+include mantis_ml/data/mgi/mgi_essential_genes.tsv
 include mantis_ml/data/ensembl/*
 include mantis_ml/data/platelets_eqtl/README.md
 include mantis_ml/data/platelets_eqtl/process_platelets_eqtl.py
