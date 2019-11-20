@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages 
 import io
 
-setup(	name='mantis_ml',
+setup(	name='mantis-ml',
 	version='1.5.0',
 	author='Dimitrios Vitsios',
 	author_email='dvitsios@gmail.com',
@@ -24,6 +24,8 @@ setup(	name='mantis_ml',
 			  'PyYAML==5.1',
 			  'seaborn==0.9.0',
 			  'tables==3.5.1',
+			  'twine==3.0.0',
+			  'tqdm==4.14',
 			  'umap-learn==0.3.8',
 			  'xgboost==0.80'],
 	include_package_data=True,
