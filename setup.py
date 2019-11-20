@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 import io
 
 setup(	name='mantis-ml',
-	version='1.5.2',
+	version='1.5.3',
 	author='Dimitrios Vitsios',
 	author_email='dvitsios@gmail.com',
 	description='Disease-agnostic gene prioritisation from high-throughput genomic screens by stochastic semi-supervised learning',
@@ -16,7 +16,7 @@ setup(	name='mantis-ml',
 			  'scikit-learn==0.20.3',
 		    	  'bokeh==1.1.0',
 			  'h5py==2.9.0',
-			  'tensorflow==1.10.0',
+			  'tensorflow==1.12',
 			  'Keras==2.2.4',
 			  'matplotlib==3.0.3',
 			  'palettable==3.1.1',
