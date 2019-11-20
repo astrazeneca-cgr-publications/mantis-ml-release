@@ -32,29 +32,30 @@ Installation
 ============
 ### Requirements:
 - **Python3** (tested with v3.6.7)   [Required]
-- **Anaconda3** (tested with v5.3.0) [Recommended]
 
 <br>
 
-**1. Download `mantis-ml-release` GitHub repository:**
+`mantis-ml` can be installed through pip:
+```
+pip install mantis-ml
+```
+
+<br>
+
+Alternatively, it can be installd from the github repository:
+
 ```
 git clone https://github.com/astrazeneca-cgr-publications/mantis-ml-release.git
+python setup.py install
 ```
 
 <br/>
 
-**2. Create a new `conda` environment:** [Recommended]
+In both cases, it is highly recommended to create a new virtual environment (e.g. with `conda`):
 ```
-conda create -n mantis_ml python=3.6 r
+conda create -n mantis_ml python=3.6
 conda config --append channels conda-forge   	# add conda-forge in the channels list
 conda activate mantis_ml			# activate the newly created conda environment
-```
-
-<br>
-
-**3. Install `mantis-ml` with all dependencies:**
-```
-python setup.py install
 ```
 
 <br>
