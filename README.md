@@ -18,6 +18,7 @@ Introduction
 |Vitsios Dimitrios, Petrovski Slavé. **Stochastic semi-supervised learning to prioritise genes from high-throughput genomic screens**. <br/>
 https://www.biorxiv.org/content/10.1101/655449v1 bioRxiv, May 30, 2019, [doi:10.1101/655449](https://doi.org/10.1101/655449) |
 
+<br>
 
 | Gene prioritisation Atlas: |
 | :---- |
