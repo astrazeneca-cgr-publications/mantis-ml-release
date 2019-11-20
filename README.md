@@ -59,6 +59,8 @@ conda config --append channels conda-forge   	# add conda-forge in the channels 
 conda activate mantis_ml			# activate the newly created conda environment
 ```
 
+---
+
 <br>
 
 
