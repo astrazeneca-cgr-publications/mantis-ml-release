@@ -61,15 +61,12 @@ python setup.py install
 
 
 You may now call the following scripts from the command line:
-- **`mantisml`**: run mantis-ml gene prioritisation based on a provided config file (.yaml)
+- **`mantisml`**: run mantis-ml gene prioritisation based on a provided config file (`.yaml`)
 - **`mantisml-preview`**: preview selected phenotypes and features based on a provided config file
 - **`mantisml-overlap`**: run enrichment test between mantis-ml predictions and an external ranked gene list to get refined gene predictions
 
 Run each command with `-h` to see all available options.
 
-<br> 
-
----
 
 <br><br>
 
@@ -133,8 +130,9 @@ mantisml -c CKD_config.yaml -o ./CKD-run
 mantisml -c Epilepsy_config.yaml -o /tmp/Epilepsy-testing -n 20
 ```
 
+<br>
 
-### `mantisml` Output
+#### `mantisml` Output
 `mantisml` predictions for all genes and across all classifiers can be found at **`[output_dir]/Gene-Predictions`**. 
 <br>
 The `AUC_performance_by_Classifier.pdf` file under the same dir contains information about the AUC performance per classifier and thus informs about the best performing classifier.
@@ -164,6 +162,8 @@ To run `mantisml-overlap`, you need to provide a config file (`.yaml`), an outpu
 ```
 mantisml-overlap -c [config_file] -o [output_dir] -e [external_ranked_file]
 ```
+
+<br>
 
 #### `mantisml-overlap` Output
 Results are available under **`[output_dir]/Overlap-Enrichment-Results`**.
