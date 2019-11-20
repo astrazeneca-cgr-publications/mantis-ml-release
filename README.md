@@ -162,9 +162,7 @@ mantisml-overlap -c [config_file] -o [output_dir] -e [external_ranked_file]
 <br>
 
 #### `mantisml-overlap` external ranked file input [-e]
-The external ranked gene list file may contain a single column with ranked genes or 2 columns, with the 2nd column containing p-values.
-<br>
-Examples of external ranked lists for both cases are available at [example-input](example-input).
+The external ranked gene list file may contain a single column with ranked genes or 2 columns, with the 2nd column containing p-values. Examples of external ranked lists for both cases are available at [example-input](example-input).
 
 
 #### `mantisml-overlap` Output
