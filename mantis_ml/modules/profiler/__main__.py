@@ -129,17 +129,17 @@ class MantisMlProfiler:
 		self.enablePrint()
 
 		if self.verbose:
-			print('\nAvailable tissues (normal_tissue.tsv data):')
+			print('\nAvailable tissues (normal_tissue.tsv.gz data):')
 			print(sorted(all_normal_tissues))
 
-		print('\n' + self.bordered(self.custom_bullet + ' Selected tissues from Protein Atlas (normal_tissue.tsv) ' + self.custom_bullet))
+		print('\n' + self.bordered(self.custom_bullet + ' Selected tissues from Protein Atlas (normal_tissue.tsv.gz) ' + self.custom_bullet))
 		print(sorted(selected_normal_tissues))
 
 		if self.verbose:
-			print('\nAvailable samples (rna_tissue.tsv data):')
+			print('\nAvailable samples (rna_tissue.tsv.gz data):')
 			print(sorted(all_rna_samples))
 
-		print('\n' + self.bordered(self.custom_bullet + ' Selected samples from Protein Atlas (rna_tissue.tsv) ' + self.custom_bullet))
+		print('\n' + self.bordered(self.custom_bullet + ' Selected samples from Protein Atlas (rna_tissue.tsv.gz) ' + self.custom_bullet))
 		print(sorted(selected_rna_samples))
 
 

@@ -199,8 +199,8 @@ class ProcessFeaturesFilteredByDisease(ProcessGenericFeatures):
 		exclude_pattern = re.compile('|'.join(exclude_terms), re.IGNORECASE)
 
 
-		# normal_tissue.tsv
-		normal_df = pd.read_csv(self.cfg.data_dir / 'human_protein_atlas/normal_tissue.tsv', sep='\t')
+		# normal_tissue.tsv.gz
+		normal_df = pd.read_csv(self.cfg.data_dir / 'human_protein_atlas/normal_tissue.tsv.gz', sep='\t')
 		print(normal_df.shape)
 
 		all_normal_tissues = normal_df['Tissue'].unique().tolist()
@@ -311,8 +311,8 @@ class ProcessFeaturesFilteredByDisease(ProcessGenericFeatures):
 
 
 
-		# =========== rna_tissue.tsv ============
-		rna_df = pd.read_csv(self.cfg.data_dir / 'human_protein_atlas/rna_tissue.tsv', sep='\t')
+		# =========== rna_tissue.tsv.gz ============
+		rna_df = pd.read_csv(self.cfg.data_dir / 'human_protein_atlas/rna_tissue.tsv.gz', sep='\t')
 		# print(rna_df.head())
 		print(rna_df.shape)
 
