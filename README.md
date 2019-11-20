@@ -23,39 +23,41 @@ https://www.biorxiv.org/content/10.1101/655449v1 bioRxiv, May 30, 2019, [doi:10.
 | Gene prioritisation Atlas: |
 | :---- |
 | [https://dvitsios.github.io/mantis-ml-predictions](https://dvitsios.github.io/mantis-ml-predictions) |
-| This resource contains gene prediction results extracted by **mantis-ml** across 10 disease areas in 6 specialties: _Cardiology_, _Immunology_, _Nephrology_, _Neurology_, _Psychiatry_ and _Pulmonology_. |
+| This resource contains gene prediction results extracted by **mantis-ml** across **10 disease areas** in **6 specialties**: _Cardiology_, _Immunology_, _Nephrology_, _Neurology_, _Psychiatry_ and _Pulmonology_. |
 
 
 <br>
 
 Installation
 ============
-### Requirements:
-- **Python3** (tested with v3.6.7)   [Required]
-- **Anaconda3** (tested with v5.3.0) [Recommended]
+**Requirements:** `Python3` (tested with v3.6.7)
+
+`mantis-ml` can be installed through `pip`:
+```
+pip install mantis-ml
+```
 
 <br>
 
-**1. Download `mantis-ml-release` GitHub repository:**
+Alternatively, it can be installed from the github repository:
+
 ```
 git clone https://github.com/astrazeneca-cgr-publications/mantis-ml-release.git
+python setup.py install
 ```
 
-<br/>
+<br>
 
-**2. Create a new `conda` environment:** [Recommended]
+---
+
+In either case, it is highly recommended to **create a new virtual environment** (e.g. with `conda`) before installing `mantis-ml`:
 ```
-conda create -n mantis_ml python=3.6 r
+conda create -n mantis_ml python=3.6
 conda config --append channels conda-forge   	# add conda-forge in the channels list
 conda activate mantis_ml			# activate the newly created conda environment
 ```
 
-<br>
-
-**3. Install `mantis-ml` with all dependencies:**
-```
-python setup.py install
-```
+---
 
 <br>
 
@@ -105,7 +107,7 @@ Additional associated terms:
 Diseases/Phenotypes to exclude: adrenal
 ```
 
-Other example config files can be found under `mantis-ml/conf`. 
+Other example config files can be found under [example-input](example-input) or `mantis-ml/conf](mantis-ml/conf`. 
 
 <br>
 
@@ -156,6 +158,11 @@ To run `mantisml-overlap`, you need to provide a config file (`.yaml`), an outpu
 ```
 mantisml-overlap -c [config_file] -o [output_dir] -e [external_ranked_file]
 ```
+
+<br>
+
+#### `mantisml-overlap` external ranked file input [-e]
+The external ranked gene list file may contain a single column with ranked genes or 2 columns, with the 2nd column containing p-values. Examples of external ranked lists for both cases are available at [example-input](example-input).
 
 
 #### `mantisml-overlap` Output
