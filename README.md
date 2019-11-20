@@ -107,7 +107,7 @@ Additional associated terms:
 Diseases/Phenotypes to exclude: adrenal
 ```
 
-Other example config files can be found under [example-input](example-input) or `mantis-ml/conf](mantis-ml/conf`. 
+Other example config files can be found under [example-input](example-input) or `mantis-ml/conf`. 
 
 <br>
 
