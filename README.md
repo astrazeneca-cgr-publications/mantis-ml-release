@@ -117,7 +117,7 @@ You need to provide a config file (`.yaml`) and an output directory.
 <br>
 You may also define the number of threads to use (`-n` option; default value: 4).
 ```
-mantisml -c [config_file] -o -o [output_dir] [-n nthreads]
+mantisml -c [config_file] -o [output_dir] [-n nthreads]
 ```
 
 #### Example
