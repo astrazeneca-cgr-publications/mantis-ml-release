@@ -107,7 +107,7 @@ Additional associated terms:
 Diseases/Phenotypes to exclude: adrenal
 ```
 
-Other example config files can be found under [example-input](example-input) or [mantis-ml/conf](mantis-ml/conf). 
+Other example config files can be found under [example-input](example-input) or `mantis-ml/conf](mantis-ml/conf`. 
 
 <br>
 
@@ -161,6 +161,7 @@ mantisml-overlap -c [config_file] -o [output_dir] -e [external_ranked_file]
 
 <br>
 
+#### `mantisml-overlap` external ranked file input [-e]
 The external ranked gene list file may contain a single column with ranked genes or 2 columns, with the 2nd column containing p-values.
 <br>
 Examples of external ranked lists for both cases are available at [example-input](example-input).
