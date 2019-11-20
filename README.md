@@ -3,6 +3,9 @@
 - [Introduction](#introduction) 
 - [Installation](#installation) 
 - [Run](#run) 
+  - [mantisml](#mantisml)
+  - [mantisml-profiler](#mantisml-profiler)
+  - [mantisml-overlap](#mantisml-overlap)
 
 
 
@@ -114,7 +117,8 @@ Other example config files can be found under [example-input](example-input) or 
 
 
 
-## `mantisml`
+`mantisml`
+=========
 You need to provide a config file (`.yaml`) and an output directory. 
 <br>
 You may also define the number of threads to use (`-n` option; default value: 4).
@@ -138,7 +142,8 @@ Output figures from all steps during the `mantis-ml` run (e.g. *Exploratory Data
 
 <br>
 
-## `mantisml-profiler`
+`mantisml-profiler`
+==================
 
 #### Preview selected phenotypes and features (optional)
 You may preview all selected phenotypes and relevant features based on your input config file parameters by running the `mantisml-profiler` command.
@@ -151,7 +156,9 @@ mantisml-profiler [-v] -c [config_file] -o [output_dir]
 
 <br><br>
 
-## `mantisml-overlap`
+`mantisml-overlap`
+==================
+
 #### Run enrichment test between mantis-ml predictions and an external ranked gene list to get refined gene predictions
 
 To run `mantisml-overlap`, you need to provide a config file (`.yaml`), an output directory with `mantisml` results and an external ranked gene list file (`mantisml` has to be run already given the same ouput directory).
