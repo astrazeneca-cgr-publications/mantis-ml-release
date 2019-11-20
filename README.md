@@ -23,7 +23,7 @@ https://www.biorxiv.org/content/10.1101/655449v1 bioRxiv, May 30, 2019, [doi:10.
 | Gene prioritisation Atlas: |
 | :---- |
 | [https://dvitsios.github.io/mantis-ml-predictions](https://dvitsios.github.io/mantis-ml-predictions) |
-| This resource contains gene prediction results extracted by **mantis-ml** across 10 disease areas in 6 specialties: _Cardiology_, _Immunology_, _Nephrology_, _Neurology_, _Psychiatry_ and _Pulmonology_. |
+| This resource contains gene prediction results extracted by **mantis-ml** across **10 disease areas** in **6 specialties**: _Cardiology_, _Immunology_, _Nephrology_, _Neurology_, _Psychiatry_ and _Pulmonology_. |
 
 
 <br>
@@ -31,27 +31,26 @@ https://www.biorxiv.org/content/10.1101/655449v1 bioRxiv, May 30, 2019, [doi:10.
 Installation
 ============
 ### Requirements:
-- **Python3** (tested with v3.6.7)   [Required]
+- **Python3** (tested with v3.6.7)
 
 <br>
 
-`mantis-ml` can be installed through pip:
 ```
 pip install mantis-ml
 ```
 
 <br>
 
-Alternatively, it can be installd from the github repository:
+Alternatively, `mantis-ml` can be installed from the github repository:
 
 ```
 git clone https://github.com/astrazeneca-cgr-publications/mantis-ml-release.git
 python setup.py install
 ```
 
-<br/>
+---
 
-In both cases, it is highly recommended to create a new virtual environment (e.g. with `conda`):
+In both cases, it is highly recommended to **create a new virtual environment** (e.g. with `conda`) before installing `mantis-ml`:
 ```
 conda create -n mantis_ml python=3.6
 conda config --append channels conda-forge   	# add conda-forge in the channels list
