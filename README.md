@@ -13,16 +13,16 @@ Introduction
 
 <br>
 
-|Citation|
-|----|
+|Citation: |
+| :---- |
 |Vitsios Dimitrios, Petrovski Slavé. **Stochastic semi-supervised learning to prioritise genes from high-throughput genomic screens**. <br/>
 https://www.biorxiv.org/content/10.1101/655449v1 bioRxiv, May 30, 2019, [doi:10.1101/655449](https://doi.org/10.1101/655449) |
 
 
-### Gene prioritisation Atlas:
-[https://dvitsios.github.io/mantis-ml-predictions](https://dvitsios.github.io/mantis-ml-predictions)
-
-This resource contains gene prediction results extracted by **mantis-ml** across 10 disease areas in 6 specialties: _Cardiology_, _Immunology_, _Nephrology_, _Neurology_, _Psychiatry_ and _Pulmonology_.
+| Gene prioritisation Atlas: |
+| :---- |
+| [https://dvitsios.github.io/mantis-ml-predictions](https://dvitsios.github.io/mantis-ml-predictions) |
+| This resource contains gene prediction results extracted by **mantis-ml** across 10 disease areas in 6 specialties: _Cardiology_, _Immunology_, _Nephrology_, _Neurology_, _Psychiatry_ and _Pulmonology_. |
 
 
 <br>
