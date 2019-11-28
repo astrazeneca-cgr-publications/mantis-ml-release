@@ -121,9 +121,13 @@ Other example config files can be found under [example-input](example-input) or 
 =========
 You need to provide a config file (`.yaml`) and an output directory. 
 <br>
-You may also define the number of threads to use (`-n` option; default value: 4).
+You may also:
+- define the number of threads to use (`-n` option; default value: 4).
+- define the number of stochastic iterations (`-i` option; default value: 10)
+- provide a file with custom seed genes (`-k` option; file should contain new-line separated HGNC names; bypasses HPO)
+
 ```
-mantisml -c [config_file] -o [output_dir] [-n nthreads]
+mantisml -c [config_file] -o [output_dir] [-n nthreads] [-i iteraionts] [-k cutsom_seed_genes.txt]
 ```
 
 #### Example

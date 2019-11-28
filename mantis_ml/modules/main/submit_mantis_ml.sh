@@ -4,4 +4,4 @@
 #SBATCH --time=24:0:0
 
 conf=$1
-mantisml -c $conf -o ../../../out/CKD-example -n 30 -i 2
+mantisml -c $conf -o ../../../out/CKD-example -n 30 -i 1
