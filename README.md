@@ -127,7 +127,7 @@ You may also:
 - provide a file with custom seed genes (`-k` option; file should contain new-line separated HGNC names; bypasses HPO)
 
 ```
-mantisml -c [config_file] -o [output_dir] [-n nthreads] [-i iteraionts] [-k cutsom_seed_genes.txt]
+mantisml -c [config_file] -o [output_dir] [-n nthreads] [-i iterations] [-k custom_seed_genes.txt]
 ```
 
 #### Example
