@@ -26,44 +26,63 @@ class ProcessFeaturesFilteredByDisease(ProcessGenericFeatures):
 		'''
 		print("\n>> Compiling HPO features...")
 
-		df = None
+		if self.cfg.custom_known_genes_file is None:
 
-		if not conservative:
-			# more inclusive
-			df = pd.read_csv(self.cfg.data_dir / 'HPO/ALL_SOURCES_ALL_FREQUENCIES_genes_to_phenotype.txt', sep='\t')
+			df = None
+
+			if not conservative:
+				# more inclusive
+				df = pd.read_csv(self.cfg.data_dir / 'HPO/ALL_SOURCES_ALL_FREQUENCIES_genes_to_phenotype.txt', sep='\t')
+			else:
+				# more conservative (default)
+				df = pd.read_csv(self.cfg.data_dir / 'HPO/ALL_SOURCES_FREQUENT_FEATURES_genes_to_phenotype.txt', sep='\t')
+
+			exclude_pattern = re.compile('|'.join(exclude_terms), re.IGNORECASE)
+			if len(exclude_terms) > 0:
+				df = df.loc[ ~df['HPO-Term-Name'].str.contains(exclude_pattern)]
+
+			include_pattern = re.compile('|'.join(include_terms), re.IGNORECASE)
+			seed_df = df.loc[ df['HPO-Term-Name'].str.contains(include_pattern)]
+
+			hpo_selected_terms = seed_df['HPO-Term-Name']
+			hpo_selected_terms = hpo_selected_terms.unique()
+
+
+			known_genes_df = pd.DataFrame({'Gene_Name': seed_df['entrez-gene-symbol'].unique(), 'known_gene': 1})
+
+
+			# TO-DO: test that hiding seed genes works for the non-Generic classifier too
+			if self.cfg.hide_seed_genes_ratio > 0:
+				sample_known_genes_df = known_genes_df.sample(frac=(1-self.cfg.hide_seed_genes_ratio))
+
+				hidden_seed_genes = pd.Series(list(set(known_genes_df.Gene_Name) - set(sample_known_genes_df.Gene_Name)))
+				hidden_seed_genes.to_csv(str(self.cfg.out_data_dir / 'hidden_seed_genes.txt'), index=None, header=False)
+
+				known_genes_df = sample_known_genes_df
+
+			if save_to_file:
+				known_genes_df.to_csv(self.cfg.data_dir / ("HPO/compiled_known_" + annot_descr + "_genes.tsv"), sep='\t', index=None)
+
 		else:
-			# more conservative (default)
-			df = pd.read_csv(self.cfg.data_dir / 'HPO/ALL_SOURCES_FREQUENT_FEATURES_genes_to_phenotype.txt', sep='\t')
+		
+			try:
+				known_genes_df = pd.read_csv(self.cfg.custom_known_genes_file, header=None)
+				known_genes_df.columns = ['Gene_Name']
+				known_genes_df['known_gene'] = 1
+				
+				print(known_genes_df.head())
+				print(known_genes_df.shape)
 
-		exclude_pattern = re.compile('|'.join(exclude_terms), re.IGNORECASE)
-		if len(exclude_terms) > 0:
-			df = df.loc[ ~df['HPO-Term-Name'].str.contains(exclude_pattern)]
+				hpo_selected_terms = "Not applicable - Using custom known genes list"
+				
+			except:
+				sys.exit("[Error] Could not read input file with custom known genes list.\nPlease provide a file with HGNC gene names (each in a separate line) with the -k option when calling mantisml or mantisml-profiler")	
 
-		include_pattern = re.compile('|'.join(include_terms), re.IGNORECASE)
-		seed_df = df.loc[ df['HPO-Term-Name'].str.contains(include_pattern)]
-
-		hpo_selected_terms = seed_df['HPO-Term-Name']
-		hpo_selected_terms = hpo_selected_terms.unique()
-
-
-		known_genes_df = pd.DataFrame({'Gene_Name': seed_df['entrez-gene-symbol'].unique(), 'known_gene': 1})
-
-
-		# TO-DO: test that hiding seed genes works for the non-Generic classifier too
-		if self.cfg.hide_seed_genes_ratio > 0:
-			sample_known_genes_df = known_genes_df.sample(frac=(1-self.cfg.hide_seed_genes_ratio))
-
-			hidden_seed_genes = pd.Series(list(set(known_genes_df.Gene_Name) - set(sample_known_genes_df.Gene_Name)))
-			hidden_seed_genes.to_csv(str(self.cfg.out_data_dir / 'hidden_seed_genes.txt'), index=None, header=False)
-
-			known_genes_df = sample_known_genes_df
-
-		if save_to_file:
-			known_genes_df.to_csv(self.cfg.data_dir / ("HPO/compiled_known_" + annot_descr + "_genes.tsv"), sep='\t', index=None)
 
 		print("Total HPO Genes associated with selected pattern: {0}".format(known_genes_df.shape[0]))
 
 		return known_genes_df, hpo_selected_terms
+
 
 
 	def process_omim(self, pattern):

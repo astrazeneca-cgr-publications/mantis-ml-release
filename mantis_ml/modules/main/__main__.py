@@ -11,7 +11,7 @@ from argparse import RawTextHelpFormatter
 
 class MantisMl:
 
-	def __init__(self, config_file, output_dir, nthreads=4, iterations=10, include_stacking=False):
+	def __init__(self, config_file, output_dir, nthreads=4, iterations=10, include_stacking=False, custom_known_genes_file=None):
 		
 		from mantis_ml.config_class import Config
 		self.config_file = config_file
@@ -24,10 +24,12 @@ class MantisMl:
 		self.cfg.iterations = int(iterations)
 		if include_stacking:
 			self.cfg.classifiers.append('Stacking')
+		self.cfg.custom_known_genes_file = custom_known_genes_file
 
 		print('nthreads:', self.cfg.nthreads)
 		print('Stochastic iterations:', self.cfg.iterations)
 		print('Classifiers:', self.cfg.classifiers)
+		print('Custom known genes:', self.cfg.custom_known_genes_file)
 
 		# Run profiler and store results to ouput dir	
 		os.system("mantisml-profiler -vc " + config_file + " -o " + self.output_dir + " > " + str(self.cfg.out_root) + "/profiler_metadata.out")
@@ -193,6 +195,7 @@ def main():
 	parser.add_argument("-c", dest="config_file", help="Config file (.yaml) with run parameters [Required]\n\n", required=True)
 	parser.add_argument("-o", dest="output_dir", help="Output directory name\n(absolute/relative path e.g. ./CKD, /tmp/Epilepsy-testing, etc.)\nIf it doesn't exist it will automatically be created [Required]\n\n", required=True)
 	parser.add_argument("-r", dest="run_tag", choices=['all', 'pre', 'boruta', 'pu', 'post', 'post_unsup'], default='all', help="Specify type of analysis to run (default: all)\n\n")
+	parser.add_argument("-k", dest="known_genes_file", help="File with custom list of known genes used for training (new-line separated)\n\n")
 	parser.add_argument("-n", dest="nthreads", default=4, help="Number of threads (default: 4)\n\n")
 	parser.add_argument("-i", dest="iterations", default=10, help="Number of stochastic iterations for semi-supervised learning (default: 10)\n\n")
 	parser.add_argument("-s", "--stacking", action="count", help="Include 'Stacking' in set of classifiers\n\n")
@@ -208,12 +211,13 @@ def main():
 	config_file = args.config_file
 	output_dir = args.output_dir
 	run_tag = args.run_tag
+	custom_known_genes_file = args.known_genes_file
 	nthreads = args.nthreads
 	iterations = args.iterations
 	stacking = bool(args.stacking)
 
 
-	mantis = MantisMl(config_file, output_dir, nthreads=nthreads, iterations=iterations, include_stacking=stacking)
+	mantis = MantisMl(config_file, output_dir, nthreads=nthreads, iterations=iterations, include_stacking=stacking, custom_known_genes_file=custom_known_genes_file)
 
 
 	if run_tag == 'all':

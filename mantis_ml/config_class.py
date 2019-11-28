@@ -52,6 +52,11 @@ class Config:
 			for k,v in self.conf.items():
 				print(k+':\t', v)
 
+
+		# Custom file with known genes list 
+		# -- Initiliase to None; Read with -k argument when calling mantisml
+		self.custom_known_genes_file = None
+
 		self.init_variables()
 		self.init_directories()
 
