@@ -224,6 +224,8 @@ class Config:
 		self.random_fold_split = self.conf['supervised_filters']['random_fold_split']
 		self.kfold = self.conf['supervised_filters']['kfold']
 
+		print("P/U Balancing ratio: ", self.balancing_ratio)
+
 		# randomisation
 		self.random_state = 2018  
 
