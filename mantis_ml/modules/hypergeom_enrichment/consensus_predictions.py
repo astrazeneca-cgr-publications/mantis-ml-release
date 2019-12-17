@@ -70,19 +70,28 @@ class Consensus_Gene_Predictions:
 	def run(self):
 
 		self.init_dirs()
-		#try:
-		self.compile_predicted_genes_df()
+		try:
+			self.compile_predicted_genes_df()
+		except:
+			print("[Warning] - " + str(self.gene_class) + " genes: Could not compile consensus table with predicted genes...")
 
 		# The 1st classifier in clf_subset should be the one with best overlap performance
+		# Get results from any 1,2,3,... classifiers
 		for relaxation in range(len(self.sorted_classifiers)-1):
-			self.get_consensus_list_and_plot(self.predicted_genes_df, self.sorted_classifiers, relaxation=relaxation)
+			try:
+				self.get_consensus_list_and_plot(self.predicted_genes_df, self.sorted_classifiers, relaxation=relaxation)
+			except:
+				print("[Warning] - " + str(self.gene_class) + " genes: No results available for consensus of all-but-" + str(relaxation) + " classifiers")
 
 
+		# Get results from top 1,2,3,... classifiers
 		for top_clf in range(1, len(self.sorted_classifiers)):
 			tmp_clf_subset = self.sorted_classifiers[:top_clf]
-			self.get_consensus_list_and_plot(self.predicted_genes_df, tmp_clf_subset, top_n_clf=True)
-		#except Exception as e:
-		#	pass
+
+			try:
+				self.get_consensus_list_and_plot(self.predicted_genes_df, tmp_clf_subset, top_n_clf=True)
+			except:
+				print("[Warning] - " + str(self.gene_class) + " genes: No results available for consensus of top " + str(top_clf) + " classifiers")
 
 
 
