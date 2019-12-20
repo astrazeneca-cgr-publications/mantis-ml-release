@@ -40,7 +40,7 @@ class FeatureTableCompiler:
 
             self.simplified_phenotype = self.cfg.phenotype
             # CKD-specific features
-            if any(re.findall(r'CKD|Kidney', self.cfg.phenotype, re.IGNORECASE)):
+            if any(re.findall(r'CKD|chronic kidney disease', self.cfg.phenotype, re.IGNORECASE)):
                 self.simplified_phenotype = 'CKD'
             # Cardiovascular disease-specific features
             if any(re.findall(r'Heart|Cardio|Stroke', self.cfg.phenotype, re.IGNORECASE)):
