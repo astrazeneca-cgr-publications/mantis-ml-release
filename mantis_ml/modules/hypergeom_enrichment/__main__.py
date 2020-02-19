@@ -52,6 +52,7 @@ class ExternalRankingOverlap:
 
 
 
+
 	def read_external_ranked_gene_list(self, external_ranked_file):
 		"""
 		    Read external file with independent gene ranking [external_ranked_file].
@@ -62,10 +63,10 @@ class ExternalRankingOverlap:
 		    and the external independent ranking.
 		"""
 
-		#self.external_ranked_df = pd.read_csv(external_ranked_file, sep=',|\t', 
-		#				      header=None, engine='python')
-		self.external_ranked_df = pd.read_csv(external_ranked_file, sep='\t', 
-						      header=None)
+		self.external_ranked_df = pd.read_csv(external_ranked_file, sep=',|\t', 
+						      header=None, engine='python')
+		#self.external_ranked_df = pd.read_csv(external_ranked_file, sep='\t', 
+		#				      header=None)
 		print(self.external_ranked_df.head())
 
 		if self.external_ranked_df.shape[1] > 1:
@@ -294,8 +295,12 @@ def main():
 	print('- external_ranked_file:', external_ranked_file)
 	print('- top_ratio:', str(100 * top_ratio) + '%')
 	print('-max_overlapping_genes (if applicable):', max_overlapping_genes)
-	print('-ylim:', ylim)
-	print('-xlim:', xlim)
+	if args.ylim:
+		print('-ylim:', ylim)
+	if args.xlim:
+		print('-xlim:', xlim)
+	else:
+		xlim = None
 	print('- show_full_xaxis:', show_full_xaxis)
 	print("\n")
 	# ***************************

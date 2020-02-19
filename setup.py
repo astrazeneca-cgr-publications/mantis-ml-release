@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 import io
 
 setup(	name='mantis-ml',
-	version='1.5.4',
+	version='1.5.5',
 	author='Dimitrios Vitsios',
 	author_email='dvitsios@gmail.com',
 	description='Disease-agnostic gene prioritisation from high-throughput genomic screens by stochastic semi-supervised learning',
