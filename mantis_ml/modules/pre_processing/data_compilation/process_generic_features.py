@@ -337,8 +337,9 @@ class ProcessGenericFeatures:
 
 if __name__ == '__main__':
 
-    config_file = '../../../config.yaml'
-    cfg = Config(config_file)
+    config_file = sys.argv[1] #'../../../config.yaml'
+    out_dir = sys.argv[2]
+    cfg = Config(config_file, out_dir)
 
     proc = ProcessGenericFeatures(cfg)
     proc.run_all()

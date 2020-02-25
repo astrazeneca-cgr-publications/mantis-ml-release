@@ -26,7 +26,7 @@ clf_alias = {'ExtraTreesClassifier': 'ET', 'SVC': 'SVC', 'DNN': 'DNN', 'RandomFo
 
 class ExternalRankingOverlap:
 
-	def __init__(self, cfg, clf_str, seed_genes, top_ratio=0.05, max_overlapping_genes=50, show_full_xaxis=False, ylim=None, xlim=None):
+	def __init__(self, cfg, clf_str, seed_genes, top_ratio=0.05, max_overlapping_genes=50, show_full_xaxis=False, ylim=None, xlim=None, benchmark_tool=None, benchmark_phenotype=None):
 		self.cfg = cfg
 		self.clf_str = clf_str
 		self.seed_genes = seed_genes
@@ -36,6 +36,10 @@ class ExternalRankingOverlap:
 		self.xlim = xlim
 		self.show_full_xaxis = show_full_xaxis
 
+		# BETA
+		self.benchmark_tool = benchmark_tool
+		self.benchmark_phenotype = benchmark_phenotype
+		
 		print('top_ratio:', self.top_ratio)
 		print('max_overlapping_genes:', self.max_overlapping_genes)
 		print('show_full_xaxis:', self.show_full_xaxis)
@@ -51,6 +55,13 @@ class ExternalRankingOverlap:
 			os.makedirs(self.enrichment_dir)
 
 
+		complete_feature_table = pd.read_csv(str(self.cfg.out_root) + '/data/compiled_feature_tables/complete_feature_table.tsv', sep='\t')
+		print(complete_feature_table.head())
+		self.known_genes = complete_feature_table.loc[ complete_feature_table.known_gene == 1, 'Gene_Name'].values
+		print(self.known_genes[:10])
+		print(len(self.known_genes))
+
+
 
 
 	def read_external_ranked_gene_list(self, external_ranked_file):
@@ -63,11 +74,12 @@ class ExternalRankingOverlap:
 		    and the external independent ranking.
 		"""
 
-		self.external_ranked_df = pd.read_csv(external_ranked_file, sep=',|\t', 
-						      header=None, engine='python')
-		#self.external_ranked_df = pd.read_csv(external_ranked_file, sep='\t', 
-		#				      header=None)
-		print(self.external_ranked_df.head())
+		#self.external_ranked_df = pd.read_csv(external_ranked_file, sep=',|\t', 
+		#				      header=None, engine='python', index_col=None)
+		self.external_ranked_df = pd.read_csv(external_ranked_file, sep=',', 
+						      header=None)
+
+
 
 		if self.external_ranked_df.shape[1] > 1:
 			self.external_ranked_df.columns = ['Gene_Name', 'p-val']
@@ -77,13 +89,33 @@ class ExternalRankingOverlap:
 			if any(self.external_ranked_df['p-val'] < 0) or any(self.external_ranked_df['p-val'] > 1) :
 				sys.exit('[Error] The 2nd column of the provided file contains invalid values.\n        Please make sure the 2nd column contains p-value scores.') 
 		
+
+			# BETA: filter out known genes
+			if run_for_novel_genes:
+				self.external_ranked_df = self.external_ranked_df.loc[ ~self.external_ranked_df['Gene_Name'].isin(self.known_genes), :]
+
+			# TEMP for ALS
+			self.external_ranked_df.sort_values(by='p-val', ascending=True, inplace=True)
+
 		else:
 			self.external_ranked_df.columns = ['Gene_Name']
 
+			# BETA: filter out known genes
+			#if run_for_novel_genes:
+			#	print(self.external_ranked_df.shape)
+			#	self.external_ranked_df = self.external_ranked_df.loc[ ~self.external_ranked_df.index.isin(self.known_genes), :]
+			#	print(self.external_ranked_df.shape)
+
+
+
 		self.external_ranked_df['external_rank'] = range(1, self.external_ranked_df.shape[0]+1)		
 
-
+		print(self.external_ranked_df.head())
+		print(self.external_ranked_df.tail())
+		print(self.external_ranked_df.shape)
 		
+
+			
 
 	def calc_phred_score(self, pval):
 		return -10 * np.log10(pval)
@@ -110,6 +142,27 @@ class ExternalRankingOverlap:
 		max_x_lim = -1
 		# **********************
 	
+	
+	
+		# *** Ad-hoc for bencmarking ***
+		if self.benchmark_tool:
+			benchmark_input_dir = "../../../misc/overlap-collapsing-analyses/" + self.benchmark_tool + '/' + self.benchmark_phenotype
+			benchmark_intersection_genes_file = benchmark_input_dir + '/collapsing_genes_intersection.' + self.benchmark_phenotype + '.txt'
+ 
+			benchmark_intersection_genes = []
+			with open(benchmark_intersection_genes_file) as fh:
+				for line in fh:
+					line = line.rstrip()
+					benchmark_intersection_genes.append(line)
+			print(benchmark_intersection_genes[:10])
+			print(len(benchmark_intersection_genes)) 
+
+
+			self.external_ranked_df = self.external_ranked_df.loc[ self.external_ranked_df.Gene_Name.isin(benchmark_intersection_genes), : ]
+			print(self.external_ranked_df.shape)
+			print(self.external_ranked_df.head())
+	
+	
 
 		M = self.external_ranked_df.shape[0]
 		print('Population Size:', M)
@@ -120,17 +173,40 @@ class ExternalRankingOverlap:
 
 		clf = all_clf[self.clf_str]
 		proba_df = clf.gene_proba_df
-		proba_df = proba_df.iloc[:, ~proba_df.columns.isin(genes_to_remove)]
-		print(proba_df.head())
-		print(proba_df.shape)
 
+		# BETA: filter out known genes
+		if run_for_novel_genes:
+			print(proba_df.head())
+			print(proba_df.shape)
+			proba_df = proba_df.iloc[:, ~proba_df.columns.isin(self.known_genes)]
+			print(proba_df.head())
+			print(proba_df.shape)
+
+		
+		proba_df = proba_df.iloc[:, ~proba_df.columns.isin(genes_to_remove)]
 
 		# Subset top 'top_ratio' % of mantis-ml predictions to overlap with collapsing results
-		proba_df = proba_df.iloc[:, 0:int(self.top_ratio * proba_df.shape[1])]
-		mantis_ml_top_genes = list(proba_df.columns.values)
+		if run_for_known_genes:
+			mantis_ml_top_genes = list(self.known_genes)
+		
+		elif self.benchmark_tool:
+			mantis_ml_top_genes = []
+
+			with open(benchmark_input_dir + '/' + self.benchmark_phenotype + '.' + self.benchmark_tool.lower() + '.ranked_genes.txt.collapsing_intersection') as fh:
+				for line in fh:
+					line = line.rstrip()
+					gene, ranking = line.split(',')
+					mantis_ml_top_genes.append(gene)			
+			print(mantis_ml_top_genes[:10])
+			# subset top_ratio % of external method rankings
+			mantis_ml_top_genes = mantis_ml_top_genes[ : int(len(mantis_ml_top_genes) * self.top_ratio)]
+		
+		else:
+			proba_df = proba_df.iloc[:, 0:int(self.top_ratio * proba_df.shape[1])]
+			mantis_ml_top_genes = list(proba_df.columns.values)
 		print(mantis_ml_top_genes[:10])
 		print('mantis-ml top genes:', len(mantis_ml_top_genes))
-
+		
 
 
 		self.external_ranked_df = self.external_ranked_df.loc[self.external_ranked_df['Gene_Name'].isin(mantis_ml_top_genes)]
@@ -152,6 +228,8 @@ class ExternalRankingOverlap:
 			cur_gene = self.external_ranked_df.loc[x, 'Gene_Name']
 			hypergeom_ordered_genes = hypergeom_ordered_genes + [cur_gene]
 		# ***********************************************
+
+		original_hypergeom_pvals = hypergeom_pvals[:]
 
 		min_pval = min(hypergeom_pvals)
 		hypergeom_pvals = [self.calc_phred_score(pval) for pval in hypergeom_pvals]
@@ -178,6 +256,13 @@ class ExternalRankingOverlap:
 			max_x_lim = last_signif_index
 
 
+		# excluding the very-first p-value (=1.0)
+		print("Significant region hypergeom. test p-vals:")
+		print(len(original_hypergeom_pvals[1:last_signif_index]))
+		print(original_hypergeom_pvals[1:last_signif_index])
+		print("Average p-val:", np.mean(original_hypergeom_pvals[1:last_signif_index]))
+		print("Min. p-val:", np.min(original_hypergeom_pvals[1:last_signif_index]))
+	
 
 		ax.set_xlim(left=-0.5)
 		ax.set_xlabel('Top ' + str(round(100 * self.top_ratio, 1)) + '% mantis-ml predicted genes', fontsize=14)
@@ -242,7 +327,10 @@ class ExternalRankingOverlap:
 		if self.show_full_xaxis:
 		   xaxis_str = '.full_xaxis'
 
-		fig.savefig(self.base_enrichment_dir + '/' + self.clf_str + xaxis_str + remove_seed_genes_str + '.pdf', bbox_inches='tight')
+		if self.benchmark_tool:
+			fig.savefig(self.base_enrichment_dir + '/' + self.benchmark_tool + xaxis_str + remove_seed_genes_str + '.pdf', bbox_inches='tight')
+		else:
+			fig.savefig(self.base_enrichment_dir + '/' + self.clf_str + xaxis_str + remove_seed_genes_str + '.pdf', bbox_inches='tight')
 		plt.close()
 
 
@@ -271,12 +359,20 @@ def main():
 	parser.add_argument("-f", "--full_xaxis", action="count", required=False,
 			    help="Plot enrichment signal across the entire x-axis\nand not just for the significant part (or the MAX_OVERLAPPING_GENES)\nof the external ranked list\n\n")
 	
+	# BETA
+	parser.add_argument("-b", dest="benchmark_tool", required=False, default=None, help='external benchmarked tool')
+	parser.add_argument("-p", dest="benchmark_phenotype", required=False, default=None, help='external benchmarked phenotype')
+	
+	
 	if len(sys.argv)==1:
 		parser.print_help(sys.stderr)     
 		sys.exit(1)
 
 	args = parser.parse_args()
 
+	# BETA
+	benchmark_tool = args.benchmark_tool
+	benchmark_phenotype = args.benchmark_phenotype
 
 	config_file = args.config_file
 	output_dir = args.output_dir
@@ -350,13 +446,17 @@ def main():
 	collapsing_top_ratio = -1  # Set to -1 to use pval_cutoff instead
 
 
+	# BETA
+	if benchmark_tool:
+		classifiers = [classifiers[0]]
+	
 
 	for clf_str in classifiers:
 	
 		print('\n> Classifier: ' + clf_str)
 		print('Overlapping with top ' + str(float(top_ratio) * 100) + '% of ' + clf_str + ' predictions ...')
 		
-		rank_overlap = ExternalRankingOverlap(cfg, clf_str, seed_genes, top_ratio=top_ratio, max_overlapping_genes=max_overlapping_genes, show_full_xaxis=show_full_xaxis, ylim=ylim, xlim=xlim)
+		rank_overlap = ExternalRankingOverlap(cfg, clf_str, seed_genes, top_ratio=top_ratio, max_overlapping_genes=max_overlapping_genes, show_full_xaxis=show_full_xaxis, ylim=ylim, xlim=xlim, benchmark_tool=benchmark_tool, benchmark_phenotype=benchmark_phenotype)
 
 		rank_overlap.read_external_ranked_gene_list(external_ranked_file)
 		print(rank_overlap.external_ranked_df.head())
@@ -374,4 +474,9 @@ def main():
 
 
 if __name__ == '__main__':
+
+	run_for_novel_genes = True
+	run_for_known_genes = False
+
 	main()
+
