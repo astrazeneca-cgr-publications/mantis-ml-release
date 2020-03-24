@@ -1,5 +1,8 @@
 # mantis-ml 
 
+
+<img style="display:block; margin:0 auto;" src="misc/mantis-ml_logo.png" width="160">
+
 - [Introduction](#introduction) 
 - [Installation](#installation) 
 - [Run](#run) 
