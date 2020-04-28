@@ -121,7 +121,7 @@ Other example config files can be found under [example-input](example-input) or 
 ### Estimated run time
 `mantis-ml` total run time is inversely proportional to the number of known disease-associated (seed) genes (the fewer the seed genes are the more balanced datasets there are to be trained). 
 <br>
-Example run times for different numbers of seed genes are given in this table. All results correspond to `mantis-ml runs` across **10 stochastic iterations**, training with **6 different supervised models** and using **10 cores**.
+Example run times for different numbers of seed genes are given in this table. All results correspond to `mantis-ml` runs across **10 stochastic iterations**, training with **6 different supervised models** and using **10 cores**.
 
 | Disease example| Num. of seed genes | Total run time |
 | -------------- | ------------------ | --------------- |
