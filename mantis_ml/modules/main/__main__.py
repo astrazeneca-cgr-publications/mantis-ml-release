@@ -11,7 +11,7 @@ from argparse import RawTextHelpFormatter
 
 class MantisMl:
 
-	def __init__(self, config_file, output_dir, nthreads=4, iterations=10, include_stacking=False, custom_known_genes_file=None):
+	def __init__(self, config_file, output_dir, nthreads=4, iterations=10, custom_known_genes_file=None, fast_run_option=False, superv_models=None):
 		
 		from mantis_ml.config_class import Config
 		self.config_file = config_file
@@ -22,14 +22,32 @@ class MantisMl:
 		# modify default config paramters when provided with respective parameters
 		self.cfg.nthreads = int(nthreads)
 		self.cfg.iterations = int(iterations)
-		if include_stacking:
-			self.cfg.classifiers.append('Stacking')
+
+		if fast_run_option:
+			self.cfg.classifiers = ['ExtraTreesClassifier', 'RandomForestClassifier', 'SVC', 'GradientBoostingClassifier']
+
+		if superv_models:
+			models_dict = { 'et': 'ExtraTreesClassifier',	
+					'rf': 'RandomForestClassifier',
+					'svc': 'SVC',	
+					'gb': 'GradientBoostingClassifier',
+					'xgb': 'XGBoost',
+					'dnn': 'DNN',
+					'stack': 'Stacking' }
+
+			try:
+				self.cfg.classifiers = list(set([ models_dict[k] for k in superv_models.split(',') ]))
+			except:
+				print('[Warning] -m option args are not correct.\n\t  Currently going ahead with mantis-ml run using the 6 default classifiers (unless -f has also been specified which will integrate 4 classifiers only).\n')
+
+
 		self.cfg.custom_known_genes_file = custom_known_genes_file
 
 		print('nthreads:', self.cfg.nthreads)
 		print('Stochastic iterations:', self.cfg.iterations)
 		print('Classifiers:', self.cfg.classifiers)
 		print('Custom known genes:', self.cfg.custom_known_genes_file)
+
 
 		# Run profiler and store results to ouput dir	
 		os.system("mantisml-profiler -vc " + config_file + " -o " + self.output_dir + " > " + str(self.cfg.out_root) + "/profiler_metadata.out")
@@ -195,10 +213,14 @@ def main():
 	parser.add_argument("-c", dest="config_file", help="Config file (.yaml) with run parameters [Required]\n\n", required=True)
 	parser.add_argument("-o", dest="output_dir", help="Output directory name\n(absolute/relative path e.g. ./CKD, /tmp/Epilepsy-testing, etc.)\nIf it doesn't exist it will automatically be created [Required]\n\n", required=True)
 	parser.add_argument("-r", dest="run_tag", choices=['all', 'pre', 'boruta', 'pu', 'post', 'post_unsup'], default='all', help="Specify type of analysis to run (default: all)\n\n")
+
+	parser.add_argument("-f", "--fast", action="count", help="Fast training using only 4 classifiers: Extra Trees, Random Forest, SVC and Gradient Boosting.\nBy default, mantis-ml uses 6 supervised models for training: Extra Trees, Random Forest, SVC, Gradient Boosting, XGBoost and Deep Neural Net.\n\n")
+
+	parser.add_argument("-m", dest="superv_models", default=None, help="Explicitly specify which supervised models to be used for training. This overrides the '-f/--fast' option.\n- Options:\n et: Extra Trees\n rf: Random Forest\n gb: Gradient Boosting\n xgb: XGBoost\n svc: Support Vector Classifier\n dnn: Deep Neural Net\n stack: Stacking classifier\n\nMultiple models may be specified using a ',' separator, e.g. -m et,rf,stack\nWhen this option is not specified, 6 models are trained by default with mantis-ml: Extra Trees, Random Forest, SVC, Gradient Boosting, XGBoost and Deep Neural Net. \n\n")
+
 	parser.add_argument("-k", dest="known_genes_file", help="File with custom list of known genes used for training (new-line separated)\n\n")
 	parser.add_argument("-n", dest="nthreads", default=4, help="Number of threads (default: 4)\n\n")
 	parser.add_argument("-i", dest="iterations", default=10, help="Number of stochastic iterations for semi-supervised learning (default: 10)\n\n")
-	parser.add_argument("-s", "--stacking", action="count", help="Include 'Stacking' in set of classifiers\n\n")
 
 	if len(sys.argv)==1:
 		parser.print_help(sys.stderr)
@@ -208,16 +230,26 @@ def main():
 	args = parser.parse_args()
 	print(args)
 
+
+
 	config_file = args.config_file
 	output_dir = args.output_dir
 	run_tag = args.run_tag
+	fast_run_option = bool(args.fast)
+	superv_models = args.superv_models
+
 	custom_known_genes_file = args.known_genes_file
 	nthreads = args.nthreads
 	iterations = args.iterations
-	stacking = bool(args.stacking)
 
 
-	mantis = MantisMl(config_file, output_dir, nthreads=nthreads, iterations=iterations, include_stacking=stacking, custom_known_genes_file=custom_known_genes_file)
+	mantis = MantisMl(config_file, 
+			  output_dir, 
+			  nthreads=nthreads, 
+			  iterations=iterations, 
+			  custom_known_genes_file=custom_known_genes_file,
+			  fast_run_option = fast_run_option,
+			  superv_models = superv_models)
 
 
 	if run_tag == 'all':
