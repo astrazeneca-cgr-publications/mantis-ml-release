@@ -118,7 +118,23 @@ Other example config files can be found under [example-input](example-input) or 
 <br>
 
 
-### Estimated run time
+#### Supervised learning models
+- `mantis-ml` runs 6 different supervised models by default: Extra Trees, Random Forest, SVC, Gradient Boosting, XGBoost and Deep Neural Net. 
+- It is also possible to run `mantis-ml` with the `-f / --fast` option, which will force mantis-ml to train only 4 classifiers: `Extra Trees`, `Random Forest`, `SVC` and `Gradient Boosting`.
+- Additionally, the user may explicitly specify which supervised models to be used for training via the `-m` option. The available model options are coded as follows:
+  - `et`: Extra Trees
+  - `rf`: Random Forest
+  - `gb`: Gradient Boosting
+  - `xgb`: XGBoost
+  - `svc`: Support Vector Classifier
+  - `dnn`: Deep Neural Net
+  - `stack`: Stacking classifier
+
+Multiple models may be specified using a `,` separator, e.g. `-m et`, `-m et,stack,gb` etc. 
+
+
+#### Estimated run time
+
 `mantis-ml` total run time is inversely proportional to the number of known disease-associated (seed) genes (the fewer the seed genes are the more balanced datasets there are to be trained). 
 <br>
 Example run times for different numbers of seed genes are given in this table. All results correspond to `mantis-ml` runs across **10 stochastic iterations**, training with **6 different supervised models** and using **10 cores**.
@@ -128,6 +144,15 @@ Example run times for different numbers of seed genes are given in this table. A
 | Epilepsy | 864 | 2h | 
 | Chronic Kidney Disease | 587 | 2.5h |
 | Amyotrophic Lateral Sclerosis | 77 | 11h |
+
+Representative examples of run times when using the `-f / --fast` option, two classifiers with the `-m` option or just the Stacking classifer are also given below (CKD dataset, 10 stochastic iterations, 10 cores):
+
+| Number of models | Total run time |
+| -------------- |  --------------- |
+| 6 (default) | 2.5h |
+| 4 (`-f`) | 43m |
+| 2 (`-m et,rf`) | 19m | 
+| Stacking (`-m stack`) | 1.5h |
 
 
 <br><br>
