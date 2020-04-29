@@ -63,11 +63,9 @@ class ExternalRankingOverlap:
 		    and the external independent ranking.
 		"""
 
-		self.external_ranked_df = pd.read_csv(external_ranked_file, sep=',|\t', 
-						      header=None, engine='python')
-		#self.external_ranked_df = pd.read_csv(external_ranked_file, sep='\t', 
-		#				      header=None)
-		print(self.external_ranked_df.head())
+		self.external_ranked_df = pd.read_csv(external_ranked_file, sep='\t', 
+						      header=None)
+
 
 		if self.external_ranked_df.shape[1] > 1:
 			self.external_ranked_df.columns = ['Gene_Name', 'p-val']
@@ -79,6 +77,8 @@ class ExternalRankingOverlap:
 		
 		else:
 			self.external_ranked_df.columns = ['Gene_Name']
+		print(self.external_ranked_df.head())
+
 
 		self.external_ranked_df['external_rank'] = range(1, self.external_ranked_df.shape[0]+1)		
 

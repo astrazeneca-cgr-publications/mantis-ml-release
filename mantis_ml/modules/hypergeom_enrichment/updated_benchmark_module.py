@@ -95,7 +95,7 @@ class ExternalRankingOverlap:
 				self.external_ranked_df = self.external_ranked_df.loc[ ~self.external_ranked_df['Gene_Name'].isin(self.known_genes), :]
 
 			# TEMP for ALS
-			self.external_ranked_df.sort_values(by='p-val', ascending=True, inplace=True)
+			#self.external_ranked_df.sort_values(by='p-val', ascending=True, inplace=True)
 
 		else:
 			self.external_ranked_df.columns = ['Gene_Name']
@@ -185,11 +185,7 @@ class ExternalRankingOverlap:
 		
 		proba_df = proba_df.iloc[:, ~proba_df.columns.isin(genes_to_remove)]
 
-		# Subset top 'top_ratio' % of mantis-ml predictions to overlap with collapsing results
-		if run_for_known_genes:
-			mantis_ml_top_genes = list(self.known_genes)
-		
-		elif self.benchmark_tool:
+		if self.benchmark_tool:
 			mantis_ml_top_genes = []
 
 			with open(benchmark_input_dir + '/' + self.benchmark_phenotype + '.' + self.benchmark_tool.lower() + '.ranked_genes.txt.collapsing_intersection') as fh:
@@ -204,12 +200,21 @@ class ExternalRankingOverlap:
 		else:
 			proba_df = proba_df.iloc[:, 0:int(self.top_ratio * proba_df.shape[1])]
 			mantis_ml_top_genes = list(proba_df.columns.values)
-		print(mantis_ml_top_genes[:10])
+		
+		
+		print("mantis-ml top genes:", len(mantis_ml_top_genes))
+		
+		# Subset top 'top_ratio' % of mantis-ml predictions to overlap with collapsing results
+		if run_for_known_genes:
+			mantis_ml_top_genes = list(set(self.known_genes) & set(mantis_ml_top_genes))		
+		print(mantis_ml_top_genes)
 		print('mantis-ml top genes:', len(mantis_ml_top_genes))
 		
 
-
+		print(self.external_ranked_df.head())		
 		self.external_ranked_df = self.external_ranked_df.loc[self.external_ranked_df['Gene_Name'].isin(mantis_ml_top_genes)]
+		print(self.external_ranked_df.head())
+		
 		self.external_ranked_df.reset_index(drop=True, inplace=True)
 
 
@@ -246,14 +251,21 @@ class ExternalRankingOverlap:
 
 		if self.has_p_values:
 			last_signif_index = self.find_last_signif_gene_index(self.external_ranked_df)
+			
+			print('last_signif_index was found to be None - setting it to external_ranked_df.shape[0]')
 			if last_signif_index is None:
 				last_signif_index = self.external_ranked_df.shape[0]		
 		else:
+			print('max overlapping gnes')
 			last_signif_index = self.max_overlapping_genes
 
 		print('last_signif_index:', last_signif_index)
 		if last_signif_index > max_x_lim:
 			max_x_lim = last_signif_index
+		
+		# TEMP - BETA (for external datasets with no significant hit with top mantis-ml predictions
+		#if last_signif_index == 0:
+		#	last_signif_index = 20
 
 
 		# excluding the very-first p-value (=1.0)

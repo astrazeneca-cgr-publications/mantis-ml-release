@@ -15,9 +15,9 @@ class FeatureTableCompiler:
     def __init__(self, cfg):
         self.cfg = cfg
 
-        self.disease_specific_compiler = {'CKD': process_ckd_specific_features.ProcessCKDSpecificFeatures,
+        self.disease_specific_compiler = {#'CKD': process_ckd_specific_features.ProcessCKDSpecificFeatures,
                                           'CardioV': process_cardiov_specific_features.ProcessCardiovascularSpecificFeatures}
-        self.disease_specific_feature_files = {'CKD': self.cfg.ckd_specific_feature_table,
+        self.disease_specific_feature_files = {#'CKD': self.cfg.ckd_specific_feature_table,
                                                'CardioV': self.cfg.cardiov_specific_feature_table}
 
         self.full_features_df = None
@@ -50,6 +50,7 @@ class FeatureTableCompiler:
 
 
             if disease_specific_func != no_addit_disease_features:
+                print(">>> Using disease-specific features...")
                 proc = disease_specific_func(self.cfg)
                 proc.run_all()
             else:
