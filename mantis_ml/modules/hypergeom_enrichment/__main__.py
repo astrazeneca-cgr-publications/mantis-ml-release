@@ -26,7 +26,7 @@ clf_alias = {'ExtraTreesClassifier': 'ET', 'SVC': 'SVC', 'DNN': 'DNN', 'RandomFo
 
 class ExternalRankingOverlap:
 
-	def __init__(self, cfg, clf_str, seed_genes, top_ratio=0.05, max_overlapping_genes=50, show_full_xaxis=False, ylim=None, xlim=None):
+	def __init__(self, cfg, clf_str, seed_genes, top_ratio=0.05, max_overlapping_genes=50, show_full_xaxis=False, ylim=None, xlim=None, suffix=None):
 		self.cfg = cfg
 		self.clf_str = clf_str
 		self.seed_genes = seed_genes
@@ -35,6 +35,7 @@ class ExternalRankingOverlap:
 		self.ylim = ylim
 		self.xlim = xlim
 		self.show_full_xaxis = show_full_xaxis
+		self.suffix = suffix
 
 		print('top_ratio:', self.top_ratio)
 		print('max_overlapping_genes:', self.max_overlapping_genes)
@@ -238,11 +239,14 @@ class ExternalRankingOverlap:
 		remove_seed_genes_str = ''
 		if len(genes_to_remove) > 0:
 			remove_seed_genes_str = '.removed_' + str(len(genes_to_remove)) + '_seed_genes'
-		xaxis_str = ''
+		suffix_str = ''
 		if self.show_full_xaxis:
-		   xaxis_str = '.full_xaxis'
+		   suffix_str = '.full_xaxis'
+		if self.suffix:
+			suffix_str += '.' + self.suffix
+		
 
-		fig.savefig(self.base_enrichment_dir + '/' + self.clf_str + xaxis_str + remove_seed_genes_str + '.pdf', bbox_inches='tight')
+		fig.savefig(self.base_enrichment_dir + '/' + self.clf_str + suffix_str + remove_seed_genes_str + '.pdf', bbox_inches='tight')
 		plt.close()
 
 
@@ -271,11 +275,19 @@ def main():
 	parser.add_argument("-f", "--full_xaxis", action="count", required=False,
 			    help="Plot enrichment signal across the entire x-axis\nand not just for the significant part (or the MAX_OVERLAPPING_GENES)\nof the external ranked list\n\n")
 	
+
+	# BETA
+	parser.add_argument("-s", dest="suffix", required=False, default=5,
+			    help="Suffix to be used with output files\n\n")
+	
 	if len(sys.argv)==1:
 		parser.print_help(sys.stderr)     
 		sys.exit(1)
 
 	args = parser.parse_args()
+
+
+	suffix = args.suffix
 
 
 	config_file = args.config_file
@@ -356,7 +368,7 @@ def main():
 		print('\n> Classifier: ' + clf_str)
 		print('Overlapping with top ' + str(float(top_ratio) * 100) + '% of ' + clf_str + ' predictions ...')
 		
-		rank_overlap = ExternalRankingOverlap(cfg, clf_str, seed_genes, top_ratio=top_ratio, max_overlapping_genes=max_overlapping_genes, show_full_xaxis=show_full_xaxis, ylim=ylim, xlim=xlim)
+		rank_overlap = ExternalRankingOverlap(cfg, clf_str, seed_genes, top_ratio=top_ratio, max_overlapping_genes=max_overlapping_genes, show_full_xaxis=show_full_xaxis, ylim=ylim, xlim=xlim, suffix=suffix)
 
 		rank_overlap.read_external_ranked_gene_list(external_ranked_file)
 		print(rank_overlap.external_ranked_df.head())
