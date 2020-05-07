@@ -19,10 +19,11 @@ Introduction
 
 <br>
 
-|Citation: |
+|Publication - Please cite: |
 | :---- |
-|Vitsios Dimitrios, Petrovski Slavé. **Stochastic semi-supervised learning to prioritise genes from high-throughput genomic screens**. <br/>
-https://www.biorxiv.org/content/10.1101/655449v1 bioRxiv, May 30, 2019, [doi:10.1101/655449](https://doi.org/10.1101/655449) |
+|[Mantis-ml: Disease-Agnostic Gene Prioritization from High-Throughput Genomic Screens by Stochastic Semi-supervised Learning](https://www.cell.com/ajhg/fulltext/S0002-9297(20)30108-7). <br/>
+Dimitrios Vitsios, Slavé Petrovski.  <br/>
+__The American Journal of Human Genetics__ (Cell Press), May 7, 2020 https://doi.org/10.1016/j.ajhg.2020.03.012  |
 
 <br>
 
