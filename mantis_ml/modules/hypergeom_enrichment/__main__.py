@@ -121,15 +121,19 @@ class ExternalRankingOverlap:
 
 		clf = all_clf[self.clf_str]
 		proba_df = clf.gene_proba_df
+
+
+
+
 		proba_df = proba_df.iloc[:, ~proba_df.columns.isin(genes_to_remove)]
-		print(proba_df.head())
-		print(proba_df.shape)
+
+
 
 
 		# Subset top 'top_ratio' % of mantis-ml predictions to overlap with collapsing results
 		proba_df = proba_df.iloc[:, 0:int(self.top_ratio * proba_df.shape[1])]
 		mantis_ml_top_genes = list(proba_df.columns.values)
-		print(mantis_ml_top_genes[:10])
+		#print(mantis_ml_top_genes[:10])
 		print('mantis-ml top genes:', len(mantis_ml_top_genes))
 
 
@@ -140,12 +144,17 @@ class ExternalRankingOverlap:
 
 		n = self.external_ranked_df.shape[0]
 		print('Total number of Successes:', n)
-		print(self.external_ranked_df.head())
+		print('> external_ranked_df:', self.external_ranked_df.head())
+
 
 
 		# ************* Hypergeometric Test *************
 		for x in range(self.external_ranked_df.shape[0]):
+
+
+
 			N = self.external_ranked_df.iloc[x, self.external_ranked_df.shape[1]-1]
+			#print(x, N)
 			cur_pval = hypergeom.sf(x - 1, M, n, N)
 
 			hypergeom_pvals = hypergeom_pvals + [cur_pval]
@@ -154,17 +163,7 @@ class ExternalRankingOverlap:
 			hypergeom_ordered_genes = hypergeom_ordered_genes + [cur_gene]
 		# ***********************************************
 
-		min_pval = min(hypergeom_pvals)
-		hypergeom_pvals = [self.calc_phred_score(pval) for pval in hypergeom_pvals]
 
-
-
-
-		# ------------------------- Start plotting ----------------------------
-		linewidth = 1
-		ax.plot(hypergeom_pvals, color="#33a02c",
-					label=self.clf_str,
-					linewidth=linewidth)
 
 
 		if self.has_p_values:
@@ -177,6 +176,25 @@ class ExternalRankingOverlap:
 		print('last_signif_index:', last_signif_index)
 		if last_signif_index > max_x_lim:
 			max_x_lim = last_signif_index
+
+
+
+		min_pval = min(hypergeom_pvals[ :int(last_signif_index)])
+		print('min pval:', min_pval)
+		print('pval at last significant gene from collapsing:', hypergeom_pvals[last_signif_index])
+
+		# Convert p-values to PHRED scores
+		hypergeom_pvals = [self.calc_phred_score(pval) for pval in hypergeom_pvals]
+		print('max PHRED:', self.calc_phred_score(min_pval))
+		print('PHRED at last significant gene from collapsing:', hypergeom_pvals[last_signif_index])
+
+
+
+		# ------------------------- Start plotting ----------------------------
+		linewidth = 1
+		ax.plot(hypergeom_pvals, color="#33a02c",
+					label=self.clf_str,
+					linewidth=linewidth)
 
 
 
@@ -208,15 +226,23 @@ class ExternalRankingOverlap:
 									 how='left', left_on='Gene_Name', right_on='Gene_Name')
 		merged_results_df.fillna(0, inplace=True)
 
+	
+		suffix_str = ''
+		if self.suffix:
+			suffix_str += '.' + self.suffix
+		remove_seed_genes_str = ''
+		if len(genes_to_remove) > 0:
+			remove_seed_genes_str = '.removed_' + str(len(genes_to_remove)) + '_seed_genes'
+
 
 		merged_results_df.sort_values(by='mantis_ml_rank', ascending=True, inplace=True)
-		merged_results_df.to_csv(self.enrichment_dir + '/mantis_ml-vs-external_ranked_list.Top_' + str(self.top_ratio) + '.' + clf_alias[self.clf_str] + '.csv', index=False)
+		merged_results_df.to_csv(self.enrichment_dir + '/mantis_ml-vs-external_ranked_list.Top_' + str(self.top_ratio) + '.' + clf_alias[self.clf_str] + suffix_str + remove_seed_genes_str + '.csv', index=False)
 
 		novel_overlaping_genes = merged_results_df.loc[ merged_results_df.Known_gene == 0, 'Gene_Name']
-		novel_overlaping_genes.to_csv(self.enrichment_dir + '/Novel_overlaping_genes.Top_' + str(self.top_ratio) + '.' + clf_alias[self.clf_str] + '.csv', index=False, header=False)
+		novel_overlaping_genes.to_csv(self.enrichment_dir + '/Novel_overlaping_genes.Top_' + str(self.top_ratio) + '.' + clf_alias[self.clf_str] + suffix_str + remove_seed_genes_str + '.csv', index=False, header=False)
 
 		known_overlaping_genes = merged_results_df.loc[ merged_results_df.Known_gene == 1, 'Gene_Name']
-		known_overlaping_genes.to_csv(self.enrichment_dir + '/Known_overlaping_genes.Top_' + str(self.top_ratio) + '.' + clf_alias[self.clf_str] + '.csv', index=False, header=False)
+		known_overlaping_genes.to_csv(self.enrichment_dir + '/Known_overlaping_genes.Top_' + str(self.top_ratio) + '.' + clf_alias[self.clf_str] + suffix_str + remove_seed_genes_str + '.csv', index=False, header=False)
 		# ====================================================================
 
 
@@ -236,9 +262,6 @@ class ExternalRankingOverlap:
 
 
 
-		remove_seed_genes_str = ''
-		if len(genes_to_remove) > 0:
-			remove_seed_genes_str = '.removed_' + str(len(genes_to_remove)) + '_seed_genes'
 		suffix_str = ''
 		if self.show_full_xaxis:
 		   suffix_str = '.full_xaxis'
@@ -274,11 +297,11 @@ def main():
 			    help="Explicitly define x-axis max. limit\n\n")
 	parser.add_argument("-f", "--full_xaxis", action="count", required=False,
 			    help="Plot enrichment signal across the entire x-axis\nand not just for the significant part (or the MAX_OVERLAPPING_GENES)\nof the external ranked list\n\n")
-	
-
-	# BETA
-	parser.add_argument("-s", dest="suffix", required=False, default=5,
+	parser.add_argument("-s", dest="suffix", required=False, default=None,
 			    help="Suffix to be used with output files\n\n")
+	parser.add_argument("-n", "--novel", action="count", required=False,
+			    help="Run hypergeometric test against novel mantis-ml predictions only")
+	
 	
 	if len(sys.argv)==1:
 		parser.print_help(sys.stderr)     
@@ -287,7 +310,6 @@ def main():
 	args = parser.parse_args()
 
 
-	suffix = args.suffix
 
 
 	config_file = args.config_file
@@ -302,6 +324,10 @@ def main():
 		xlim = float(args.xlim)
 	show_full_xaxis = bool(args.full_xaxis)
 
+	suffix = args.suffix
+	remove_seed_genes = bool(args.novel)
+
+
 	print("\nInput arguments:\n")
 	print('- config_file:', config_file)
 	print('- external_ranked_file:', external_ranked_file)
@@ -314,6 +340,9 @@ def main():
 	else:
 		xlim = None
 	print('- show_full_xaxis:', show_full_xaxis)
+	
+	print('- suffix:', suffix)
+	print('- remove_seed_genes:', remove_seed_genes)
 	print("\n")
 	# ***************************
 
@@ -348,10 +377,12 @@ def main():
 	# Read seed genes
 	seed_genes = all_clf[classifiers[0]].known_genes.tolist()
 
+
+
 	genes_to_remove = [] 
-	remove_seed_genes = False
 	if remove_seed_genes:
 		genes_to_remove = seed_genes
+
 
 
 	pval_cutoff = 1 # Seto to 1, to include all
@@ -375,7 +406,8 @@ def main():
 		print(rank_overlap.external_ranked_df.shape)
 
 		rank_overlap.calc_stepwise_hypergeometric(all_clf, pval_cutoff=pval_cutoff,
-							 collapsing_top_ratio=collapsing_top_ratio)
+							 collapsing_top_ratio=collapsing_top_ratio,
+							 genes_to_remove=genes_to_remove)
 
 
 	# Get consensus of novel (and known) gene predictions
