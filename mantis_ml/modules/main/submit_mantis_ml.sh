@@ -8,7 +8,7 @@
 # Various Test runs
 iterations=10
 
-python __main__.py -c ../../conf/CKD_config.yaml -o CKD-fast -n 10 -i $iterations -f
+python __main__.py -c ../../conf/CKD_config.yaml -o CKD-fast -n 10 -i $iterations -f 
 
 
 #python __main__.py -c ../../conf/CKD_config.yaml -o CKD-et_rf -n 10 -i $iterations -m et,rf
