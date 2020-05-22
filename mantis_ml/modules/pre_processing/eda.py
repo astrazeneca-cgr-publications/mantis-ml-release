@@ -270,8 +270,14 @@ class EDA:
             neg_tmp_df = tmp_df.loc[tmp_df[self.cfg.Y].astype(float) == 0, i]
             neg_tmp_df.rename(neg_label, inplace=True)
 
-            sns.kdeplot(pos_tmp_df, shade=True, color="#fb6a4a")
-            sns.kdeplot(neg_tmp_df, shade=True, color="#3182bd")
+            try:      
+                sns.kdeplot(pos_tmp_df, shade=True, color="#fb6a4a")
+            except:
+                pass
+            try:
+                sns.kdeplot(neg_tmp_df, shade=True, color="#3182bd")
+            except:
+                pass
             plt.title(i)
 
         plt.show()
