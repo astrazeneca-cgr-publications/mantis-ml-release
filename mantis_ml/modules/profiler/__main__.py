@@ -20,7 +20,7 @@ class MantisMlProfiler:
 
 		# common strings to exclude from profiling
 		self.eng_stopwords = self.get_english_stopwords()
-		self.custom_bullet = u'\u2022' * 5
+		self.custom_bullet = '=' * 5 
 		self.line_spacer = '\n' * 6
 	
 
@@ -56,10 +56,10 @@ class MantisMlProfiler:
 
 		selected_genes = seed_df['Gene_Name'].tolist()
 		if self.verbose:
-			print('\n' + self.bordered(self.custom_bullet + ' Selected HPO genes ' + self.custom_bullet))
+			print('\n' + self.bordered(self.custom_bullet + '  Selected HPO genes  ' + self.custom_bullet))
 			print(selected_genes)
 
-		print('\n' + self.bordered(self.custom_bullet + ' Selected HPO disease-associated terms ' + self.custom_bullet))
+		print('\n' + self.bordered(self.custom_bullet + '  Selected HPO disease-associated terms  ' + self.custom_bullet))
 		print(sorted(list(hpo_selected_terms)))
 
 		hpo_selected_terms_expanded = [s.split() for s in hpo_selected_terms]
@@ -104,7 +104,7 @@ class MantisMlProfiler:
 			print('\nAvailable GTEx tissues:')
 			print(sorted(all_tissue_cols))
 
-		print('\n' + self.bordered(self.custom_bullet + ' Selected GTEx tissues ' + self.custom_bullet))
+		print('\n' + self.bordered(self.custom_bullet + '  Selected GTEx tissues  ' + self.custom_bullet))
 		print(sorted(selected_tissue_cols))
 
 
@@ -132,14 +132,14 @@ class MantisMlProfiler:
 			print('\nAvailable tissues (normal_tissue.tsv.gz data):')
 			print(sorted(all_normal_tissues))
 
-		print('\n' + self.bordered(self.custom_bullet + ' Selected tissues from Protein Atlas (normal_tissue.tsv.gz) ' + self.custom_bullet))
+		print('\n' + self.bordered(self.custom_bullet + '  Selected tissues from Protein Atlas (normal_tissue.tsv.gz)  ' + self.custom_bullet))
 		print(sorted(selected_normal_tissues))
 
 		if self.verbose:
 			print('\nAvailable samples (rna_tissue.tsv.gz data):')
 			print(sorted(all_rna_samples))
 
-		print('\n' + self.bordered(self.custom_bullet + ' Selected samples from Protein Atlas (rna_tissue.tsv.gz) ' + self.custom_bullet))
+		print('\n' + self.bordered(self.custom_bullet + '  Selected samples from Protein Atlas (rna_tissue.tsv.gz)  ' + self.custom_bullet))
 		print(sorted(selected_rna_samples))
 
 
@@ -168,7 +168,7 @@ class MantisMlProfiler:
 		msigdb_go_df, selected_go_terms = proc_obj.process_msigdb_go_features(msigdb_include_terms, exclude_terms)
 		self.enablePrint()
 
-		print('\n' + self.bordered(self.custom_bullet + ' Selected Gene Ontology terms (from MSigDB) ' + self.custom_bullet))
+		print('\n' + self.bordered(self.custom_bullet + '  Selected Gene Ontology terms (from MSigDB)  ' + self.custom_bullet))
 		print(sorted(selected_go_terms))
 
 
@@ -201,7 +201,7 @@ class MantisMlProfiler:
 		filtered_selected_mgi_phenotypes_expanded = list(filter(lambda x: re.search(include_pattern, x), selected_mgi_phenotypes_expanded))
 		# print(filtered_selected_mgi_phenotypes_expanded)
 
-		print('\n' + self.bordered(self.custom_bullet + ' Selected MGI phenotypes ' + self.custom_bullet))
+		print('\n' + self.bordered(self.custom_bullet + '  Selected MGI phenotypes  ' + self.custom_bullet))
 		print(sorted(filtered_selected_mgi_phenotypes_expanded))
 
 
