@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from collections import Counter
 from argparse import ArgumentParser
 from argparse import RawTextHelpFormatter
