@@ -36,7 +36,7 @@ class MantisMlProfiler:
 		lines = text.splitlines()
 		width = max(len(s) for s in lines)
 
-		border = '─' * width 
+		border = '-' * width 
 		res = [border]
 		res.append(text)
 		res.append(border)
