@@ -36,11 +36,11 @@ class MantisMlProfiler:
 		lines = text.splitlines()
 		width = max(len(s) for s in lines)
 
-		res = ['┌' + '─' * width + '┐']
-		for s in lines:
-			res.append('│' + (s + ' ' * width)[:width] + '│')
-			res.append('└' + '─' * width + '┘')	 
-		
+		border = '─' * width 
+		res = [border]
+		res.append(text)
+		res.append(border)
+
 		return '\n'.join(res)
 
 
