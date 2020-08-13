@@ -72,7 +72,7 @@ class Config:
 		return filename
 
 
-	def init_variables(self, list_delim=',\s+'):
+	def init_variables(self, list_delim=',\s*'):
 
 
 		# Specify target variable
